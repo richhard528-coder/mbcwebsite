@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix 商战系统 - Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EBF4FC;
+      --accent-coral: #D75E15;
+      --accent-green: #059669;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .site-container { max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; width: 100%; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 26px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(2, 80, 142, 0.22); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 26px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed; top: 18px; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: center; padding: 0 16px; pointer-events: none;
+    }
+
+    .nav-island.projects-island {
+      pointer-events: auto; max-width: 1140px; width: 100%;
+      background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 26px;
+      padding: 8px 18px 10px 24px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+      display: flex; flex-direction: column;
+      transform: translateZ(0);
+      will-change: max-width, border-radius, padding;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-island-row-main {
+      width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex; align-items: center; justify-content: center; gap: 32px;
+      font-size: 13px; font-weight: 600; color: #333333;
+    }
+    .nav-island-links a { color: inherit; text-decoration: none; padding: 4px 0; transition: color 0.2s; }
+    .nav-island-links a:hover { color: var(--brand-blue); }
+    .nav-island-links a.active { color: var(--brand-blue); font-weight: 700; border-bottom: 2px solid var(--brand-blue); }
+
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%; overflow: hidden; max-height: 40px; opacity: 1;
+      margin-top: 6px; padding-top: 8px;
+      padding-left: 36px; padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex; align-items: center; justify-content: center; gap: 32px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px; font-weight: 600; color: #666666; text-decoration: none;
+      padding: 4px 10px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap;
+    }
+    .sub-item-link:hover { color: #111111; background: rgba(0, 0, 0, 0.04); }
+    .sub-item-link.active { color: var(--brand-blue); font-weight: 700; background: var(--brand-blue-light); }
+
+    .nav-island.projects-island.collapsed {
+      max-width: 1040px; border-radius: 30px; padding: 8px 16px 8px 24px;
+    }
+    .nav-island.projects-island.collapsed .nav-island-sub-row {
+      max-height: 0; opacity: 0; margin-top: 0; padding-top: 0; border-top-color: transparent; pointer-events: none;
+    }
+
+    /* 第二行右侧微型收起小箭头按钮 (匹配用户示意位置) */
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+    }
+
+    .sub-row-collapse-btn:hover {
+      background: var(--brand-blue-light);
+      border-color: rgba(2, 80, 142, 0.35);
+      color: var(--brand-blue);
+      transform: translateY(-50%) scale(1.10);
+    }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+      flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed; top: 86px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); padding: 20px; z-index: 99;
+      opacity: 0; transform: translateY(-12px); pointer-events: none; transition: all 0.28s var(--ease-framer);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mobile-dropdown-menu.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-dropdown-menu a { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.projects-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    /* Kora / Clean Cards */
+    .clean-box {
+      background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px;
+      padding: 32px; transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+    .clean-box:hover {
+      border-color: #B0B5C0; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+    }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #FFFFFF;
+      color: #111111;
+      border-top: 1px solid #E5E7EB;
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #000000;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 1. Floating Dynamic Island Navbar -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island projects-island" id="mainNavIsland">
+      
+      <!-- 第一行：全站主导航 -->
+      <div class="nav-island-row-main">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html" class="active">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+          <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+            <span>LOCAL /</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+          </div>
+          <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二行：用户指定 Projects 子页面导航 -->
+      <nav class="nav-island-sub-row" id="navIslandSubRow">
+        <a href="projects.html" class="sub-item-link">总览概况</a>
+        <a href="matrix.html" class="sub-item-link active">Matrix商战系统</a>
+        <a href="competitions.html" class="sub-item-link">商赛项目</a>
+        <a href="pitch-archives.html" class="sub-item-link">路演档案</a>
+        <a href="fellows.html" class="sub-item-link">MBC Fellows</a>
+
+        <!-- 右侧微型小箭头收起按钮 (位于第二行右侧用户指定区域) -->
+        <button class="sub-row-collapse-btn" onclick="collapseNavIsland(event)" aria-label="收起子导航" title="收起子导航">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+    </header>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home 首页</span> <span>➔</span></a>
+    <a href="about.html"><span>About / 关于</span> <span>➔</span></a>
+    <a href="projects.html" class="active"><span>Projects / 项目</span> <span>➔</span></a>
+    <div style="padding: 6px 14px; display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--brand-blue); margin-left: 14px;">
+      <a href="projects.html" style="font-size: 13px; color: #555;">总览概况</a>
+      <a href="matrix.html" style="font-size: 13px; font-weight: 700; color: var(--brand-blue);">Matrix商战系统</a>
+      <a href="competitions.html" style="font-size: 13px; color: #555;">商赛项目</a>
+      <a href="pitch-archives.html" style="font-size: 13px; color: #555;">路演档案</a>
+      <a href="fellows.html" style="font-size: 13px; color: #555;">MBC Fellows</a>
+    </div>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts 联络</span> <span>➔</span></a>
+  </div>
+
+  <main style="flex: 1; padding-top: 140px;">
+    
+    <!-- Hero Section -->
+    <section class="site-container" style="padding-top: 40px; padding-bottom: 70px; border-bottom: 1px solid var(--border-color);">
+      <div style="max-width: 900px;">
+        <!-- 大字 Coming Soon... 静候佳音 (删除所有彩色状态tag) -->
+        <div style="margin-bottom: 24px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;">
+          <span style="font-family: var(--font-serif); font-size: clamp(2.4rem, 5.2vw, 3.8rem); font-style: italic; color: var(--brand-blue); line-height: 1; letter-spacing: -0.02em;">
+            Coming Soon...
+          </span>
+          <span style="font-size: clamp(16px, 2vw, 22px); font-weight: 800; letter-spacing: 0.12em; color: #555555;">
+            静候佳音
+          </span>
+        </div>
+        <h1 style="font-size: clamp(2.8rem, 6vw, 4.4rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 20px; color: #111;">
+          Matrix 商战模拟系统.
+        </h1>
+        <p style="font-size: clamp(16px, 1.8vw, 20px); color: var(--text-muted); line-height: 1.6; margin-bottom: 28px;">
+          Matrix System致力成为一个每个人都可以参与的商赛平台，让每个人都可以体验到商业之力量，每个人都有无限可能。目前处于项目初期，可以体验并购买。
+        </p>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="contacts.html" class="btn-pill-blue">申请系统演示与授权采购 ➔</a>
+          <a href="#architecture" class="btn-pill-outline">查阅核心架构 ➔</a>
+        </div>
+
+        <!-- System MVP Screenshot Display (截屏2026-10-05 19.16.22) -->
+        <div style="margin-top: 48px; background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);">
+          <!-- Top Window Bar -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--border-color); background: #F9FAFB;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #EF4444; opacity: 0.85; display: inline-block;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #F59E0B; opacity: 0.85; display: inline-block;"></span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #10B981; opacity: 0.85; display: inline-block;"></span>
+            </div>
+            <div style="font-size: 11px; font-weight: 600; color: #6B7280; font-family: monospace; letter-spacing: 0.04em;">
+              Matrix Simulation Platform - MVP Interface
+            </div>
+            <div style="width: 40px;"></div>
+          </div>
+          <!-- Screenshot Image -->
+          <div style="background: #F3F4F6; display: flex; justify-content: center; overflow: hidden;">
+            <img src="assets/matrix_mvp.png" alt="Matrix System MVP 模拟界面" style="width: 100%; height: auto; display: block; object-fit: contain;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: 痛点与破局 -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      <div style="max-width: 760px; margin-bottom: 48px;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brand-blue); display: block; margin-bottom: 8px;">
+          Background & Motivation
+        </span>
+        <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px;">
+          为什么 MBC 坚持独立自研商战系统？
+        </h2>
+        <p style="font-size: 15px; color: #555555; line-height: 1.65;">
+          市面上商业商战软件单场租赁动辄数千元，规则黑盒不透明且安装配置极其繁重。MBC 技术长团队从零编写经济学状态流转方程，打破这一壁垒：
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        <div class="clean-box">
+          <div style="font-size: 11px; font-weight: 800; color: #DC2626; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+            01 / 传统痛点：安装繁重与设备限制
+          </div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 10px;">全响应式 Web 架构 / 零安装</h3>
+          <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+            告别传统臃肿的客户端安装与配置。Matrix 采用全平台语义化现代 Web 开发，无论是学生自带的笔记本、平板电脑还是考场台式机，浏览器输入授权码即可秒开对战。
+          </p>
+        </div>
+
+        <div class="clean-box">
+          <div style="font-size: 11px; font-weight: 800; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+            02 / 传统痛点：外部商业软件收费昂贵
+          </div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 10px;">其他社团普惠授权 / 降低门槛</h3>
+          <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+            面向其他学校高中商社开放非营利性技术授权与赛前裁判培训服务。让任何学校都能以极亲民的成本主办高质量的校际商业沙盘对抗赛。
+          </p>
+        </div>
+
+        <div class="clean-box">
+          <div style="font-size: 11px; font-weight: 800; color: var(--brand-blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+            03 / 传统痛点：黑盒公式与作弊风险
+          </div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 10px;">透明博弈算法 / 严格审计防作弊</h3>
+          <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+            内置经典微观经济学价格弹性函数与市场供求清算方程。杜绝参数造假与极端刷分，多轮审计日志全链记录，确保学术竞技的公信力。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: 核心系统架构 -->
+    <section id="architecture" style="background: var(--bg-canvas); padding: 80px 0; border-bottom: 1px solid var(--border-color);">
+      <div class="site-container">
+        <div style="max-width: 760px; margin-bottom: 48px;">
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brand-blue); display: block; margin-bottom: 8px;">
+            System Architecture
+          </span>
+          <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px;">
+            Matrix 核心三层模拟引擎
+          </h2>
+          <p style="font-size: 15px; color: #555555; line-height: 1.65;">
+            将严谨的商科理论具象化为高并发实时计算。模拟真实商业世界中多方博弈与黑天鹅震荡：
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 32px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 10px;">ENGINE 01</div>
+            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">供求撮合与动态定价引擎</h4>
+            <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+              各参赛公司提交产量、研发投入、定价与营销预算后，引擎根据全场综合竞争格局实时计算市场占有率与实际出货量，模拟真实价格战反噬效应。
+            </p>
+          </div>
+
+          <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 32px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 10px;">ENGINE 02</div>
+            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">资产负债与现金流自动审计</h4>
+            <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+              自动计算折旧摊销、库存积压仓储费、短期借贷利息与纳税额。全真复现企业现金流断裂导致的猝死风险，倒逼选手严守保本底线。
+            </p>
+          </div>
+
+          <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px; padding: 32px;">
+            <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 10px;">ENGINE 03</div>
+            <h4 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">实时大屏战况与突发事件系统</h4>
+            <p style="font-size: 13.5px; color: #555; line-height: 1.6;">
+              现场大屏幕动态投射各战队净资产折线走势与行业集中度指数。裁判可一键注入“原材料短缺”、“消费降级”等宏观黑天鹅突发参数。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: B2B 授权合作与采购 CTA -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 90px;">
+      <div style="border: 1px solid var(--border-color); border-radius: 16px; padding: 48px; background: #FFFFFF; display: flex; flex-direction: column; md:flex-row; justify-content: space-between; align-items: flex-start; gap: 32px;">
+        <div style="max-width: 720px;">
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brand-blue); display: block; margin-bottom: 10px;">
+            B2B Licensing for Partner Schools
+          </span>
+          <h3 style="font-size: 28px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px;">
+            面向其他社团与校际商赛的采购支持
+          </h3>
+          <p style="font-size: 14.5px; color: #555; line-height: 1.65; margin-bottom: 18px;">
+            如果你是其他高中的商社负责人或赛事组织者，计划主办校内或跨校商业沙盘模拟赛，MBC 常务理事会可提供：
+          </p>
+          <ul style="margin-left: 18px; font-size: 13.5px; color: #444; line-height: 1.8;">
+            <li>Matrix 商战系统专属场次访问权限与裁判端控制面板</li>
+            <li>配套全套《商业博弈选手手册》与《主裁判流程白皮书》</li>
+            <li>MBC 技术长团队全程线上/线下技术与答辩规则保障</li>
+          </ul>
+        </div>
+        <div style="flex-shrink: 0; align-self: center;">
+          <a href="contacts.html" class="btn-pill-blue" style="font-size: 14px; padding: 14px 32px;">
+            联络商谈系统采购 ➔
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+  <!-- 微信公众号扫码弹窗 -->
+  <dialog id="wechat-modal" style="border: none; border-radius: 20px; padding: 0; background: #FFF; color: #111; box-shadow: 0 30px 80px rgba(0,0,0,0.22); max-width: 340px; width: 90%;">
+    <div style="padding: 30px 24px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #999; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+      <h3 style="font-size: 19px; font-weight: 800; color: #111; margin-bottom: 6px;">微信公众号</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; padding: 16px; border-radius: 14px; display: inline-block;">
+        <img src="assets/mbc_logo.png" alt="WeChat QR" style="width: 140px; height: 140px; object-fit: contain; display: block;">
+      </div>
+      <p style="font-size: 11px; color: #888; margin-top: 18px; letter-spacing: 0.05em;">ESTABLISHED 2026 / QUANZHOU NO. 5 HIGH SCHOOL</p>
+    </div>
+  </dialog>
+
+
+  <script>
+    function updateLiveClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (!clockEl) return;
+      const now = new Date();
+      clockEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+
+    let isManualCollapsed = false;
+
+    // 手动点击第二行右侧微型小箭头收起子导航
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    // Dynamic Island Nav Scroll Interaction
+    (function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        // 向下滚动（页面往上划动）：坚决保持或触发收起，绝不打开！
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        }
+        // 向上滚动（页面往下划动，回看内容或想要导航）：平滑展开
+        else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false; // 用户主动向上划动，解除手动折叠锁定
+        }
+        // 到达页面最顶部（<= 10px）且未手动点击收起时，保持展开
+        else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>

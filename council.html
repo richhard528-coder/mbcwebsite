@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Council | Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EFF6FF;
+      --accent-coral: #D75E15;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; }
+
+    .site-container { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .font-serif-accent { font-family: var(--font-serif); font-weight: 400; }
+
+    @keyframes koraFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.05s; opacity: 0; }
+    .anim-2 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.18s; opacity: 0; }
+
+    .kora-card {
+      transition: transform 0.3s var(--ease-framer), box-shadow 0.3s var(--ease-framer), border-color 0.3s var(--ease-framer);
+      border: 1px solid var(--border-color);
+      background: var(--bg-white);
+    }
+    .kora-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.05);
+      border-color: #CBD5E1;
+    }
+
+    /* Button Styles */
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 26px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island.about-island {
+      pointer-events: auto;
+      max-width: 1040px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 26px;
+      padding: 8px 18px 10px 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+      transform: translateZ(0);
+      will-change: max-width, border-radius, padding;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-island-row-main {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+    }
+
+    .nav-island-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+
+    .nav-island-links a:hover {
+      color: var(--brand-blue);
+    }
+
+    .nav-island-links a.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      border-bottom: 2px solid var(--brand-blue);
+    }
+
+    /* 第二行子导航：社团简介 / What's New / 理事会档案 */
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 40px;
+      opacity: 1;
+      margin-top: 6px;
+      padding-top: 8px;
+      padding-left: 36px;
+      padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+
+    .sub-item-link:hover {
+      color: #111111;
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .sub-item-link.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      background: var(--brand-blue-light);
+    }
+
+    /* 收起状态：平滑折叠第二行 */
+    .nav-island.about-island.collapsed {
+      max-width: 960px;
+      border-radius: 30px;
+      padding: 8px 16px 8px 24px;
+    }
+
+    .nav-island.about-island.collapsed .nav-island-sub-row {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
+
+    /* 第二行右侧微型收起小箭头按钮 */
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+    }
+
+    .sub-row-collapse-btn:hover {
+      background: var(--brand-blue-light);
+      border-color: rgba(2, 80, 142, 0.35);
+      color: var(--brand-blue);
+      transform: translateY(-50%) scale(1.10);
+    }
+
+    /* 移动端汉堡菜单 */
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+      flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed; top: 86px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); padding: 20px; z-index: 99;
+      opacity: 0; transform: translateY(-12px); pointer-events: none; transition: all 0.28s var(--ease-framer);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mobile-dropdown-menu.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-dropdown-menu a { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.about-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    /* Reserved Avatar / Logo Box */
+    .reserved-avatar-box {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #F9FAFB;
+      border: 1.5px dashed #CBD5E1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #64748B;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      margin: 0 auto 16px auto;
+      flex-shrink: 0;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #FFFFFF;
+      color: #111111;
+      border-top: 1px solid #E5E7EB;
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #000000;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    /* ==========================================================
+       Council Master Hero (Two-Column Horizontal Brand Hero)
+       ========================================================== */
+    .council-hero-section {
+      padding-top: clamp(40px, 5.5vh, 60px);
+      padding-bottom: clamp(48px, 6.5vh, 70px);
+      border-bottom: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .council-hero-brand-wrap {
+      display: grid;
+      grid-template-columns: minmax(360px, 1.25fr) minmax(320px, 1fr);
+      align-items: center;
+      gap: clamp(36px, 5.5vw, 72px);
+      width: 100%;
+    }
+
+    .council-master-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      transition: transform 0.4s var(--ease-framer);
+    }
+    .council-master-logo-wrap:hover {
+      transform: translateY(-2px) scale(1.015);
+    }
+
+    .council-master-logo {
+      width: 100%;
+      max-width: clamp(420px, 50vw, 660px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 6px 22px rgba(2, 80, 142, 0.08));
+    }
+
+    .council-hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .council-hero-tagline {
+      font-size: clamp(13px, 1.2vw, 14.5px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      margin-bottom: 14px;
+    }
+
+    .council-hero-desc {
+      font-size: clamp(15px, 1.35vw, 16.5px);
+      color: #4B5563;
+      line-height: 1.85;
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .council-hero-brand-wrap {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .council-master-logo {
+        max-width: min(100%, 480px);
+      }
+    }
+
+    /* ==========================================================
+       Standalone Section: 核心信条沉浸式画卷滚动驱动 (The Council Scrollytelling Track)
+       Home Page 同款：大画框吸顶 + 阶段式演进视差
+       ========================================================== */
+    .council-scroll-track {
+      position: relative;
+      height: 300vh;
+      background: #FFFFFF;
+    }
+
+    .council-sticky-viewport {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .council-card-frame {
+      position: relative;
+      width: 100%;
+      max-width: 1360px;
+      height: calc(100vh - 48px);
+      min-height: 520px;
+      border-radius: 32px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 32px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+      background: #080C16;
+      border: none;
+      outline: none;
+    }
+
+    /* Scene 1: 青年合影 (G.jpg) */
+    .council-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      will-change: transform, filter, opacity;
+      transform: scale(1.0);
+      filter: blur(0px) brightness(0.95);
+      border: none;
+      transition: transform 0.1s ease-out, filter 0.1s ease-out, opacity 0.1s ease-out;
+    }
+
+    .council-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(3, 12, 30, 0.35) 0%, rgba(2, 8, 20, 0.65) 100%);
+      pointer-events: none;
+      transition: opacity 0.2s ease-out;
+    }
+
+    /* Scene 1: Driven by Equality. 逐词呈现 */
+    .council-scene-equality {
+      position: relative;
+      z-index: 10;
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      will-change: filter, opacity, transform;
+      transition: filter 0.1s ease-out, opacity 0.1s ease-out, transform 0.1s ease-out;
+    }
+
+    .council-equality-heading {
+      font-size: clamp(2.8rem, 6.4vw, 5.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: #FFFFFF;
+      user-select: none;
+      text-shadow: none;
+    }
+
+    .council-equality-sub {
+      font-size: clamp(14px, 1.5vw, 17px);
+      color: rgba(255, 255, 255, 0.90);
+      margin-top: 14px;
+      line-height: 1.6;
+      font-weight: 400;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(8px);
+      transition: filter 0.12s ease-out, opacity 0.12s ease-out, transform 0.12s ease-out;
+    }
+
+    .council-word {
+      display: inline-block;
+      color: #FFFFFF;
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(8px);
+      will-change: filter, opacity, transform;
+      margin: 0 0.14em;
+      text-shadow: none;
+      transition: filter 0.06s ease-out, opacity 0.06s ease-out, transform 0.06s ease-out;
+    }
+
+    .council-word em {
+      font-style: italic;
+      color: #FFFFFF;
+    }
+
+    /* Scene 2: Governed by Service + 简历平铺在下方 (Zeta.jpg) */
+    .council-scene-service {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(36px, 6.5vh, 64px) 24px 0 24px;
+      opacity: 0;
+      filter: blur(14px);
+      pointer-events: none;
+      will-change: filter, opacity, transform;
+      transition: filter 0.1s ease-out, opacity 0.1s ease-out, transform 0.1s ease-out;
+    }
+
+    .council-service-header-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 900px;
+      margin-top: clamp(14px, 3vh, 32px);
+      margin-bottom: 16px;
+      will-change: transform, filter, opacity;
+      transition: transform 0.12s ease-out;
+    }
+
+    .council-service-heading {
+      font-family: var(--font-sans);
+      font-size: clamp(2.8rem, 5.8vw, 4.6rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .council-service-sub {
+      font-size: clamp(14px, 1.5vw, 17px);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.6;
+      font-weight: 400;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      margin: 0;
+    }
+
+    .council-resume-dock-wrap {
+      position: relative;
+      border-radius: 26px 26px 0 0;
+      overflow: hidden;
+      width: min(980px, 88vw);
+      height: clamp(340px, 58vh, 520px);
+      box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.18);
+      background: #FAF8F5;
+      will-change: transform, filter, opacity;
+      transform: translateY(110%);
+      transition: transform 0.12s ease-out;
+    }
+
+    .council-resume-dock-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .council-card-frame {
+        border-radius: 20px;
+        padding: 24px 16px;
+        height: calc(100vh - 32px);
+      }
+      .council-sticky-viewport {
+        padding: 16px;
+      }
+      .council-service-header-wrap {
+        margin-top: 8px;
+        margin-bottom: 10px;
+      }
+      .council-resume-dock-wrap {
+        width: 92vw;
+        height: clamp(280px, 50vh, 380px);
+        border-radius: 20px 20px 0 0;
+      }
+      .council-scene-service {
+        padding-top: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       1. 浮动胶囊导航条 (Council Active)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island about-island" id="mainNavIsland">
+      
+      <!-- 第一行：全站主导航 -->
+      <div class="nav-island-row-main">
+        <!-- Left: Logo -->
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <!-- Center: Five Distinct Pages (About Active) -->
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html" class="active">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <!-- Right: Live Clock + 招新 Button + Mobile Toggle -->
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+          <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+            <span>LOCAL /</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+          </div>
+          <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+          <!-- Mobile/Tablet Hamburger Button -->
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二行：About 专属子页面导航 (社团简介 / 理事会档案 / 社团宪章) -->
+      <nav class="nav-island-sub-row" id="navIslandSubRow">
+        <a href="about.html" class="sub-item-link">社团简介</a>
+        <a href="council.html" class="sub-item-link active">理事会档案</a>
+        <a href="charter.html" class="sub-item-link">社团宪章</a>
+
+        <!-- 右侧微型小箭头收起按钮 -->
+        <button class="sub-row-collapse-btn" onclick="collapseNavIsland(event)" aria-label="收起子导航" title="收起子导航">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+    </header>
+  </div>
+
+  <!-- Mobile/Tablet Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html" class="active"><span>About / 关于</span> <span>➔</span></a>
+    <div style="padding: 6px 14px; display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--brand-blue); margin-left: 14px;">
+      <a href="about.html" style="font-size: 13px; color: #555;">社团简介</a>
+      <a href="council.html" style="font-size: 13px; font-weight: 700; color: var(--brand-blue);">理事会档案</a>
+      <a href="charter.html" style="font-size: 13px; color: #555;">社团宪章</a>
+    </div>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts / 联络</span> <span>➔</span></a>
+  </div>
+
+  <div style="height: 110px;"></div>
+
+  <!-- ==========================================================
+       2. Hero Section: 理事会核心标识与内阁治理系统
+       ========================================================== -->
+  <main>
+    <section class="site-container council-hero-section">
+      <div class="council-hero-brand-wrap anim-1">
+        <div class="council-master-logo-wrap">
+          <img src="assets/MBC Council.png?v=20261006_master" alt="MBC Council Logo" class="council-master-logo" fetchpriority="high">
+        </div>
+        <div class="council-hero-content">
+          <p class="council-hero-tagline">
+            泉州五中经纬商社 ｜ 常务理事会内阁治理系统
+          </p>
+          <p class="council-hero-desc">
+            在经纬商社，职位从来不是高高在上的特权，而是服务全体社员的郑重承诺。<br>
+            以透明权责定义岗位，以制度守护平等创新，让每一个有担当的人发光。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         3. 核心信条沉浸式画卷滚动驱动 (The Council Scrollytelling Track)
+         ========================================================== -->
+    <section class="council-scroll-track" id="councilScrollTrack">
+      <div class="council-sticky-viewport">
+        <div class="council-card-frame">
+          <!-- 阶段一背景：青年同学交流合影 (G.jpg / council_hero_bg.jpg) -->
+          <img src="assets/council_hero_bg.jpg?v=20261006_g" alt="Council Youth Collective" class="council-bg-img" id="councilBgImg" fetchpriority="high" decoding="sync">
+          <div class="council-overlay" id="councilOverlay"></div>
+
+          <!-- 场景 1：Driven by Equality. 逐词呈现 + 一句话注解 (照片保持绝对清晰不模糊) -->
+          <div class="council-scene-equality" id="councilSceneEquality">
+            <h2 class="council-equality-heading">
+              <span class="council-word" data-word="0">Driven</span>
+              <span class="council-word" data-word="1">by</span>
+              <span class="council-word font-serif-accent" data-word="2"><em>Equality.</em></span>
+            </h2>
+            <p class="council-equality-sub" id="councilEqualitySub">打破年级与资历壁垒，在平等中并肩共创。</p>
+          </div>
+
+          <!-- 场景 2：Governed by Service + 简历从下方平铺升起 -->
+          <div class="council-scene-service" id="councilSceneService">
+            <div class="council-service-header-wrap" id="councilServiceHeader">
+              <h2 class="council-service-heading" id="councilServiceHeading">Governed by Service</h2>
+              <p class="council-service-sub" id="councilServiceSub">职位从来不是特权，而是服务全体社员的郑重承诺。</p>
+            </div>
+            <div class="council-resume-dock-wrap" id="councilResumeWrap">
+              <img src="assets/Zeta.jpg" alt="Council Resume Dossier" class="council-resume-dock-img" loading="eager">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         4. 常务理事会内阁架构 (The Cabinet - T字平权横梁)
+         ========================================================== -->
+    <section class="site-container" id="cabinet" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      <div style="text-align: center; max-width: 640px; margin: 0 auto 50px auto;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--brand-blue); display: block; margin-bottom: 8px;">Executive Governance</span>
+        <h2 style="font-size: clamp(2rem, 3.2vw, 2.6rem); font-weight: 800; color: #111111;">内阁常务治理架构 (The Cabinet)</h2>
+        <p style="font-size: 13.5px; color: #666666; margin-top: 6px;">社长统率全局，三总监各司其职、平行制衡，项目主管敏捷领衔</p>
+      </div>
+
+      <div style="max-width: 860px; margin: 0 auto;">
+        <!-- 上层监督机构 -->
+        <div style="display: flex; justify-content: center; margin-bottom: 6px;">
+          <div style="background: #FFFFFF; border: 1px dashed #94A3B8; padding: 10px 28px; border-radius: 9999px; font-size: 12px; font-weight: 700; color: #475569;">
+            校团委 / 社团联合会 ｜ 指导老师监督指导
+          </div>
+        </div>
+
+        <div style="width: 1px; height: 24px; background: #94A3B8; margin: 0 auto;"></div>
+
+        <!-- 社长 Ricardo -->
+        <div style="max-width: 360px; margin: 0 auto; background: var(--text-main); color: #FFFFFF; padding: 22px 24px; border-radius: 8px; text-align: center; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);">
+          <span style="font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 4px;">Founder & President (CEO)</span>
+          <div style="font-size: 21px; font-weight: 800;">刘宇轩 (Ricardo)</div>
+          <p style="font-size: 11.5px; color: #CBD5E1; margin-top: 4px;">总体战略决策 ｜ 核心项目选题 ｜ 战队总召集 ｜ 外部学术合作</p>
+        </div>
+
+        <!-- T 字分叉横梁 -->
+        <div style="position: relative; width: 100%; max-width: 660px; margin: 0 auto;">
+          <div style="width: 1px; height: 24px; background: #94A3B8; margin: 0 auto;"></div>
+          <div style="height: 1px; background: #94A3B8; width: 100%;"></div>
+          <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="width: 1px; height: 24px; background: #94A3B8;"></div>
+            <div style="width: 1px; height: 24px; background: #94A3B8;"></div>
+            <div style="width: 1px; height: 24px; background: #94A3B8;"></div>
+          </div>
+        </div>
+
+        <!-- 三位并列总监 -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 8px;">
+          
+          <div class="kora-card" style="padding: 24px 20px; border-radius: 8px; text-align: center;">
+            <span style="font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #64748B; font-weight: 700; display: block;">Vice President (VP)</span>
+            <div style="font-size: 19px; font-weight: 800; color: #111111; margin: 6px 0;">蔡诗漫</div>
+            <p style="font-size: 12px; color: #475569; font-weight: 600;">学术总督导 ｜ 课题品控</p>
+            <p style="font-size: 11px; color: #64748B; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px; line-height: 1.6;">
+              主管研学大纲审核、课题立项答辩与履职考核，监督执行反资历打压制度与心理安全感保障。
+            </p>
+          </div>
+
+          <div class="kora-card" style="padding: 24px 20px; border-radius: 8px; text-align: center;">
+            <span style="font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #64748B; font-weight: 700; display: block;">Chief Operating Officer (COO)</span>
+            <div style="font-size: 19px; font-weight: 800; color: #111111; margin: 6px 0;">蔡诗漫 <span style="font-size: 11px; font-weight: 400; color: #94A3B8;">(兼)</span></div>
+            <p style="font-size: 12px; color: #475569; font-weight: 600;">日常运营 ｜ 考勤财务</p>
+            <p style="font-size: 11px; color: #64748B; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px; line-height: 1.6;">
+              统筹月度例会排期、场地报批会务执行；严格执行考勤纪律台账，掌管经费流水并学期末全员公示。
+            </p>
+          </div>
+
+          <div class="kora-card" style="padding: 24px 20px; border-radius: 8px; text-align: center;">
+            <span style="font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand-blue); font-weight: 700; display: block;">Chief Technology Officer (CTO)</span>
+            <div style="font-size: 19px; font-weight: 800; color: #111111; margin: 6px 0;">苏宗浩</div>
+            <p style="font-size: 12px; color: #475569; font-weight: 600;">技术总监 ｜ 数字平台</p>
+            <p style="font-size: 11px; color: #64748B; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px; line-height: 1.6;">
+              Matrix 虚拟商战推演算法底层研发与迭代、Member Portal 平台架构、数字代码库安全审计。
+            </p>
+          </div>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 12px; color: #64748B;">
+          <strong>项目敏捷执行层 (Project Leads)</strong>：商赛突击战队队长 ｜ 课题调研小组长 ｜ 全体正式社员
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         4. 核心成员履职档案 (Executive Profiles)
+         ========================================================== -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      <div style="text-align: center; max-width: 600px; margin: 0 auto 48px auto;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--brand-blue); display: block; margin-bottom: 6px;">Executive Profiles</span>
+        <h2 style="font-size: clamp(2rem, 3.2vw, 2.6rem); font-weight: 800; color: #111111;">理事会内阁成员档案</h2>
+        <p style="font-size: 13.5px; color: #666666; margin-top: 6px;">以实战履约为准绳，以学术探索为导向</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+
+        <!-- Profile 1: Ricardo 刘宇轩 -->
+        <div class="kora-card" style="padding: 36px 30px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="reserved-avatar-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>[ 预留头像位 ]</span>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+              <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-blue);">Founder & President</span>
+              <h3 style="font-size: 24px; font-weight: 800; color: #111111; margin: 4px 0;">刘宇轩 (Ricardo)</h3>
+              <p style="font-size: 12.5px; color: #6B7280;">经纬商社创社社长 ｜ 战队总召集</p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 13px; color: #374151; line-height: 1.75;">
+              <p style="margin-bottom: 8px;"><strong>履职责任</strong>：统筹社团总体战略定位与国际商赛选题孵化，主导 MBC Audace 先锋战队日常敏捷冲刺，对接校团委及外部学术资源。</p>
+              <p style="margin-bottom: 8px;"><strong>研学专注</strong>：商业战略闭环、前沿商业模式创新、全英文创业路演与财务量化推演。</p>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 20px;">
+            <span style="font-size: 11.5px; font-style: italic; color: #6B7280; display: block; font-family: var(--font-serif);">
+              “Dream it, and then make it.”
+            </span>
+          </div>
+        </div>
+
+        <!-- Profile 2: 蔡诗漫 -->
+        <div class="kora-card" style="padding: 36px 30px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="reserved-avatar-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>[ 预留头像位 ]</span>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+              <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-blue);">Vice President & COO</span>
+              <h3 style="font-size: 24px; font-weight: 800; color: #111111; margin: 4px 0;">蔡诗漫</h3>
+              <p style="font-size: 12.5px; color: #6B7280;">副社长兼运营总监 ｜ 学术总督导</p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 13px; color: #374151; line-height: 1.75;">
+              <p style="margin-bottom: 8px;"><strong>履职责任</strong>：统筹学术研讨课题设计与质量品控，督导 MBC Atelier 原石工坊研学；严格把控例会纪律与财务公开，监督执行反资历打压制度与申诉仲裁。</p>
+              <p style="margin-bottom: 8px;"><strong>研学专注</strong>：企业组织行为、商业案例逆向剖析、跨文化沟通与组织制度设计。</p>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 20px;">
+            <span style="font-size: 11.5px; font-style: italic; color: #6B7280; display: block; font-family: var(--font-serif);">
+              “把简单的事情做到极致，用严谨守护每个人的热爱。”
+            </span>
+          </div>
+        </div>
+
+        <!-- Profile 3: 苏宗浩 -->
+        <div class="kora-card" style="padding: 36px 30px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="reserved-avatar-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>[ 预留头像位 ]</span>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+              <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-blue);">Chief Technology Officer</span>
+              <h3 style="font-size: 24px; font-weight: 800; color: #111111; margin: 4px 0;">苏宗浩</h3>
+              <p style="font-size: 12.5px; color: #6B7280;">技术总监 ｜ 数字平台架构</p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 16px; font-size: 13px; color: #374151; line-height: 1.75;">
+              <p style="margin-bottom: 8px;"><strong>履职责任</strong>：全社数字系统底层研发，主导自研 Matrix 商业模拟沙盘推演系统与 Member Portal 工作台算法设计，审计技术类商业原型可行性。</p>
+              <p style="margin-bottom: 8px;"><strong>研学专注</strong>：全栈系统架构、商业博弈算法、多智能体 AI 应用与数字化资产安全。</p>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 20px;">
+            <span style="font-size: 11.5px; font-style: italic; color: #6B7280; display: block; font-family: var(--font-serif);">
+              “用代码构建真实世界的沙盒，用技术赋予商业确定性。”
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         5. 制度保障与公开竞选机制 (宪章核心条款)
+         ========================================================== -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 100px;">
+      <div style="text-align: center; max-width: 620px; margin: 0 auto 48px auto;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--brand-blue); display: block; margin-bottom: 6px;">Charter & Elections</span>
+        <h2 style="font-size: clamp(2rem, 3.2vw, 2.6rem); font-weight: 800; color: #111111;">公开竞选与平权任免制度</h2>
+        <p style="font-size: 13.5px; color: #666666; margin-top: 6px;">白纸黑字的刚性宪章，杜绝论资排辈与官僚主义</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 48px;">
+        
+        <div class="kora-card" style="padding: 28px 24px; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 8px;">RULE 01</div>
+          <h4 style="font-size: 17px; font-weight: 800; color: #111111; margin-bottom: 8px;">平权参选资格</h4>
+          <p style="font-size: 13px; color: #555555; line-height: 1.65;">
+            凡正式社员，无论年级高低，均享有平等的选举权与被选举权。打破年级论资排辈，只看真实贡献与交付担当。
+          </p>
+        </div>
+
+        <div class="kora-card" style="padding: 28px 24px; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 8px;">RULE 02</div>
+          <h4 style="font-size: 17px; font-weight: 800; color: #111111; margin-bottom: 8px;">半学期试岗考察</h4>
+          <p style="font-size: 13px; color: #555555; line-height: 1.65;">
+            春季期中初选后，候选人进入半学期“试岗期”，在现任干部带领下亲自统筹会务、申报场地或带队，真实检验履职能力。
+          </p>
+        </div>
+
+        <div class="kora-card" style="padding: 28px 24px; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 8px;">RULE 03</div>
+          <h4 style="font-size: 17px; font-weight: 800; color: #111111; margin-bottom: 8px;">动态任免与弹劾</h4>
+          <p style="font-size: 13px; color: #555555; line-height: 1.65;">
+            秋季学期第 12 周设立动态任免大会；干部若干涉霸凌或怠政失职，经三分之一以上社员联名即可发起不信任弹劾。
+          </p>
+        </div>
+
+        <div class="kora-card" style="padding: 28px 24px; border-radius: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--brand-blue); margin-bottom: 8px;">RULE 04</div>
+          <h4 style="font-size: 17px; font-weight: 800; color: #111111; margin-bottom: 8px;">无形资产无条件交接</h4>
+          <p style="font-size: 13px; color: #555555; line-height: 1.65;">
+            换届时，所有商业研报、自研商战系统源代码、数字后台权限与公共财务资料无条件移交归档，确保组织资产薪火传承。
+          </p>
+        </div>
+
+      </div>
+
+      <!-- 查阅宪章 CTA -->
+      <div style="text-align: center;">
+        <button onclick="openCharterModal()" class="btn-pill-blue" style="font-size: 14px; padding: 12px 32px;">
+          查阅《MBC 社团宪章》完整法律文本 ➔
+        </button>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+  <!-- 微信公众号扫码弹窗 -->
+  <dialog id="wechat-modal" style="border: none; border-radius: 20px; padding: 0; background: #FFF; color: #111; box-shadow: 0 30px 80px rgba(0,0,0,0.22); max-width: 340px; width: 90%;">
+    <div style="padding: 30px 24px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #999; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+      <h3 style="font-size: 19px; font-weight: 800; color: #111; margin-bottom: 6px;">微信公众号</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; padding: 16px; border-radius: 14px; display: inline-block;">
+        <img src="assets/mbc_logo.png" alt="WeChat QR" style="width: 140px; height: 140px; object-fit: contain; display: block;">
+      </div>
+      <p style="font-size: 11px; color: #888; margin-top: 18px; letter-spacing: 0.05em;">ESTABLISHED 2026 / QUANZHOU NO. 5 HIGH SCHOOL</p>
+    </div>
+  </dialog>
+
+
+  <!-- ==========================================================
+       宪章弹窗：MBC 经纬商社社团宪章 (官方完整正式版)
+       ========================================================== -->
+  <dialog id="charter-modal" class="no-scrollbar" style="max-width: 960px; width: 94vw; max-height: 88vh; border-radius: 12px; padding: 0; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);">
+    <div style="position: sticky; top: 0; background: #FFFFFF; z-index: 20; border-bottom: 1px solid #EAEAEA; padding: 20px 32px 16px 32px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+        <h3 style="font-size: 20px; font-weight: 700; color: #111111; margin: 0; letter-spacing: -0.01em;">MBC经纬商社社团宪章</h3>
+        <button onclick="closeCharterModal()" aria-label="关闭宪章" style="background: transparent; border: none; color: #666; font-size: 20px; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+      </div>
+    </div>
+    <div style="padding: 28px 32px 36px 32px; max-height: calc(88vh - 120px); overflow-y: auto; font-size: 14px; color: #374151; line-height: 1.85;">
+      <p style="margin-bottom: 16px;">《MBC经纬商社社团宪章》由校团委正式批复生效，详细规定了社团性质、宗旨、双轨运作机制、常务理事会内阁职权、反资历打压制度、零摊派财务透明纪律及换届选举流程。</p>
+      <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 18px 20px; margin-bottom: 16px;">
+        <strong>第三章 第八至十条（内阁核心职权）</strong>
+        <p style="margin-top: 6px;">常务理事会实行民主集中制。社长统领战略与重大外联，副社长主管学术督导与品控申诉，运营总监严管会务考勤与学期财务公开，技术总监统管虚拟商战系统与数字架构研发。</p>
+      </div>
+      <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 18px 20px;">
+        <strong>第六章 第十五至十七条（换届选举与资产传承）</strong>
+        <p style="margin-top: 6px;">理事会成员每届任期一学年。换届大会于每年春季学期期中举行，实行公开竞选陈述与半学期带教试岗考核机制，确保组织交付能力稳健传承。</p>
+      </div>
+    </div>
+    <div style="background: #FFF; border-top: 1px solid #EAEAEA; padding: 14px 32px; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+      <button type="button" onclick="closeCharterModal()" style="padding: 7px 20px; font-size: 13px; border-radius: 6px; border: 1px solid #D1D5DB; background: #FFF; color: #374151; cursor: pointer;">关闭</button>
+    </div>
+  </dialog>
+
+  <!-- 登录弹窗 -->
+  <dialog id="login-modal" style="border: none; border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,0.25); max-width: 420px; width: 90vw; margin: auto; padding: 0;">
+    <div style="padding: 36px 32px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="assets/mbc_logo.png" alt="MBC Logo" style="width: 36px; height: 36px; object-fit: contain; border-radius: 50%;">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 800; color: #111111;">MBC 成员登录</h3>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--brand-blue);">Member Portal</span>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">社员编号 (Member ID)</label>
+          <input type="text" placeholder="如：mbc_2026_01" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">密码 (Password)</label>
+          <input type="password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 12px; margin-top: 6px;">登 录 工 作 台 ➔</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        const now = new Date();
+        clockEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const charterModal = document.getElementById('charter-modal');
+    const loginModal = document.getElementById('login-modal');
+    function openCharterModal() { if (charterModal) charterModal.showModal(); }
+    function closeCharterModal() { if (charterModal) charterModal.close(); }
+    function openLoginModal() { if (loginModal) loginModal.showModal(); }
+    function closeLoginModal() { if (loginModal) loginModal.close(); }
+    function handleLoginSubmit(e) { e.preventDefault(); alert('社员工作台已连接！正式账号系统将与内网沙盘同步上线。'); closeLoginModal(); }
+
+    [charterModal, loginModal].forEach(dlg => {
+      if (dlg) {
+        dlg.addEventListener('click', (e) => {
+          const r = dlg.getBoundingClientRect();
+          if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) dlg.close();
+        });
+      }
+    });
+
+    // ==========================================================
+    // Dynamic Island Nav Scroll Interaction & Manual Toggle
+    // ==========================================================
+    let isManualCollapsed = false;
+
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        } else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false;
+        } else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      function onNavScroll() {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onNavScroll, { passive: true });
+    }
+
+    // 移动端折叠菜单交互
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+    document.addEventListener('click', (e) => {
+      if (mobileDropdownMenu && mobileDropdownMenu.classList.contains('active')) {
+        if (!mobileDropdownMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenuBtn.classList.remove('open');
+          mobileDropdownMenu.classList.remove('active');
+        }
+      }
+    });
+
+    // ==========================================================
+    // Council Scrollytelling Engine: Driven by Equality -> Governed by Service
+    // ==========================================================
+    const councilScrollTrack = document.getElementById('councilScrollTrack');
+    const councilBgImg = document.getElementById('councilBgImg');
+    const councilSceneEquality = document.getElementById('councilSceneEquality');
+    const councilWords = document.querySelectorAll('.council-word');
+    const councilEqualitySub = document.getElementById('councilEqualitySub');
+    const councilSceneService = document.getElementById('councilSceneService');
+    const councilServiceHeader = document.getElementById('councilServiceHeader');
+    const councilResumeWrap = document.getElementById('councilResumeWrap');
+
+    function onScrollCouncil() {
+      if (!councilScrollTrack) return;
+      const rect = councilScrollTrack.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const scrollDistance = -rect.top;
+      const maxScroll = rect.height - windowHeight;
+
+      let progress = 0;
+      if (maxScroll > 0) {
+        progress = Math.min(Math.max(scrollDistance / maxScroll, 0), 1);
+      }
+
+      // ----------------------------------------------------
+      // Stage 1 & 2: 青年合影清晰 + Driven by Equality 逐词出现 (0.00 -> 0.44)
+      // 用户特别明确要求：【不需要模糊照片】！
+      // ----------------------------------------------------
+      if (progress <= 0.44) {
+        if (councilBgImg) {
+          councilBgImg.style.filter = 'blur(0px) brightness(0.95)';
+          councilBgImg.style.opacity = '1';
+          councilBgImg.style.transform = `scale(${(1.0 + progress * 0.04).toFixed(3)}) translateZ(0)`;
+        }
+
+        // 单词逐一打字显现 (0.08 -> 0.32)
+        const wordCount = councilWords.length;
+        const startReveal = 0.08;
+        const endReveal = 0.32;
+        const step = (endReveal - startReveal) / wordCount;
+
+        councilWords.forEach((w, idx) => {
+          const wStart = startReveal + idx * step;
+          const wEnd = wStart + step;
+          if (progress >= wEnd) {
+            w.style.opacity = '1';
+            w.style.filter = 'blur(0px)';
+            w.style.transform = 'translateY(0) translateZ(0)';
+          } else if (progress > wStart) {
+            const p = (progress - wStart) / step;
+            w.style.opacity = (p * 1.25 > 1 ? 1 : p * 1.25).toFixed(3);
+            w.style.filter = `blur(${((1 - p) * 10).toFixed(1)}px)`;
+            w.style.transform = `translateY(${((1 - p) * 8).toFixed(1)}px) translateZ(0)`;
+          } else {
+            w.style.opacity = '0';
+            w.style.filter = 'blur(10px)';
+            w.style.transform = 'translateY(8px) translateZ(0)';
+          }
+        });
+
+        // 一句话中文注解在标题打出后平滑浮现 (0.32 -> 0.42)
+        if (councilEqualitySub) {
+          if (progress > 0.32) {
+            const subP = Math.min((progress - 0.32) / 0.09, 1);
+            councilEqualitySub.style.opacity = subP.toFixed(2);
+            councilEqualitySub.style.filter = `blur(${((1 - subP) * 10).toFixed(1)}px)`;
+            councilEqualitySub.style.transform = `translateY(${((1 - subP) * 8).toFixed(1)}px) translateZ(0)`;
+          } else {
+            councilEqualitySub.style.opacity = '0';
+            councilEqualitySub.style.filter = 'blur(10px)';
+            councilEqualitySub.style.transform = 'translateY(8px) translateZ(0)';
+          }
+        }
+
+        if (councilSceneEquality) {
+          councilSceneEquality.style.opacity = '1';
+          councilSceneEquality.style.filter = 'blur(0px)';
+          councilSceneEquality.style.transform = 'translateY(0) translateZ(0)';
+        }
+
+        if (councilSceneService) {
+          councilSceneService.style.opacity = '0';
+          councilSceneService.style.filter = 'blur(14px)';
+          councilSceneService.style.pointerEvents = 'none';
+        }
+        if (councilResumeWrap) {
+          councilResumeWrap.style.transform = 'translateY(115%) translateZ(0)';
+          councilResumeWrap.style.opacity = '0';
+        }
+      }
+
+      // ----------------------------------------------------
+      // Stage 3: 不黑屏！照片高斯模糊直接作为背景 + 简历平铺升起并在展示后停留 (0.44 -> 1.00)
+      // 用户明确要求：显示到了这一步就不用再模糊黑屏了，完全显示结束后稍微停留一下就可以自然进入下一部分
+      // ----------------------------------------------------
+      else {
+        // 第一阶段退隐过渡 (0.44 -> 0.54)
+        const transP = Math.min((progress - 0.44) / 0.10, 1);
+        if (councilBgImg) {
+          const blurVal = transP * 24;
+          councilBgImg.style.filter = `blur(${blurVal.toFixed(1)}px) brightness(0.85)`;
+          councilBgImg.style.opacity = '1';
+          councilBgImg.style.transform = 'scale(1.03) translateZ(0)';
+        }
+        if (councilSceneEquality) {
+          councilSceneEquality.style.opacity = (1 - transP).toFixed(2);
+          councilSceneEquality.style.filter = `blur(${(transP * 16).toFixed(1)}px)`;
+          councilSceneEquality.style.transform = `translateY(-${(transP * 18).toFixed(1)}px) translateZ(0)`;
+        }
+
+        // 第二阶段：Governed by Service 浮现 + 简历平铺升起 (0.48 -> 0.62 进场，0.62 -> 1.00 稳定停留阅读)
+        if (progress < 0.48) {
+          if (councilSceneService) {
+            councilSceneService.style.opacity = '0';
+            councilSceneService.style.filter = 'blur(14px)';
+            councilSceneService.style.pointerEvents = 'none';
+          }
+          if (councilResumeWrap) {
+            councilResumeWrap.style.transform = 'translateY(115%) translateZ(0)';
+            councilResumeWrap.style.opacity = '0';
+          }
+        } else if (progress < 0.62) {
+          const enterP = (progress - 0.48) / 0.14;
+          if (councilSceneService) {
+            councilSceneService.style.opacity = enterP.toFixed(2);
+            councilSceneService.style.filter = `blur(${((1 - enterP) * 12).toFixed(1)}px)`;
+            councilSceneService.style.pointerEvents = 'auto';
+          }
+          if (councilServiceHeader) {
+            councilServiceHeader.style.transform = `translateY(${((1 - enterP) * 16).toFixed(1)}px) translateZ(0)`;
+          }
+          if (councilResumeWrap) {
+            const yOffset = (1 - enterP) * 110;
+            councilResumeWrap.style.transform = `translateY(${yOffset.toFixed(1)}%) translateZ(0)`;
+            councilResumeWrap.style.filter = `blur(${((1 - enterP) * 10).toFixed(1)}px)`;
+            councilResumeWrap.style.opacity = (enterP * 1.25 > 1 ? 1 : enterP * 1.25).toFixed(2);
+          }
+        } else {
+          // progress >= 0.62: 保持完全清晰常驻，停留阅读，跟随页面自然滚动出画，不黑屏不模糊！
+          if (councilSceneService) {
+            councilSceneService.style.opacity = '1';
+            councilSceneService.style.filter = 'blur(0px)';
+            councilSceneService.style.pointerEvents = 'auto';
+          }
+          if (councilServiceHeader) {
+            councilServiceHeader.style.transform = 'translateY(0) translateZ(0)';
+          }
+          if (councilResumeWrap) {
+            councilResumeWrap.style.transform = 'translateY(0) translateZ(0)';
+            councilResumeWrap.style.filter = 'blur(0px)';
+            councilResumeWrap.style.opacity = '1';
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', onScrollCouncil, { passive: true });
+    window.addEventListener('resize', onScrollCouncil, { passive: true });
+
+    window.addEventListener('load', () => {
+      initDynamicIslandScroll();
+      onScrollCouncil();
+    });
+  </script>
+
+</body>
+</html>

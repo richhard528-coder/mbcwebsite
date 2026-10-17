@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <!-- Preload Critical Narrative Images (避免黑屏与加载卡顿) -->
+  <link rel="preload" as="image" href="assets/com_web.jpg">
+  <link rel="preload" as="image" href="assets/reel_1_web.jpg">
+  <link rel="preload" as="image" href="assets/reel_2_web.jpg">
+  <link rel="preload" as="image" href="assets/reel_3_focus.jpg?v=20261006_pro">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EFF6FF;
+      --accent-coral: #D75E15;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; }
+
+    .site-container { max-width: 1320px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .font-serif-accent { font-family: var(--font-serif); font-weight: 400; }
+
+    @keyframes koraFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.05s; opacity: 0; }
+    .anim-2 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.18s; opacity: 0; }
+
+    .kora-card {
+      transition: transform 0.35s var(--ease-framer), box-shadow 0.35s var(--ease-framer), border-color 0.35s var(--ease-framer);
+      border: 1px solid var(--border-color);
+      background: var(--bg-white);
+    }
+    .kora-card:hover {
+      transform: translateY(-4px);
+      border-color: #B0B5C0;
+      box-shadow: 0 16px 36px rgba(2, 80, 142, 0.07);
+    }
+
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 26px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+    /* Floating Island Pill Navbar (Dual Row on About, Smooth Collapse) */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island.about-island {
+      pointer-events: auto;
+      max-width: 1040px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 26px;
+      padding: 8px 18px 10px 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+      transform: translateZ(0);
+      will-change: max-width, border-radius, padding;
+      position: relative;
+      overflow: hidden;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* 灵动岛顶部高光光泽 (Specular Edge Highlight) */
+    .nav-island.about-island::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.95) 20%, 
+        rgba(255, 255, 255, 0.95) 80%, 
+        rgba(255, 255, 255, 0) 100%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    /* 灵动岛底部微型流光滚动进度条 */
+    .nav-island-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, #02508E 0%, #38BDF8 50%, #818CF8 100%);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+      border-radius: 99px;
+      transition: width 0.08s linear;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .nav-island-row-main {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+    }
+
+    .nav-island-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+
+    .nav-island-links a:hover {
+      color: var(--brand-blue);
+    }
+
+    .nav-island-links a.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      border-bottom: 2px solid var(--brand-blue);
+    }
+
+    /* 第二行子导航：社团简介 / What's New / 理事会档案 */
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 40px;
+      opacity: 1;
+      margin-top: 6px;
+      padding-top: 8px;
+      padding-left: 36px;
+      padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+
+    .sub-item-link:hover {
+      color: #111111;
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .sub-item-link.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      background: var(--brand-blue-light);
+    }
+
+    /* 收起状态：平滑折叠第二行 */
+    .nav-island.about-island.collapsed {
+      max-width: 960px;
+      border-radius: 30px;
+      padding: 8px 16px 8px 24px;
+    }
+
+    .nav-island.about-island.collapsed .nav-island-sub-row {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
+
+    /* 第二行右侧微型收起小箭头按钮 */
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+    }
+
+    .sub-row-collapse-btn:hover {
+      background: var(--brand-blue-light);
+      border-color: rgba(2, 80, 142, 0.35);
+      color: var(--brand-blue);
+      transform: translateY(-50%) scale(1.10);
+    }
+
+    /* 移动端汉堡菜单 */
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+      flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed; top: 86px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); padding: 20px; z-index: 99;
+      opacity: 0; transform: translateY(-12px); pointer-events: none; transition: all 0.28s var(--ease-framer);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mobile-dropdown-menu.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-dropdown-menu a { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.about-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    /* ==========================================================
+       Ambient Floating Gaussian Mesh Orbs (高斯模糊流体动效背景)
+       ========================================================== */
+    .ambient-mesh-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      opacity: 0.70;
+    }
+
+    .ambient-mesh-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(95px);
+      -webkit-filter: blur(95px);
+      opacity: 0.20;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .orb-primary {
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, #02508E 0%, rgba(2, 80, 142, 0.25) 60%, transparent 100%);
+      top: -120px;
+      right: 6%;
+      animation: orbDrift1 22s ease-in-out infinite alternate;
+    }
+
+    .orb-secondary {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, #38BDF8 0%, rgba(56, 189, 248, 0.22) 60%, transparent 100%);
+      top: 36%;
+      left: -90px;
+      animation: orbDrift2 26s ease-in-out infinite alternate;
+    }
+
+    .orb-tertiary {
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, #818CF8 0%, rgba(129, 140, 248, 0.20) 60%, transparent 100%);
+      bottom: 2%;
+      right: 16%;
+      animation: orbDrift3 30s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbDrift1 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-80px, 90px, 0) scale(1.10); }
+      100% { transform: translate3d(40px, 150px, 0) scale(0.92); }
+    }
+
+    @keyframes orbDrift2 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(90px, -50px, 0) scale(1.14); }
+      100% { transform: translate3d(40px, 70px, 0) scale(0.88); }
+    }
+
+    @keyframes orbDrift3 {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-90px, -70px, 0) scale(1.08); }
+      100% { transform: translate3d(50px, -30px, 0) scale(0.96); }
+    }
+
+    /* Hero Accent Text Shimmer (原版优雅流光) */
+    .hero-accent-text {
+      font-style: italic;
+      font-weight: 400;
+      padding-right: 4px;
+      background: linear-gradient(120deg, #02508E 0%, #0284C7 45%, #2563EB 70%, #02508E 100%);
+      background-size: 240% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: heroAccentShimmer 7s ease-in-out infinite;
+    }
+
+    @keyframes heroAccentShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ==========================================================
+       Remarkable Mission Full-Bleed Section (横向填满全屏 & 视差动效)
+       ========================================================== */
+    .remarkable-full-bleed-section {
+      width: 100%;
+      min-height: 520px;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 110px 24px;
+      background-color: #0F172A;
+    }
+
+    .remarkable-bg-layer {
+      position: absolute;
+      top: -12%;
+      bottom: -12%;
+      left: 0;
+      right: 0;
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.30) 45%, rgba(0, 0, 0, 0.72) 100%), 
+                        url('assets/com_web.jpg');
+      background-size: cover;
+      background-position: center 38%;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .remarkable-full-bleed-section {
+        min-height: 420px !important;
+        padding: 80px 20px !important;
+      }
+    }
+
+    /* ==========================================================
+       Apple-Style Feature Cards & Horizontal Track (平铺画廊与微动效)
+       ========================================================== */
+    .apple-carousel-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .apple-carousel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      gap: 20px;
+    }
+
+    .apple-carousel-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .apple-nav-arrow {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #111111;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-framer);
+      outline: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .apple-nav-arrow:hover {
+      background: #FFFFFF;
+      border-color: rgba(0, 0, 0, 0.16);
+      transform: scale(1.08);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .apple-nav-arrow:active {
+      transform: scale(0.96);
+    }
+
+    .apple-cards-track {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 8px 4px 28px 4px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+
+    .apple-cards-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .apple-feature-card {
+      flex: 0 0 340px;
+      width: 340px;
+      scroll-snap-align: start;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px 28px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 420px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+      transition: transform 0.35s var(--ease-framer), box-shadow 0.35s var(--ease-framer), border-color 0.35s ease;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      user-select: none;
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.07);
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .apple-card-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6E6E73;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .apple-card-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .apple-card-punchline {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #374151;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+
+    /* Card 1 全图背景样式 (xyz.jpg 铺满卡片 & 平滑缓动缩放) */
+    .apple-feature-card.apple-card-photo-bg {
+      position: relative;
+      overflow: hidden;
+      background-color: #0F172A;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: #FFFFFF;
+    }
+
+    .apple-card-photo-layer {
+      position: absolute;
+      inset: 0;
+      background-color: #0F172A;
+      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.20) 45%, rgba(0, 0, 0, 0.75) 100%), 
+                        url('assets/xyz_web.jpg');
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.6s var(--ease-framer);
+      will-change: transform;
+      z-index: 1;
+    }
+
+    .apple-feature-card.apple-card-photo-bg:hover .apple-card-photo-layer {
+      transform: scale(1.05);
+    }
+
+    .apple-feature-card.apple-card-photo-bg .apple-card-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 20px;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .apple-feature-card.apple-card-photo-bg .apple-card-title {
+      color: #FFFFFF;
+    }
+
+    .apple-feature-card.apple-card-photo-bg .apple-card-punchline {
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .apple-feature-card.apple-card-photo-bg .apple-plus-btn {
+      background: rgba(255, 255, 255, 0.95);
+      color: #111111;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .apple-feature-card.apple-card-photo-bg:hover .apple-plus-btn {
+      background: #FFFFFF;
+    }
+
+    /* Logo/图片展示区域（去除灰色框框，悬停浮空微动效） */
+    .apple-card-logo-slot {
+      margin-top: auto;
+      margin-bottom: 16px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .apple-card-logo-slot img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      transition: transform 0.4s var(--ease-framer), filter 0.4s ease;
+      will-change: transform;
+    }
+
+    .apple-feature-card:hover .apple-card-logo-slot img {
+      transform: translateY(-4px) scale(1.06);
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.07));
+    }
+
+    /* 底部布局：删掉分割线与文字，仅在右下角保留黑底白色圆钮 + */
+    .apple-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0;
+      border: none;
+    }
+
+    /* Apple 风格右下角黑色圆形加号按钮（悬停 90 度旋转微交互） */
+    .apple-plus-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #111111;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1;
+      transition: transform 0.35s var(--ease-framer), background-color 0.25s ease;
+      flex-shrink: 0;
+      transform-origin: center center;
+    }
+
+    .apple-feature-card:hover .apple-plus-btn {
+      transform: rotate(90deg) scale(1.12);
+      background: #000000;
+    }
+
+    /* ==========================================================
+       Apple-Style Detail Modal Dialogs (高斯模糊与流体动效)
+       ========================================================== */
+    .apple-detail-dialog,
+    #charter-modal,
+    #login-modal {
+      border: none;
+      border-radius: 28px;
+      background: #FFFFFF;
+      box-shadow: 0 32px 84px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      padding: 0;
+      overflow: hidden;
+      outline: none;
+      margin: auto;
+      opacity: 0;
+      transform: scale(0.95) translateY(12px);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  display 0.32s allow-discrete,
+                  overlay 0.32s allow-discrete;
+    }
+
+    .apple-detail-dialog {
+      max-width: 740px;
+      width: 92vw;
+      max-height: 86vh;
+    }
+
+    .apple-detail-dialog[open],
+    #charter-modal[open],
+    #login-modal[open] {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    @starting-style {
+      .apple-detail-dialog[open],
+      #charter-modal[open],
+      #login-modal[open] {
+        opacity: 0;
+        transform: scale(0.95) translateY(12px);
+      }
+    }
+
+    .apple-detail-dialog::backdrop,
+    #charter-modal::backdrop,
+    #login-modal::backdrop {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(22px) saturate(190%);
+      -webkit-backdrop-filter: blur(22px) saturate(190%);
+      opacity: 0;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  backdrop-filter 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  display 0.32s allow-discrete,
+                  overlay 0.32s allow-discrete;
+    }
+
+    .apple-detail-dialog[open]::backdrop,
+    #charter-modal[open]::backdrop,
+    #login-modal[open]::backdrop {
+      opacity: 1;
+    }
+
+    @starting-style {
+      .apple-detail-dialog[open]::backdrop,
+      #charter-modal[open]::backdrop,
+      #login-modal[open]::backdrop {
+        opacity: 0;
+      }
+    }
+
+    .apple-dialog-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      z-index: 10;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .apple-dialog-header button {
+      transition: transform 0.25s var(--ease-framer), background 0.2s, color 0.2s;
+    }
+
+    .apple-dialog-header button:hover {
+      transform: scale(1.08) rotate(90deg);
+    }
+
+    .apple-dialog-body {
+      padding: 28px 32px 40px 32px;
+      max-height: calc(86vh - 80px);
+      overflow-y: auto;
+      font-size: 14.5px;
+      color: #374151;
+      line-height: 1.8;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ==========================================================
+       Fullscreen Cinematic Narrative Scrollytelling (全屏画卷叙事)
+       ========================================================== */
+    .cinema-story-track {
+      position: relative;
+      width: 100vw;
+      max-width: 100vw;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 380vh;
+      background: #080E18;
+      margin-top: 140px; /* 宽裕充足的间隔，彻底拉开与上方卡片的距离 */
+    }
+
+    .cinema-story-sticky {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: #080E18;
+      z-index: 20;
+    }
+
+    .cinema-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    .cinema-slide.slide-init-visible {
+      opacity: 1;
+    }
+
+    #cinemaSlide1 {
+      z-index: 1;
+      opacity: 1 !important;
+    }
+    #cinemaSlide2 { z-index: 2; }
+    #cinemaSlide3 { z-index: 3; }
+
+    .cinema-slide-bg {
+      position: absolute;
+      inset: -35px;
+      width: calc(100% + 70px);
+      height: calc(100% + 70px);
+      object-fit: cover;
+      display: block;
+      will-change: transform, filter;
+      transform: translate3d(0, 0, 0) scale(1.03);
+    }
+
+    .cinema-slide-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.45) 0%,
+        rgba(0, 0, 0, 0.08) 25%,
+        rgba(0, 0, 0, 0.35) 60%,
+        rgba(0, 0, 0, 0.90) 100%
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cinema-slide-text {
+      position: absolute;
+      bottom: clamp(48px, 9vh, 92px);
+      left: clamp(28px, 6vw, 88px);
+      right: clamp(28px, 6vw, 88px);
+      max-width: 840px;
+      z-index: 4;
+      pointer-events: auto;
+      will-change: transform, opacity;
+    }
+
+    .cinema-slide-quote {
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.025em;
+      color: #FFFFFF;
+      margin: 0;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .cinema-slide-annotation {
+      font-size: clamp(16px, 1.8vw, 20px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.6;
+      margin-top: 14px;
+      margin-bottom: 0;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Slide 3 左右分栏布局 (左侧金句，右下 Let's Collaborate) */
+    .cinema-slide-layout-split {
+      position: absolute;
+      bottom: clamp(48px, 9vh, 92px);
+      left: clamp(28px, 6vw, 88px);
+      right: clamp(28px, 6vw, 88px);
+      z-index: 4;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 36px;
+      pointer-events: auto;
+      will-change: transform, opacity;
+    }
+
+    .cinema-slide-collab {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .cinema-collab-title {
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .collab-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #FFFFFF;
+      color: #111111;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 32px;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .collab-pill-btn:hover {
+      background: #F3F4F6;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      color: #000000;
+    }
+
+    @media (max-width: 860px) {
+      .cinema-slide-layout-split {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        bottom: 40px;
+        left: 20px;
+        right: 20px;
+      }
+      .cinema-slide-collab {
+        align-items: flex-start;
+        text-align: left;
+        gap: 12px;
+      }
+      .cinema-collab-title {
+        font-size: 1.8rem;
+      }
+      .collab-pill-btn {
+        padding: 11px 26px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cinema-story-track {
+        margin-top: 90px;
+      }
+      .cinema-slide-text {
+        bottom: 44px;
+        left: 20px;
+        right: 20px;
+      }
+      .cinema-slide-quote {
+        font-size: 1.55rem;
+        line-height: 1.35;
+      }
+      .cinema-slide-annotation {
+        font-size: 14px;
+        margin-top: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ambient-mesh-orb,
+      .pulsing-beacon,
+      .hero-accent-text {
+        animation: none !important;
+      }
+      .remarkable-bg-layer,
+      .cinema-slide-bg {
+        transform: none !important;
+      }
+    }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #FFFFFF;
+      color: #111111;
+      border-top: 1px solid #E5E7EB;
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #000000;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       Ambient Floating Gaussian Blur Mesh Orbs (流体高斯模糊环境背景)
+       ========================================================== -->
+  <div class="ambient-mesh-canvas" aria-hidden="true">
+    <div class="ambient-mesh-orb orb-primary"></div>
+    <div class="ambient-mesh-orb orb-secondary"></div>
+    <div class="ambient-mesh-orb orb-tertiary"></div>
+  </div>
+
+  <!-- ==========================================================
+       1. 浮动胶囊导航条 (Navbar - About Active)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island about-island" id="mainNavIsland">
+      <!-- 灵动岛底部微型流光滚动进度条 -->
+      <div class="nav-island-progress" id="navIslandProgress" aria-hidden="true"></div>
+      
+      <!-- 第一行：全站主导航 -->
+      <div class="nav-island-row-main">
+        <!-- Left: Logo -->
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <!-- Center: Five Distinct Pages (About Active) -->
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html" class="active">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <!-- Right: Live Clock + 招新 Button + Mobile Toggle -->
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+          <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+            <span>LOCAL /</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+          </div>
+          <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+          <!-- Mobile/Tablet Hamburger Button -->
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二行：About 专属子页面导航 (社团简介 / 理事会档案 / 社团宪章) -->
+      <nav class="nav-island-sub-row" id="navIslandSubRow">
+        <a href="about.html" class="sub-item-link active">社团简介</a>
+        <a href="council.html" class="sub-item-link">理事会档案</a>
+        <a href="charter.html" class="sub-item-link">社团宪章</a>
+
+        <!-- 右侧微型小箭头收起按钮 -->
+        <button class="sub-row-collapse-btn" onclick="collapseNavIsland(event)" aria-label="收起子导航" title="收起子导航">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+    </header>
+  </div>
+
+  <!-- Mobile/Tablet Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html" class="active"><span>About / 关于</span> <span>➔</span></a>
+    <div style="padding: 6px 14px; display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--brand-blue); margin-left: 14px;">
+      <a href="about.html" style="font-size: 13px; font-weight: 700; color: var(--brand-blue);">社团简介</a>
+      <a href="council.html" style="font-size: 13px; color: #555;">理事会档案</a>
+      <a href="charter.html" style="font-size: 13px; color: #555;">社团宪章</a>
+    </div>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts / 联络</span> <span>➔</span></a>
+  </div>
+
+  <div style="height: 100px;"></div>
+
+  <!-- ==========================================================
+       2. About Hero Section: 经典衬线大标语
+       ========================================================== -->
+  <main>
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      
+      <div class="anim-1" style="text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.18em; color: var(--brand-blue); display: block; margin-bottom: 16px;">
+          About Meridian Business Collective / 经纬商社
+        </span>
+
+        <!-- 用户指定的衬线体经典金句 -->
+        <h1 class="font-serif-accent" style="color: #111111; font-size: clamp(3.2rem, 6.5vw, 5.6rem); line-height: 1.02; letter-spacing: -0.02em; margin-bottom: 24px;">
+          Dream it, and then <em class="hero-accent-text font-serif-accent">make it.</em>
+        </h1>
+
+        <p style="font-size: 17px; color: #555555; line-height: 1.7; max-width: 760px; margin-left: auto; margin-right: auto; margin-bottom: 36px;">
+          MBC 经纬商社是泉州五中海丝校区首个由学生全权主导的<strong>先锋商业实践共同体与创新孵化室</strong>。<br>
+          立足商业分析、自研虚拟沙盘推演与国际顶级商赛，把热血的想法打磨为经得起推敲的真实成果。
+        </p>
+
+        <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+          <button onclick="openCharterModal()" class="btn-pill-blue">
+            查阅《社团宪章》 ➔
+          </button>
+          <a href="projects.html" class="btn-pill-outline">
+            查看 2027 蓝海项目案
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================================
+         3. 核心宗旨全宽视觉区 (Make Something Remarkable - 全屏通栏独立部分)
+         ========================================================== -->
+    <section class="remarkable-full-bleed-section" id="remarkableSection">
+      <div class="remarkable-bg-layer" id="remarkableBg" aria-hidden="true"></div>
+      <div class="anim-2" style="position: relative; z-index: 2; max-width: 860px; margin: 0 auto; padding: 0 16px;">
+        <h2 style="font-family: var(--font-sans); font-size: clamp(2.6rem, 5.8vw, 4.4rem); font-weight: 600; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 22px;">
+          Make Something Remarkable.
+        </h2>
+
+        <p style="font-family: var(--font-sans); font-size: clamp(16px, 1.9vw, 19.5px); font-weight: 400; color: rgba(255, 255, 255, 0.94); line-height: 1.85; max-width: 680px; margin: 0 auto; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);">
+          做一些了不起的事情，正是MBC的宗旨。陪伴每一位成员成长、探索，创造属于自己的了不起。
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         4. 探索经纬商社 (Apple-Style 平铺画廊)
+         ========================================================== -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 90px;">
+      
+      <div class="apple-carousel-wrapper">
+        
+        <!-- Apple 风格标题与右侧滑动控制按钮 -->
+        <div class="apple-carousel-header">
+          <div>
+            <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; color: var(--brand-blue); display: block; margin-bottom: 6px;">Core Pillars & Architecture</span>
+            <h2 style="font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; color: #111111; letter-spacing: -0.02em;">探索经纬商社</h2>
+            <p style="font-size: 13.5px; color: #666666; max-width: 540px; line-height: 1.6; margin-top: 8px;">
+              以严谨架构为基石，以极客技术为引擎，以平等文化为底色。点击卡片查阅深层运行细节与机制档案。
+            </p>
+          </div>
+          
+          <!-- Apple 风格左右切换控制按钮 -->
+          <div class="apple-carousel-nav">
+            <button class="apple-nav-arrow" onclick="slideAppleCards(-1)" aria-label="向左滑动" title="向左滑动">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="apple-nav-arrow" onclick="slideAppleCards(1)" aria-label="向右滑动" title="向右滑动">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 张平铺 Apple 风格核心卡片轨道 (Horizontal Track) -->
+        <div class="apple-cards-track" id="appleCardsTrack">
+          
+          <!-- Card 1: 双轨运行机制 (以 xyz.jpg 为背景，铺满整张卡片) -->
+          <div class="apple-feature-card apple-card-photo-bg" onclick="openAboutModal('about-modal-1')">
+            <div class="apple-card-photo-layer" aria-hidden="true"></div>
+            <div style="position: relative; z-index: 2;">
+              <span class="apple-card-badge">运行机制</span>
+              <h3 class="apple-card-title">双轨运行机制</h3>
+              <div class="apple-card-punchline">让每个人都可以参与，让有能力的人发光。</div>
+            </div>
+            <div style="position: relative; z-index: 2;" class="apple-card-footer">
+              <div class="apple-plus-btn" aria-hidden="true">+</div>
+            </div>
+          </div>
+
+          <!-- Card 2: MBC Atelier 原石工坊 (Logo: Gama 1.jpg) -->
+          <div class="apple-feature-card" onclick="openAboutModal('about-modal-2')">
+            <div>
+              <span class="apple-card-badge">原石工坊</span>
+              <h3 class="apple-card-title">MBC Atelier 原石工坊</h3>
+              <div class="apple-card-punchline">让每个人都可以加入并参与商业挑战。</div>
+            </div>
+            <div>
+              <div class="apple-card-logo-slot">
+                <img src="assets/Gama 1.jpg" alt="MBC Atelier Logo" onerror="this.onerror=null; this.src='Gama 1.jpg'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};" style="max-height: 135px; width: auto; object-fit: contain;">
+                <div class="apple-logo-fallback" style="display: none; flex-direction: column; align-items: center; gap: 6px; color: #6B7280; font-size: 12px; font-weight: 600;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="6 3 18 3 22 9 12 22 2 9"></polygon></svg>
+                  <span>Gama 1.jpg</span>
+                </div>
+              </div>
+              <div class="apple-card-footer">
+                <div class="apple-plus-btn" aria-hidden="true">+</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: MBC 理事会 (Logo: Zeta.jpg) -->
+          <div class="apple-feature-card" onclick="openAboutModal('about-modal-3')">
+            <div>
+              <span class="apple-card-badge">理事会</span>
+              <h3 class="apple-card-title">The Council 理事会</h3>
+              <div class="apple-card-punchline">每个人都有机会的平台，公开竞选与试岗考察。</div>
+            </div>
+            <div>
+              <div class="apple-card-logo-slot">
+                <img src="assets/Zeta_web.jpg" alt="The Council Emblem" onerror="this.onerror=null; this.src='assets/Zeta.jpg'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};" style="max-height: 135px; width: auto; object-fit: contain; border-radius: 12px;">
+                <div class="apple-logo-fallback" style="display: none; flex-direction: column; align-items: center; gap: 6px; color: #6B7280; font-size: 12px; font-weight: 600;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <span>Zeta.jpg</span>
+                </div>
+              </div>
+              <div class="apple-card-footer">
+                <div class="apple-plus-btn" aria-hidden="true">+</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: 新技术的应用 (Logo: Omega.png - 放大展示) -->
+          <div class="apple-feature-card" onclick="openAboutModal('about-modal-4')">
+            <div>
+              <span class="apple-card-badge">技术赋能</span>
+              <h3 class="apple-card-title">新技术的应用与赋能</h3>
+              <div class="apple-card-punchline">AI与计算机赋能社团管理运营，自研系统实战推演。</div>
+            </div>
+            <div>
+              <div class="apple-card-logo-slot">
+                <img src="assets/Omega_web.png" alt="Omega Tech Logo" onerror="this.onerror=null; this.src='assets/Omega.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};" style="max-height: 155px; width: auto; object-fit: contain;">
+                <div class="apple-logo-fallback" style="display: none; flex-direction: column; align-items: center; gap: 6px; color: #6B7280; font-size: 12px; font-weight: 600;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                  <span>Omega.png</span>
+                </div>
+              </div>
+              <div class="apple-card-footer">
+                <div class="apple-plus-btn" aria-hidden="true">+</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: 透明权责与平等创新 (Logo: MBC Council.png 理事会标识) -->
+          <div class="apple-feature-card" onclick="openAboutModal('about-modal-5')">
+            <div>
+              <span class="apple-card-badge">平等创新</span>
+              <h3 class="apple-card-title">透明权责与平等创新</h3>
+              <div class="apple-card-punchline">宪章铁律杜绝资历打压，充分保障心理安全感。</div>
+            </div>
+            <div>
+              <div class="apple-card-logo-slot">
+                <img src="assets/MBC Council.png" alt="The Council Logo" onerror="this.onerror=null; this.src='MBC Council.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};" style="max-height: 135px; width: auto; object-fit: contain;">
+                <div class="apple-logo-fallback" style="display: none; flex-direction: column; align-items: center; gap: 6px; color: #6B7280; font-size: 12px; font-weight: 600;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <span>MBC Council.png</span>
+                </div>
+              </div>
+              <div class="apple-card-footer">
+                <div class="apple-plus-btn" aria-hidden="true">+</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         5. 全屏沉浸画卷叙事 (Fullscreen Cinematic Scrollytelling)
+         ========================================================== -->
+    <section class="cinema-story-track" id="cinemaStoryTrack">
+      <div class="cinema-story-sticky" id="cinemaStorySticky">
+        
+        <!-- Slide 1: 破晓与起步 -->
+        <div class="cinema-slide slide-init-visible" id="cinemaSlide1">
+          <img src="assets/reel_1_web.jpg" class="cinema-slide-bg" style="object-position: center 18%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <div class="cinema-slide-scrim" aria-hidden="true"></div>
+          <div class="cinema-slide-text">
+            <h2 class="cinema-slide-quote">“在没有真金白银的年纪，<br>我们在代码与草稿纸前掀起风暴。”</h2>
+          </div>
+        </div>
+
+        <!-- Slide 2: 团队与造物 -->
+        <div class="cinema-slide" id="cinemaSlide2">
+          <img src="assets/reel_2_web.jpg" class="cinema-slide-bg" style="object-position: center 48%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <div class="cinema-slide-scrim" aria-hidden="true"></div>
+          <div class="cinema-slide-text">
+            <h2 class="cinema-slide-quote">“拒绝平庸的高中社团。<br>把商业当作拆解真实世界的解剖刀。”</h2>
+          </div>
+        </div>
+
+        <!-- Slide 3: 蓝海信条与追求卓越 -->
+        <div class="cinema-slide" id="cinemaSlide3">
+          <img src="assets/reel_3_focus.jpg?v=20261006_pro" class="cinema-slide-bg" style="object-position: center 40%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <div class="cinema-slide-scrim" aria-hidden="true"></div>
+          <div class="cinema-slide-layout-split">
+            <!-- 左侧：蓝海信条与中文注解 -->
+            <div style="max-width: 680px;">
+              <h2 class="cinema-slide-quote" style="letter-spacing: -0.025em;">Make it remarkable,<br>or don't make it at all.</h2>
+              <p class="cinema-slide-annotation">要么做到极致，要么干脆不做。做真正了不起的事情，正是经纬的信条。</p>
+            </div>
+            <!-- 右侧：Let's Collaborate 与联系我们按钮 -->
+            <div class="cinema-slide-collab">
+              <h3 class="cinema-collab-title">Let's Collaborate</h3>
+              <a href="contacts.html" class="collab-pill-btn">
+                联系我们 <span class="arrow">↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+  <!-- 微信公众号扫码弹窗 -->
+  <dialog id="wechat-modal" style="border: none; border-radius: 20px; padding: 0; background: #FFF; color: #111; box-shadow: 0 30px 80px rgba(0,0,0,0.22); max-width: 340px; width: 90%;">
+    <div style="padding: 30px 24px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #999; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+      <h3 style="font-size: 19px; font-weight: 800; color: #111; margin-bottom: 6px;">微信公众号</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; padding: 16px; border-radius: 14px; display: inline-block;">
+        <img src="assets/mbc_logo.png" alt="WeChat QR" style="width: 140px; height: 140px; object-fit: contain; display: block;">
+      </div>
+      <p style="font-size: 11px; color: #888; margin-top: 18px; letter-spacing: 0.05em;">ESTABLISHED 2026 / QUANZHOU NO. 5 HIGH SCHOOL</p>
+    </div>
+  </dialog>
+
+
+  <!-- ==========================================================
+       Apple-Style 5 大支柱深度详情弹窗 (Apple Detail Dialogs)
+       ========================================================== -->
+
+  <!-- Modal 1: 双轨运行机制 -->
+  <dialog id="about-modal-1" class="apple-detail-dialog no-scrollbar">
+    <div class="apple-dialog-header">
+      <div>
+        <span class="apple-card-badge" style="margin-bottom: 2px;">01 / DUAL TRACKS / 运行机制</span>
+        <h3 style="font-size: 19px; font-weight: 800; color: #111111;">双轨运行机制：让每个人参与，让有能力的人发光</h3>
+      </div>
+      <button onclick="closeAboutModal('about-modal-1')" style="background: transparent; border: none; font-size: 22px; color: #666; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+    </div>
+    <div class="apple-dialog-body">
+      <div style="background: var(--bg-canvas); border-left: 3px solid var(--brand-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+        <p style="font-weight: 700; color: #111111; margin-bottom: 4px;">机制总旨</p>
+        <p style="font-size: 13.5px; color: #4B5563; line-height: 1.6;">MBC 经纬商社打破传统高中社团“要么门槛过高劝退初学者，要么松散低效毫无实质产出”的两极困境，创立科学的分层赋能体系。通过“通识实践研学”与“国际商赛攻坚”双轨并行，兼顾普及性与专业深度。</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">一、Track 01 - MBC Atelier 原石工坊（研学沙盘轨）</h4>
+      <p style="margin-bottom: 12px;"><strong>面向群体</strong>：全校高一零基础社员，以及对商业分析、新消费品牌、现代经管抱有好奇与探索热忱的同学（规模约 10 人）。</p>
+      <p style="margin-bottom: 12px;"><strong>专注方向与要求</strong>：重在商业通识启蒙与底层思维地基建设。不设严苛先验门槛，要求具备持续的好奇心、守信的例会出席率与小组协作精神。</p>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>商业案例真实推演</strong>：运用麦肯锡/哈佛案例分析工具，复盘拆解真实名企战役与成败归因。</li>
+        <li><strong>虚拟商战系统内测</strong>：率先体验全社自主研发的 Matrix 商业模拟沙盘，模拟企业运营与现金流博弈。</li>
+        <li><strong>海丝本土名企实地调研</strong>：立足泉州世遗商贸底蕴，走访本土知名实体与新消费品牌。</li>
+      </ul>
+      <p style="font-size: 13px; color: #666; margin-bottom: 24px;">* 注：MBC Atelier 原石工坊将拥有独立研学大纲与专属页面体系，由副社长蔡诗漫全面统筹督导。</p>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">二、Track 02 - MBC Audace 挑战者（国际商赛攻坚轨）</h4>
+      <p style="margin-bottom: 12px;"><strong>面向群体</strong>：经纬商社出征国际赛事的精锐主力军（规模约 8~10 人，下设 Alpha 与 Beta 战队）。</p>
+      <p style="margin-bottom: 12px;"><strong>专注方向与要求</strong>：特种兵式高烈度攻坚。由社长刘宇轩（Ricardo）直接召集统筹，实行双周敏捷项目冲刺与闭门导师制孵化。要求成员具备极高交付责任心与强抗压能力。</p>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>2027 蓝海创业挑战赛 (Blue Ocean Competition)</strong>：打磨 3~5 分钟全英文路演视频与商业模式闭环。</li>
+        <li><strong>钻石创业挑战赛 (Diamond Challenge)</strong>：高强度路演答辩，面向全球高校教授与天使投资人评审。</li>
+        <li><strong>康拉德创新挑战赛 (Conrad Challenge)</strong>：远期冲击全球顶尖青少年科研与商业创新决赛圈。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">三、畅通的双轨晋升流动与大考缓冲机制</h4>
+      <p style="margin-bottom: 12px;">双轨之间绝非不可逾越的壁垒。Atelier 原石工坊成员在学期研学中展现出严谨的商业敏锐度与可靠交付能力者，可自主申报选拔晋级 Audace 先锋战队；Audace 战队成员完成赛季出征后，亦可作为朋辈导师回流工坊带教新人。</p>
+      <p style="margin-bottom: 20px;">依据《社团宪章》第七条，凡遇期中、期末大考备考阶段，社员均可主动申请 2 至 4 周的“选择性出席缓冲期”。社团充分保障成员自主平衡学业与身心，不强制停摆，亦不剥夺其后续回归团队、参与核心赛事的资格。</p>
+
+      <div style="border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: flex-end;">
+        <button onclick="closeAboutModal('about-modal-1')" class="btn-pill-dark" style="padding: 8px 24px; font-size: 13px;">完成阅读</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal 2: MBC Atelier 原石工坊 -->
+  <dialog id="about-modal-2" class="apple-detail-dialog no-scrollbar">
+    <div class="apple-dialog-header">
+      <div>
+        <span class="apple-card-badge" style="margin-bottom: 2px;">02 / MBC ATELIER / 原石工坊</span>
+        <h3 style="font-size: 19px; font-weight: 800; color: #111111;">MBC Atelier 原石工坊：让每个人加入并参与商业挑战</h3>
+      </div>
+      <button onclick="closeAboutModal('about-modal-2')" style="background: transparent; border: none; font-size: 22px; color: #666; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+    </div>
+    <div class="apple-dialog-body">
+      <div style="background: var(--bg-canvas); border-left: 3px solid var(--brand-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+        <p style="font-weight: 700; color: #111111; margin-bottom: 4px;">命名寓意与创设初心</p>
+        <p style="font-size: 13.5px; color: #4B5563; line-height: 1.6;">Atelier 源自法语“手工艺人工作室”，中文定名为“原石工坊”——寓意每一位未经雕琢的高中生，都是蕴藏无限潜力的原石，只要给予科学的环境与实践熔炉，终将绽放夺目光芒。我们坚信商业并非商学院的象牙塔专利，而是每个年轻人理解现代社会运行的底层思维工具。</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">一、工坊做什么 (What We Do)</h4>
+      <ol style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>商业案例真实逆向拆解</strong>：告别课本枯燥概念，深入剖析泡泡玛特盲盒经济、瑞幸咖啡数字化供应链、大疆创新技术壁垒等商业案例，训练结构化商业拆解能力。</li>
+        <li><strong>自研 Matrix 虚拟商战推演内测</strong>：依托技术总监苏宗浩自研的算法沙盘，在零资金风险的虚拟环境中扮演企业高管，亲历市场需求突变、产能博弈与现金流危机。</li>
+        <li><strong>海丝名企实地商业微调研</strong>：依托泉州国家首批历史文化名城与民营经济沃土，组织社员实地走访本土制造与新消费标杆，撰写一手调研纪要。</li>
+      </ol>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">二、工坊怎么做 (How We Work)</h4>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>月度常规研学例会 + 圆桌研讨</strong>：杜绝单向“讲座式”灌输，实行全员圆桌参与、分组头脑风暴与开放思辨。</li>
+        <li><strong>微型闪电路演 (Micro Pitch Day)</strong>：每期设立趣味商业命题（如“如何让校园文创产品实现盈利”），鼓励社员在 3 分钟内陈述解决方案，锻炼公众表达与临场反应。</li>
+        <li><strong>导师一对一答疑陪伴</strong>：由理事会学术督导蔡诗漫及高年级资深社员担任伴跑导师，提供耐心的学习指引。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">三、工坊培养什么 (What You Gain)</h4>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 12px; margin-bottom: 24px;">
+        <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px 16px;">
+          <strong style="color: var(--brand-blue); display: block; margin-bottom: 4px;">商业直觉与批判逻辑</strong>
+          <span style="font-size: 12.5px; color: #555;">学会透过现象看本质，掌握麦肯锡 MECE、SWOT、波特五力等经典分析范式。</span>
+        </div>
+        <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px 16px;">
+          <strong style="color: var(--brand-blue); display: block; margin-bottom: 4px;">量化财务与数据素养</strong>
+          <span style="font-size: 12.5px; color: #555;">看懂三大财务报表的核心指标，建立成本收益比与现金流安全边际意识。</span>
+        </div>
+        <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px 16px;">
+          <strong style="color: var(--brand-blue); display: block; margin-bottom: 4px;">金字塔原理与公众演讲</strong>
+          <span style="font-size: 12.5px; color: #555;">掌握结论先行、条理清晰的汇报说服技巧，在任何公众场合自信陈述个人观点。</span>
+        </div>
+        <div style="background: #FAFAFA; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px 16px;">
+          <strong style="color: var(--brand-blue); display: block; margin-bottom: 4px;">真实世界的创新自信</strong>
+          <span style="font-size: 12.5px; color: #555;">敢于把天马行空的想法落地为一份严谨可行的商业企划方案，摆脱应试被动思维。</span>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: flex-end;">
+        <button onclick="closeAboutModal('about-modal-2')" class="btn-pill-dark" style="padding: 8px 24px; font-size: 13px;">完成阅读</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal 3: MBC 理事会 - 每个人都有机会的平台 -->
+  <dialog id="about-modal-3" class="apple-detail-dialog no-scrollbar">
+    <div class="apple-dialog-header">
+      <div>
+        <span class="apple-card-badge" style="margin-bottom: 2px;">03 / THE COUNCIL / 机会平台</span>
+        <h3 style="font-size: 19px; font-weight: 800; color: #111111;">The Council 理事会：每个人都有机会的平台</h3>
+      </div>
+      <button onclick="closeAboutModal('about-modal-3')" style="background: transparent; border: none; font-size: 22px; color: #666; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+    </div>
+    <div class="apple-dialog-body">
+      <div style="background: var(--bg-canvas); border-left: 3px solid var(--brand-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+        <p style="font-weight: 700; color: #111111; margin-bottom: 4px;">治理信条：以服务代替特权，以责任界定岗位</p>
+        <p style="font-size: 13.5px; color: #4B5563; line-height: 1.6;">在 MBC 经纬商社，“理事会（The Council）”绝非少数人的荣誉光环，而是全社最大的服务与赋能中心。每一位理事会成员都肩负着为社员搭建舞台、对外交涉资源、守护社团规范的沉甸甸责任。</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">一、常务内阁核心职位分工（宪章第九条）</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+        <div style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 8px;">
+          <strong style="color: #111;">社长 (President / CEO) 1名</strong>：统筹社团总体战略定位、中长期规划与学期大纲，主持社团重大会议；负责对接校团委与指导老师，统领预算与资产调配，对核心竞赛方案享有终审权。
+        </div>
+        <div style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 8px;">
+          <strong style="color: #111;">副社长 (Vice President) 1名</strong>：社长第一协同副手，协助主持日常运转；主管商业研讨课题设计与中期答辩，主导社员学期履职考核与换届提名，监督执行反资历打压制度。
+        </div>
+        <div style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 8px;">
+          <strong style="color: #111;">运营总监 (COO) 1名</strong>：统筹月度例会与专项活动排期，严格把控会务纪律与考勤台账；登记日常经费流水并每学期末全员公示账目，统管社团文印物资与档案。
+        </div>
+        <div style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 8px;">
+          <strong style="color: #111;">技术总监 (CTO) 1名</strong>：主管数字系统与技术开发，对全社技术项目具有可行性终审权；负责自有 Matrix 虚拟商战系统的算法迭代，掌管代码仓库与数字安全。
+        </div>
+        <div style="padding: 12px 16px; border: 1px solid #E5E7EB; border-radius: 8px;">
+          <strong style="color: #111;">项目主管 (Project Lead) 若干名</strong>：根据阶段性商赛或专项调研临时指定，专职带领小组拆解任务、跟进交付，直接对所辖项目结果负责。
+        </div>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">二、公开平等的竞选与试岗考察制度（宪章第十六条）</h4>
+      <ol style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>平等的被选举权</strong>：凡正式社员，无论年级高低，均享有平等参与换届竞选的权利。</li>
+        <li><strong>春季期中公开竞选</strong>：每年春季学期期中启动换届选举，报名者面向全体社员公开陈述施政构想与履职承诺，经民主评议产生拟任干部候选人名单。</li>
+        <li><strong>半学期带教试岗期</strong>：从初选到期末，候选人进入为期半学期的“理事会试岗期”，在现任干部带领下亲自统筹实际例会、申报场地或带队攻坚，真实检验组织协调、责任心与抗压能力。</li>
+        <li><strong>期末审定与全面交接</strong>：期末由现任理事会联合指导老师，综合试岗实际交付表现正式任命，报校团委备案；暑假前完成数字权限、财务流水与核心资产的全面移交。</li>
+        <li><strong>动态任免与弹劾</strong>：秋季学期第 12 周设立动态任免大会；任何干部若专横独断、怠政失职或滥用职权，三分之一以上社员联名可发起不信任弹劾，投票过三分之二即无条件免除职务。</li>
+      </ol>
+
+      <div style="border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: flex-end;">
+        <button onclick="closeAboutModal('about-modal-3')" class="btn-pill-dark" style="padding: 8px 24px; font-size: 13px;">完成阅读</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal 4: 新技术的应用 -->
+  <dialog id="about-modal-4" class="apple-detail-dialog no-scrollbar">
+    <div class="apple-dialog-header">
+      <div>
+        <span class="apple-card-badge" style="margin-bottom: 2px;">04 / TECHNOLOGY & AI / 新技术赋能</span>
+        <h3 style="font-size: 19px; font-weight: 800; color: #111111;">新技术的应用：AI与计算机赋能社团管理运营</h3>
+      </div>
+      <button onclick="closeAboutModal('about-modal-4')" style="background: transparent; border: none; font-size: 22px; color: #666; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+    </div>
+    <div class="apple-dialog-body">
+      <div style="background: var(--bg-canvas); border-left: 3px solid var(--brand-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+        <p style="font-weight: 700; color: #111111; margin-bottom: 4px;">极客精神注入商业实践</p>
+        <p style="font-size: 13.5px; color: #4B5563; line-height: 1.6;">MBC 经纬商社不仅是一个商业社团，更是一个技术驱动的青年创新实验室。我们深知，当今世界的顶级商业决策无不依赖数据模型、算法模拟与数字系统支撑。MBC 自主研发内部协同工作台与商战模拟系统，用前沿计算机技术重构学生组织运行形态。</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">一、MBC Member Portal (社团数字化管理运营平台)</h4>
+      <p style="margin-bottom: 12px;">面向全体社员提供一站式、规范化的数字服务中枢，包括：</p>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>数字考勤与档案管理</strong>：告别手工签到，实行规范的数字报备与自动考勤台账，严格保障会务纪律透明公正。</li>
+        <li><strong>任务看板与交付追踪</strong>：借鉴互联网大厂敏捷开发看板，清晰划分各小组的任务认领、排期与交付节点，大幅降低沟通内耗。</li>
+        <li><strong>数字知识资产传承库</strong>：集中归档历年经典商业案例库、商赛获奖研报、路演 PPT 模板及会议纪要，实现社团学术智慧代际传承、永久留存。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">二、Matrix 商业模拟沙盘推演平台 (自研商战系统)</h4>
+      <p style="margin-bottom: 12px;">由技术总监苏宗浩亲自领衔底层架构设计的轻量级高拟真商业推演引擎：</p>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>24 类核心动态经济指标</strong>：系统涵盖价格供需弹性、广告转化边际收益、产能爬坡折旧、沉没成本与自由现金流等参数，深度还原真实市场竞争。</li>
+        <li><strong>AI 智能竞品代理机制</strong>：引入多智能体博弈算法，模拟不同经营风格的竞争对手对价格战、新品上市的市场反应，打造高烈度实战对抗靶场。</li>
+        <li><strong>低成本试错靶场</strong>：让错误的商业决策发生在推演算法里，把成熟稳健的战略闭环留在国际赛事的真实讲台上。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">三、AI 生产力赋能日常研学</h4>
+      <p style="margin-bottom: 20px;">社团积极拥抱大语言模型与人工智能工具，引导成员在学术合规红线的前提下，运用 AI 辅助开展文献检索、多源市场数据清洗以及全英文商业路演讲稿的语法与论证逻辑严密性自检，实现个人生产力质的飞跃。</p>
+
+      <div style="border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: flex-end;">
+        <button onclick="closeAboutModal('about-modal-4')" class="btn-pill-dark" style="padding: 8px 24px; font-size: 13px;">完成阅读</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal 5: 透明权责与平等创新 -->
+  <dialog id="about-modal-5" class="apple-detail-dialog no-scrollbar">
+    <div class="apple-dialog-header">
+      <div>
+        <span class="apple-card-badge" style="margin-bottom: 2px;">05 / GOVERNANCE & VALUES / 平等创新</span>
+        <h3 style="font-size: 19px; font-weight: 800; color: #111111;">MBC 理事会：透明的权责与平等的创新制度</h3>
+      </div>
+      <button onclick="closeAboutModal('about-modal-5')" style="background: transparent; border: none; font-size: 22px; color: #666; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+    </div>
+    <div class="apple-dialog-body">
+      <div style="background: var(--bg-canvas); border-left: 3px solid var(--brand-blue); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 24px;">
+        <p style="font-weight: 700; color: #111111; margin-bottom: 4px;">社团文化红线：拒绝官僚，守护心理安全感</p>
+        <p style="font-size: 13.5px; color: #4B5563; line-height: 1.6;">许多学生组织因缺乏科学规约，极易滑向“老生排挤新人、论资排辈、职场化PUA”的庸俗泥潭。MBC 经纬商社在立社之初，就将《社团宪章》确立为至高准绳，用白纸黑字的刚性制度保障每一位社员的心理安全感与创新自由。</p>
+      </div>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">一、坚决贯彻反资历打压制度（宪章第十二条）</h4>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>学术思辨平等底线</strong>：社内日常探讨一律贯彻“对事不对人、尊重多元思考”。老成员不得倚仗先发经验施压或贬低新人观点。</li>
+        <li><strong>零容忍职场化霸凌</strong>：严厉禁止任何形式的职场化PUA、言语挖苦、私下排挤或派系斗争。</li>
+        <li><strong>独立保密申诉通道</strong>：社员若遭遇任何不公对待或打压，可直接向副社长蔡诗漫发起保密申诉；经理事会独立调查核实，对违规者依规处以警告、撤职或除名处理，并报校团委备案。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">二、T 字平权横梁内阁架构</h4>
+      <p style="margin-bottom: 12px;">理事会管理架构采用 T 字平权横梁设计：</p>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>三权平行制衡</strong>：社长统筹宏观大局，副社长（学术品控）、运营总监（会务与财务）、技术总监（代码与系统）三权并立，各司其职，互为制衡，避免个人专断。</li>
+        <li><strong>项目主管扁平授权</strong>：商赛突击队长与课题组长拥有高度独立的战术自主权，直接对接交付，拒绝层层汇报审批。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">三、纯公益非营利与阳光透明财务（宪章第十三、十四条）</h4>
+      <ul style="margin-left: 20px; margin-bottom: 16px; line-height: 1.8;">
+        <li><strong>零摊派铁律</strong>：严禁向社员收取任何入会费，严禁强行分摊开销，严禁以社团名义进行任何违规商业牟利。</li>
+        <li><strong>日常支出合规保障</strong>：基础物料由学校团委下拨专项经费或理事会自愿承担，大型赛事向学校专项基金申报。</li>
+        <li><strong>学期全员财务公示</strong>：每学期末，运营总监与副社长对全社公开财务收支台账，接受全体社员与指导老师的阳光监督。</li>
+      </ul>
+
+      <h4 style="font-size: 16px; font-weight: 800; color: #111111; margin: 24px 0 12px 0;">四、知识产权与原创成果绝对保护</h4>
+      <p style="margin-bottom: 20px;">社内所有商业计划书、创意构想、数据分析模型与代码资产均属原创作者及社团共有，严禁抄袭剽窃，更严禁任何干部侵占社员个人成果。每一次充满勇气的创新提案，都将获得完整的署名权与充分的孵化试错空间。</p>
+
+      <div style="border-top: 1px solid #E5E7EB; padding-top: 20px; display: flex; justify-content: flex-end;">
+        <button onclick="closeAboutModal('about-modal-5')" class="btn-pill-dark" style="padding: 8px 24px; font-size: 13px;">完成阅读</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================
+       宪章弹窗：MBC 经纬商社社团宪章 (官方完整正式版)
+       ========================================================== -->
+  <dialog id="charter-modal" class="no-scrollbar" style="max-width: 960px; width: 94vw; max-height: 88vh; border-radius: 12px; padding: 0; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);">
+    
+    <!-- Modal Sticky Top Bar -->
+    <div style="position: sticky; top: 0; background: #FFFFFF; z-index: 20; border-bottom: 1px solid #EAEAEA; padding: 20px 32px 16px 32px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+        <h3 style="font-size: 20px; font-weight: 700; color: #111111; margin: 0; letter-spacing: -0.01em;">
+          MBC经纬商社社团宪章
+        </h3>
+        <button onclick="closeCharterModal()" aria-label="关闭宪章" style="background: transparent; border: none; color: #666; font-size: 20px; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s;" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">✕</button>
+      </div>
+
+      <!-- Quick Search & Chapter Anchors -->
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
+        <div style="position: relative; flex: 1; min-width: 220px;">
+          <input type="text" id="charterSearchInput" oninput="filterCharterArticles(this.value)" placeholder="检索宪章..." style="width: 100%; padding: 8px 14px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px; outline: none; background: #FAFAFA;">
+        </div>
+        <div style="display: flex; gap: 6px; overflow-x: auto; max-width: 100%;" class="no-scrollbar">
+          <button type="button" onclick="scrollToCharterChapter('charter-ch1')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第一章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch2')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第二章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch3')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第三章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch4')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第四章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch5')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第五章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch6')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第六章</button>
+          <button type="button" onclick="scrollToCharterChapter('charter-ch7')" style="font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid #E5E7EB; background: #FFF; color: #374151; cursor: pointer; white-space: nowrap;">第七章</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Scrollable Content: 7 Chapters, 20 Articles -->
+    <div id="charterContentBody" style="padding: 28px 32px 36px 32px; max-height: calc(88vh - 140px); overflow-y: auto; font-size: 14px; color: #374151; line-height: 1.85;">
+      
+      <!-- ================= 第一章 总则 ================= -->
+      <section id="charter-ch1" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第一章 总则</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第一条 社团名称</h5>
+          <p style="margin: 0;">本社团中文全称“经纬商社”，英文全称“Meridian Business Collective”，简称“MBC”。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第二条 社团性质</h5>
+          <p style="margin: 0;">本社团是由泉州五中海丝校区学生自发创立的学术实践与商业创新类先锋社团，接受本校团委及社团联合会的监督与领导。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第三条 创社宗旨</h5>
+          <p style="margin: 0;">打破死记硬背与象牙塔壁垒，为学生搭建商业探索与产品创新的实践平台；通过案例拆解、商业模式推演与国际商赛，将书本知识转化为解决真实问题的核心能力，培养创造力和创新意识。</p>
+        </div>
+      </section>
+
+      <!-- ================= 第二章 成员管理 ================= -->
+      <section id="charter-ch2" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第二章 成员管理</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第四条 入社条件</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
+            <li>具有泉州五中海丝校区在读学籍，遵守校规校纪及中学生日常行为规范。</li>
+            <li>认同本社的创设宗旨，自愿遵守本宪章及各项规章制度。</li>
+            <li>对商业、金融、科技或相关实践具有真实兴趣与自驱力。</li>
+            <li>认真参与社团纳新评估，通过社团面试与考核选拔。</li>
+          </ol>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第五条 成员权利</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
+            <li>活动参与权：社团成员平等享有参与社团月度例会、商业案例研学、自有商战系统模拟及各项实践活动的权利。</li>
+            <li>资源使用权：享有查阅与使用社团内部资源档案库、商业模板、学习工具、人脉网络的权利。</li>
+            <li>民主治理权：享有对社团发展规划的建议权、监督权以及换届选举中的选举权与被选举权。</li>
+            <li>竞聘晋升权：日常表现优异、交付能力可靠的学生，享有加入专门团队、代表社团与学校参与商赛竞争的权利。</li>
+            <li>退社自由权：成员因个人规划或学业调整，有权利按照本宪章规定程序自由退出。</li>
+          </ol>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第六条 成员义务</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
+            <li>严守校纪公德：自觉维护社团和学校的声誉和形象，严禁任何违背校规校纪的行为。</li>
+            <li>遵守考勤纪律：按时出席社团月度例会及日常活动，严禁无故缺席、无故早退或旷会。因故无法参加者需要提前联系并请假。</li>
+            <li>坚守交付信约：保质保量、按时按点完成所认领的社团任务与项目分工。如遇突发学业或不可抗力确实无法按期交付，必须提前主动在组内报备并配合交接。</li>
+            <li>团队协作义务：尊重同伴的专业与劳动成果，坚持建设性沟通，杜绝任何贬低与非建设性批评。</li>
+            <li>成果保密义务：妥善保管社团内部商业计划书、自研商战系统源代码、未公开调研数据等核心资料，严禁私自外泄或作商业牟利。</li>
+          </ol>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第七条 退社、除名与缓冲机制</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
+            <li>成员因故申请退社，需要及时向理事会发送申请与简要说明，并配合工作交接。</li>
+            <li>一学年内无故缺勤累积达 3 次者，或在项目协作中多次恶意违约、拒不交付且严重破坏团队纪律者，经理事会核实讨论后予以除名。</li>
+            <li>凡遇期中、期末大考备考阶段，或成员个人学业面临阶段性困难时，可向理事会申请 2 至 4 周的“选择性出席缓冲期”。社团充分保障成员自主调整学业的权利，不强制停摆，亦不剥夺其后续回归团队、参与核心项目的资格。</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================= 第三章 组织机构与职能 ================= -->
+      <section id="charter-ch3" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第三章 组织机构与职能</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第八条 最高决策机构</h5>
+          <p style="margin: 0;">本社团日常最高决策与常务治理机构为“MBC理事会”，实行民主集中制。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第九条 核心岗位职责分工</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+            <li>社长（President）1名：全面统筹社团总体战略定位、中长期发展规划与学期工作大纲制定，主持社团重大会议，对社团所有重大决议及对外事务享有最终审核权。作为社团法定代表人，全面负责对接校团委、社团联合会及指导老师，统筹外部及跨校学术资源合作。统领社团财务预算与核心资产调配，行使常务理事会干部的最终任免与调整权，并对各级竞赛方案享有终审拍板权。</li>
+            <li>副社长（Vice President）1名：作为社长第一协同副手，协助社长主持日常行政运转，在社长缺席或受托期间依规全面代行社长职权。与社长共同商定学期核心规划，负责月度商业研讨课题设计；牵头主持社内小组课题的立项答辩与中期评审，把关最终交付质量；主导成员学期履职考核，享有评优表彰与下一届核心干部的换届提名建议权。</li>
+            <li>运营总监（Chief Operating Officer）1名：统筹社团月度例会、学术研讨与专项活动排期规划，负责活动场地的报批申请及现场会务统筹。严格执行考勤纪律，负责落实例会请假报备、非必要缺勤核定与考勤台账管理，维护社团严肃规范的纪律秩序。负责社团日常经费流水登记，及时向全体成员公示收支账目，并统管社团文印物料、宣发物资采购调配及各类宪章档案的整理归档。</li>
+            <li>技术总监（Chief Technology Officer）1名：主管数字系统与技术开发，对社团所有技术类项目具有技术可行性终审权。负责全社自有“虚拟商战模拟系统”的算法编写、底层架构与代码迭代；掌管社团代码仓库、在线知识库与数字系统的最高管理权限；负责对社内小组的技术方案与软硬件原型进行合规审计与真实性评审，防范技术造假与合规风险。</li>
+            <li>项目主管（Project Lead）若干名：由理事会根据阶段性商业竞赛或研讨课题需要临时指定，不属于理事会成员，不享有社团宏观行政决策权。项目主管专职负责所辖小组的日常任务拆解、成员分工协调与交付进度追踪，定期向理事会提报交付成果。</li>
+          </ol>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十条 指导老师职责</h5>
+          <p style="margin: 0;">负责对社团所有对外公开发表的内容、国际赛事申报材料进行前置审核；指导社团规范开展学术活动，协助向学校申请正规资源。</p>
+        </div>
+      </section>
+
+      <!-- ================= 第四章 日常运行与活动规范 ================= -->
+      <section id="charter-ch4" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第四章 日常运行与活动规范</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十一条 日常活动安排</h5>
+          <p style="margin: 0;">本社团构建“案例研学、沙盘实战、实地走访与赛事攻坚”四位一体的多元活动生态。社团日常依托三大主线开展专业研学：一是商业案例深度逆向推演，聚焦企业成败训练批判性归因与商业逻辑；二是自有虚拟商战沙盘实操，依托自研系统模拟市场供需与现金流博弈；三是高水平创新赛事攻坚，打磨具备真实市场价值的商业计划书与软硬件原型。在此基础上，社团常态化拓展多元活动形态，包括不定期组织泉州本土标杆企业参访与海丝商业微调研，并定期举办社内“闪电路演（Pitch Day）”与产品原型工作坊，全面激发成员的跨学科实战创造力。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十二条 社团纪律与行为规范</h5>
+          <p style="margin: 0 0 6px 0;">全体社员须自觉维护社团声誉与纯正风气，严格遵守以下纪律规范与行为底线：</p>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
+            <li>严格执行常规例会与集体活动考勤。社员因重大校内考试、特长训练或客观不可抗力事由缺席，须提前向运营总监办理请假报备；一学年内无故旷会累计达三次者，视为自愿放弃社员资格并作退社处理。</li>
+            <li>社内一律倡导学术平等与包容协作，坚决杜绝任何形式的资历打压、职场化PUA或言语贬低；日常研讨坚决贯彻“对事不对人、尊重多元思考”的学术思辨底线，严禁老成员施压或孤立新人，切实维护每位社员的心理安全感与表达自由。</li>
+            <li>严守学术道德底线与科研合规红线。社内所有参赛方案、商业策划书、学术研讨课题与数据算法模型必须坚持原创与真实，坚决杜绝抄袭剽窃、数据虚构或雇佣外部机构代写；一经查实，立即撤销其参赛资格与社内荣誉。</li>
+            <li>凡严重违反校规校纪、学术严重不端或恶意破坏团队声誉者，由常务理事会发起独立调查并评议核实，依情节轻重给予警告或除名，并正式报请校团委及指导老师备案。</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ================= 第五章 财务与资产管理 ================= -->
+      <section id="charter-ch5" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第五章 财务与资产管理</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十三条 非营利与零摊派原则</h5>
+          <p style="margin: 0;">本社团为纯公益、非营利性青年商业学术实践组织。社团严禁以任何名义向普通社员收取会员费、强行分摊日常开销或进行任何形式的违规商业集资，坚决杜绝一切商业化摊派行为。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十四条 经费来源与使用</h5>
+          <p style="margin: 0;">社团日常基础运转（如打印文印、日常零星物料）由学校下拨的常规学期经费支持，或由管理团队自愿承担；凡涉及重大赛事立项、软硬件研发等较大开支，严格依规向学校团委申报专项社团扶持基金，绝不违规自立收费名目。社团所有财务明细由运营总监和副社长登记核实，每学期末在社内全员公开透明公示，接受全体成员与指导老师的监督审计。</p>
+        </div>
+      </section>
+
+      <!-- ================= 第六章 换届选举与资产传承 ================= -->
+      <section id="charter-ch6" class="charter-chapter-block" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #F0F0F0;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第六章 换届选举与资产传承</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十五条 任期与换届时间</h5>
+          <p style="margin: 0;">社团理事会成员每届任期为一学年。换届大会于每年春季学期期中前开始。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十六条 竞选资格与程序</h5>
+          <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
+            <li>凡正式社员均享有平等的竞选权利，包括选举权与被选举权。参选社长职位的成员，需至少在上一任期中担任任意理事会或项目主管职位。</li>
+            <li>期中选举：每学年春季学期期中，由现任常务理事会主持启动换届选举，具备优秀履职记录的社员均可报名参选并作竞选陈述，经民主评议与现任理事会审议后产生“拟任干部候选名单”。</li>
+            <li>半学期试岗考察：自期中初选结束后至学期末，拟任干部进入为期约半学期的“理事会试岗期”。候选人需在现任干部的督导下协同负责日常例会组织、场地申报、活动统筹或项目跟进，真实检验其组织协调与抗压能力。</li>
+            <li>期末最终确认与交接：春季学期期末，现任常务理事会联合指导老师，综合候选人在试岗期间的实操交付表现进行最终审定；正式任命的新一届理事会报校团委备案，并在暑假前完成数字系统权限、财务账目及历史档案等的全面移交。</li>
+            <li>动态任免机制：每年秋季学期的第12周前后，进行任免大会。干部因个人学业或客观事由无法继续投入时，可主动申请卸任并保留社员身份；若某位干部因专横独断、资历打压、怠政失职等导致不信任票超过实到人数的三分之二，无条件免去其职务；日常运行中，若干部严重滥用职权或霸凌成员，经三分之一以上社员联名亦可随时发起不信任弹劾表决。</li>
+          </ol>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十七条 无形资产交接</h5>
+          <p style="margin: 0;">换届时，所有案例分析库文件、商业路演模板、自研商战系统源代码、社团公用邮箱与对外官方账号，必须完整、无条件进行交接归档，确保MBC的精神与资产薪火相传。</p>
+        </div>
+      </section>
+
+      <!-- ================= 第七章 附则 ================= -->
+      <section id="charter-ch7" class="charter-chapter-block" style="margin-bottom: 16px;">
+        <h4 style="font-size: 17px; font-weight: 700; color: #111111; margin: 0 0 16px 0;">第七章 附则</h4>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十八条 宪章修改</h5>
+          <p style="margin: 0;">本宪章的修改需由社长、副社长或五分之一以上社团成员联名提议，经全社一半以上成员表决同意，并报校团委备案批准后生效。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第十九条 解释权</h5>
+          <p style="margin: 0;">本宪章最终解释权归泉州五中MBC经纬商社及理事会所有。</p>
+        </div>
+
+        <div class="charter-article" style="margin-bottom: 16px;">
+          <h5 style="font-size: 14.5px; font-weight: 600; color: #111111; margin: 0 0 4px 0;">第二十条 生效施行</h5>
+          <p style="margin: 0;">本宪章自校团委正式批复、MBC成立大会通过之日起施行。</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div style="background: #FFF; border-top: 1px solid #EAEAEA; padding: 14px 32px; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+      <button type="button" onclick="closeCharterModal()" style="padding: 7px 20px; font-size: 13px; border-radius: 6px; border: 1px solid #D1D5DB; background: #FFF; color: #374151; cursor: pointer;">关闭</button>
+    </div>
+  </dialog>
+
+  <!-- 登录弹窗 -->
+  <dialog id="login-modal">
+    <div style="padding: 36px 32px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="assets/mbc_logo.png" alt="MBC Logo" style="width: 36px; height: 36px; object-fit: contain; border-radius: 50%;">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 800; color: #111111;">MBC 成员登录</h3>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--brand-blue);">Member Portal</span>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">社员编号 (Member ID)</label>
+          <input type="text" placeholder="如：mbc_2026_01" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">密码 (Password)</label>
+          <input type="password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 12px; margin-top: 6px;">登 录 工 作 台 ➔</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        const now = new Date();
+        clockEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const charterModal = document.getElementById('charter-modal');
+    const loginModal = document.getElementById('login-modal');
+    function openCharterModal() { if (charterModal) charterModal.showModal(); }
+    function closeCharterModal() { if (charterModal) charterModal.close(); }
+    function openLoginModal() { if (loginModal) loginModal.showModal(); }
+    function closeLoginModal() { if (loginModal) loginModal.close(); }
+    function handleLoginSubmit(e) { e.preventDefault(); alert('社员工作台已连接！正式账号系统将与内网沙盘同步上线。'); closeLoginModal(); }
+
+    // Apple 风格 5 大核心卡片弹窗控制
+    function openAboutModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.showModal();
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeAboutModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.close();
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Apple 风格平铺卡片左右滑动控制
+    function slideAppleCards(direction) {
+      const track = document.getElementById('appleCardsTrack');
+      if (track) {
+        track.scrollBy({ left: 364 * direction, behavior: 'smooth' });
+      }
+    }
+
+    // 点击弹窗遮罩外部自动关闭
+    document.querySelectorAll('.apple-detail-dialog').forEach(dlg => {
+      dlg.addEventListener('click', (e) => {
+        const r = dlg.getBoundingClientRect();
+        if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) {
+          dlg.close();
+          document.body.style.overflow = '';
+        }
+      });
+      dlg.addEventListener('close', () => {
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ==========================================================
+    // Dynamic Island Nav Scroll Interaction & Manual Toggle
+    // 页面向下滚动或手动点击：第二行丝滑折叠收起，变回单行紧凑胶囊
+    // 页面向上滚动（或回到顶部）：第二行平滑展开
+    // ==========================================================
+    let isManualCollapsed = false;
+
+    // 手动点击第二行右侧微型小箭头收起子导航
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        // 向下滚动（页面往上划动）：坚决保持或触发收起
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        }
+        // 向上滚动（页面往下划动，回看内容或想要导航）：平滑展开
+        else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false;
+        }
+        // 到达页面最顶部（<= 10px）且未手动点击收起时，保持展开
+        else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      function onNavScroll() {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onNavScroll, { passive: true });
+    }
+
+    // 宪章章节内滚动
+    function scrollToCharterChapter(chapterId) {
+      const el = document.getElementById(chapterId);
+      const container = document.getElementById('charterContentBody');
+      if (el && container) {
+        const topPos = el.offsetTop - container.offsetTop;
+        container.scrollTo({ top: topPos - 10, behavior: 'smooth' });
+      }
+    }
+
+    // 宪章全文关键词即时检索
+    function filterCharterArticles(val) {
+      const q = (val || '').trim().toLowerCase();
+      const chapters = document.querySelectorAll('.charter-chapter-block');
+      if (!q) {
+        document.querySelectorAll('.charter-article').forEach(a => a.style.display = '');
+        chapters.forEach(c => c.style.display = '');
+        return;
+      }
+      chapters.forEach(ch => {
+        let hasMatch = false;
+        const arts = ch.querySelectorAll('.charter-article');
+        arts.forEach(art => {
+          const match = art.textContent.toLowerCase().includes(q);
+          art.style.display = match ? '' : 'none';
+          if (match) hasMatch = true;
+        });
+        ch.style.display = hasMatch ? '' : 'none';
+      });
+    }
+
+    // 监听 URL Hash 自动展开宪章弹窗 (例如 about.html#charter)
+    if (window.location.hash === '#charter') {
+      setTimeout(openCharterModal, 250);
+    }
+
+    [charterModal, loginModal].forEach(dlg => {
+      if (dlg) {
+        dlg.addEventListener('click', (e) => {
+          const r = dlg.getBoundingClientRect();
+          if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) dlg.close();
+        });
+      }
+    });
+
+    // 移动端折叠菜单交互
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+    document.addEventListener('click', (e) => {
+      if (mobileDropdownMenu && mobileDropdownMenu.classList.contains('active')) {
+        if (!mobileDropdownMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenuBtn.classList.remove('open');
+          mobileDropdownMenu.classList.remove('active');
+        }
+      }
+    });
+
+    // ==========================================================
+    // Remarkable Mission Parallax & Ambient Glass Refraction
+    // ==========================================================
+    function initRemarkableParallax() {
+      const section = document.getElementById('remarkableSection');
+      const bg = document.getElementById('remarkableBg');
+      if (!section || !bg) return;
+
+      let parallaxTicking = false;
+
+      function updateParallax() {
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (rect.bottom > 0 && rect.top < windowHeight) {
+          const centerY = rect.top + rect.height / 2;
+          const delta = centerY - windowHeight / 2;
+          const parallaxOffset = delta * 0.12;
+          bg.style.transform = `translate3d(0, ${parallaxOffset.toFixed(2)}px, 0)`;
+        }
+        parallaxTicking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!parallaxTicking) {
+          window.requestAnimationFrame(updateParallax);
+          parallaxTicking = true;
+        }
+      }, { passive: true });
+
+      updateParallax();
+    }
+
+    // ==========================================================
+    // Fullscreen Cinematic Scrollytelling with Gaussian Blur Transitions
+    // ==========================================================
+    function initCinemaScrollytelling() {
+      const track = document.getElementById('cinemaStoryTrack');
+      if (!track) return;
+
+      const slide1 = document.getElementById('cinemaSlide1');
+      const slide2 = document.getElementById('cinemaSlide2');
+      const slide3 = document.getElementById('cinemaSlide3');
+      if (!slide1 || !slide2 || !slide3) return;
+
+      const bg1 = slide1.querySelector('.cinema-slide-bg');
+      const text1 = slide1.querySelector('.cinema-slide-text');
+      const bg2 = slide2.querySelector('.cinema-slide-bg');
+      const text2 = slide2.querySelector('.cinema-slide-text');
+      const bg3 = slide3.querySelector('.cinema-slide-bg');
+      const text3 = slide3.querySelector('.cinema-slide-layout-split') || slide3.querySelector('.cinema-slide-text');
+
+      let ticking = false;
+
+      function clamp(val, min, max) {
+        return Math.max(min, Math.min(max, val));
+      }
+
+      function norm(val, min, max) {
+        return clamp((val - min) / (max - min), 0, 1);
+      }
+
+      function updateScrollytelling() {
+        const rect = track.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const totalScrollable = rect.height - windowHeight;
+
+        if (totalScrollable <= 0) return;
+
+        // progress: 0 when sticky starts, 1 when sticky finishes
+        const progress = clamp(-rect.top / totalScrollable, 0, 1);
+
+        // --- Slide Stacking Cross-Fade (叠底交叉渐变，杜绝黑屏缝隙) ---
+        if (progress < 0.20) {
+          slide1.style.opacity = '1';
+          bg1.style.filter = 'blur(0px)';
+          bg1.style.transform = 'translate3d(0, 0, 0) scale(1.03)';
+          text1.style.opacity = '1';
+          text1.style.transform = 'translate3d(0, 0, 0)';
+
+          slide2.style.opacity = '0';
+          slide3.style.opacity = '0';
+        } else if (progress < 0.40) {
+          const t = norm(progress, 0.20, 0.40);
+          // Slide 1 在底图保持 opacity: 1 逐渐模糊，Slide 2 在上层渐入，两者叠合，永不露黑底
+          slide1.style.opacity = '1';
+          bg1.style.filter = `blur(${(t * 22).toFixed(1)}px)`;
+          bg1.style.transform = `translate3d(0, 0, 0) scale(${(1.03 + t * 0.04).toFixed(3)})`;
+          text1.style.opacity = (1 - t * 1.5).toFixed(3);
+          text1.style.transform = `translate3d(0, ${(-t * 30).toFixed(1)}px, 0)`;
+
+          slide2.style.opacity = (t).toFixed(3);
+          bg2.style.filter = `blur(${((1 - t) * 12).toFixed(1)}px)`;
+          bg2.style.transform = `translate3d(0, 0, 0) scale(${(1.06 - t * 0.03).toFixed(3)})`;
+          text2.style.opacity = (t).toFixed(3);
+          text2.style.transform = `translate3d(0, ${((1 - t) * 24).toFixed(1)}px, 0)`;
+
+          slide3.style.opacity = '0';
+        } else if (progress < 0.60) {
+          slide1.style.opacity = '0';
+
+          slide2.style.opacity = '1';
+          bg2.style.filter = 'blur(0px)';
+          bg2.style.transform = 'translate3d(0, 0, 0) scale(1.03)';
+          text2.style.opacity = '1';
+          text2.style.transform = 'translate3d(0, 0, 0)';
+
+          slide3.style.opacity = '0';
+        } else if (progress < 0.80) {
+          const t = norm(progress, 0.60, 0.80);
+          slide1.style.opacity = '0';
+
+          // Slide 2 在底图保持 opacity: 1 逐渐模糊，Slide 3 在上层渐入，无缝平滑叠底
+          slide2.style.opacity = '1';
+          bg2.style.filter = `blur(${(t * 22).toFixed(1)}px)`;
+          bg2.style.transform = `translate3d(0, 0, 0) scale(${(1.03 + t * 0.04).toFixed(3)})`;
+          text2.style.opacity = (1 - t * 1.5).toFixed(3);
+          text2.style.transform = `translate3d(0, ${(-t * 30).toFixed(1)}px, 0)`;
+
+          slide3.style.opacity = (t).toFixed(3);
+          bg3.style.filter = `blur(${((1 - t) * 12).toFixed(1)}px)`;
+          bg3.style.transform = `translate3d(0, 0, 0) scale(${(1.06 - t * 0.03).toFixed(3)})`;
+          text3.style.opacity = (t).toFixed(3);
+          text3.style.transform = `translate3d(0, ${((1 - t) * 24).toFixed(1)}px, 0)`;
+        } else {
+          slide1.style.opacity = '0';
+          slide2.style.opacity = '0';
+
+          slide3.style.opacity = '1';
+          bg3.style.filter = 'blur(0px)';
+          bg3.style.transform = 'translate3d(0, 0, 0) scale(1.03)';
+          text3.style.opacity = '1';
+          text3.style.transform = 'translate3d(0, 0, 0)';
+        }
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateScrollytelling);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateScrollytelling();
+    }
+
+    window.addEventListener('load', () => {
+      initDynamicIslandScroll();
+      initRemarkableParallax();
+      initCinemaScrollytelling();
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EFF6FF;
+      --accent-coral: #D75E15;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; }
+
+    .site-container { max-width: 1180px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .font-serif-accent { font-family: var(--font-serif); font-weight: 400; }
+
+    @keyframes koraFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.05s; opacity: 0; }
+    .anim-2 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.18s; opacity: 0; }
+
+    /* Button Styles */
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 26px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island {
+      pointer-events: auto;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 9999px;
+      padding: 8px 16px 8px 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+      transition: all 0.3s var(--ease-framer);
+    }
+
+    .nav-island-row-main {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+    }
+
+    .nav-island-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+
+    .nav-island-links a:hover {
+      color: var(--brand-blue);
+    }
+
+    .nav-island-links a.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      border-bottom: 2px solid var(--brand-blue);
+    }
+
+    /* 第二行子导航：社团简介 / What's New / 理事会档案 */
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 40px;
+      opacity: 1;
+      margin-top: 6px;
+      padding-top: 8px;
+      padding-left: 36px;
+      padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+
+    .sub-item-link:hover {
+      color: #111111;
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .sub-item-link.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      background: var(--brand-blue-light);
+    }
+
+    /* 收起状态：平滑折叠第二行 */
+    .nav-island.about-island.collapsed {
+      max-width: 960px;
+      border-radius: 30px;
+      padding: 8px 16px 8px 24px;
+    }
+
+    .nav-island.about-island.collapsed .nav-island-sub-row {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
+
+    /* 第二行右侧微型收起小箭头按钮 */
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+    }
+
+    .sub-row-collapse-btn:hover {
+      background: var(--brand-blue-light);
+      border-color: rgba(2, 80, 142, 0.35);
+      color: var(--brand-blue);
+      transform: translateY(-50%) scale(1.10);
+    }
+
+    /* 移动端汉堡菜单 */
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+      flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed; top: 86px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); padding: 20px; z-index: 99;
+      opacity: 0; transform: translateY(-12px); pointer-events: none; transition: all 0.28s var(--ease-framer);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mobile-dropdown-menu.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-dropdown-menu a { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.about-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    /* ==========================================================
+       Newsroom / Changelog Timeline Styling
+       ========================================================== */
+    .news-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .news-filter-bar::-webkit-scrollbar { display: none; }
+
+    .news-filter-btn {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: var(--bg-subtle);
+      border: 1px solid transparent;
+      color: #555555;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-framer);
+      white-space: nowrap;
+    }
+    .news-filter-btn:hover {
+      background: #E5E7EB;
+      color: #111111;
+    }
+    .news-filter-btn.active {
+      background: var(--text-main);
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .news-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .news-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px 36px 32px 36px;
+      transition: transform 0.3s var(--ease-framer), box-shadow 0.3s var(--ease-framer), border-color 0.3s var(--ease-framer);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .news-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+      border-color: #CBD5E1;
+    }
+
+    .news-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .news-date-badge {
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: #6B7280;
+      background: var(--bg-subtle);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .news-category-tag {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--brand-blue);
+      background: var(--brand-blue-light);
+      padding: 4px 12px;
+      border-radius: 9999px;
+    }
+
+    .news-status-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    .news-status-pill.success {
+      background: #DEF7EC;
+      color: #03543F;
+    }
+    .news-status-pill.primary {
+      background: var(--brand-blue-light);
+      color: var(--brand-blue);
+    }
+
+    .news-card-title {
+      font-size: clamp(20px, 2.4vw, 24px);
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.015em;
+      line-height: 1.35;
+    }
+
+    .news-card-summary {
+      font-size: 14.5px;
+      color: #4B5563;
+      line-height: 1.75;
+    }
+
+    .news-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .news-tag {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #6B7280;
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #FFFFFF;
+      color: #111111;
+      border-top: 1px solid #E5E7EB;
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #000000;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       1. 浮动胶囊导航条 (Blog 激活)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island" id="mainNavIsland">
+      
+      <!-- Left: Logo -->
+      <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+      </a>
+
+      <!-- Center: 5 Distinct Pages (Blog Active) -->
+      <nav class="nav-island-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="whats-new.html" class="active">Blog</a>
+        <a href="contacts.html">Contacts</a>
+      </nav>
+
+      <!-- Right: Live Clock + 招新 Button + Mobile Toggle -->
+      <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+        <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+          <span>LOCAL /</span>
+          <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+        </div>
+        <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+        <!-- Mobile/Tablet Hamburger Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </header>
+  </div>
+
+  <!-- Mobile/Tablet Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html"><span>About / 关于</span> <span>➔</span></a>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html" class="active"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts / 联络</span> <span>➔</span></a>
+  </div>
+
+  <div style="height: 100px;"></div>
+
+  <!-- ==========================================================
+       2. What's New Hero Section (Official WN_opt.png Headline)
+       ========================================================== -->
+  <main>
+    <!-- ==========================================================
+         2. What's New Hero Section
+         ========================================================== -->
+    <section class="site-container" style="padding-top: 50px; padding-bottom: 50px; border-bottom: 1px solid var(--border-color);">
+      <div class="anim-1" style="max-width: 1000px;">
+
+        <!-- 专属标题字标：Seeing what's New at MBC (大号显示，完整无裁剪) -->
+        <div style="margin-bottom: 26px; max-width: 960px;">
+          <img src="assets/Seeing_safe.png" alt="Seeing what's New at MBC" style="width: 100%; max-width: 920px; height: auto; object-fit: contain; display: block;" fetchpriority="high">
+        </div>
+
+        <p style="font-size: clamp(15px, 1.8vw, 17px); color: #555555; line-height: 1.75; max-width: 760px; margin-bottom: 18px;">
+          记录每一次前哨突破、每一个系统版本迭代与里程碑纪事。<br>
+          透明见证 MBC 经纬商社从理念萌芽到真实交付的每一个坚实足迹。
+        </p>
+
+        <!-- 微信公众号极简文字链接 (替代原大色块) -->
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 13.5px; color: #666666;">官方微信公众号：</span>
+          <a href="javascript:void(0)" onclick="openWechatModal()" style="font-size: 13.5px; font-weight: 700; color: var(--brand-blue); text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; gap: 4px;">
+            关注“经纬商社” ➔
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         3. Coming Soon (等待真人成员撰写与发布)
+         ========================================================== -->
+    <section class="site-container" style="padding-top: 90px; padding-bottom: 140px; text-align: center;">
+      <div class="anim-2" style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+        
+        <div style="margin-bottom: 24px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; justify-content: center;">
+          <span style="font-family: var(--font-serif); font-size: clamp(2.6rem, 5.5vw, 4rem); font-style: italic; color: var(--brand-blue); line-height: 1; letter-spacing: -0.02em;">
+            Coming Soon...
+          </span>
+          <span style="font-size: clamp(17px, 2.2vw, 22px); font-weight: 800; letter-spacing: 0.12em; color: #555555;">
+            静候佳音
+          </span>
+        </div>
+
+        <p style="font-size: 16px; color: #666666; line-height: 1.75; max-width: 480px; margin-bottom: 36px;">
+          动态与里程碑纪事正在由社团成员真实撰写编排中，敬请期待。
+        </p>
+
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+          <a href="about.html" class="btn-pill-dark">查阅社团简介 ➔</a>
+          <a href="index.html" class="btn-pill-outline">返回首页</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 登录弹窗 -->
+  <dialog id="login-modal" style="border: none; border-radius: 16px; box-shadow: 0 30px 80px rgba(0,0,0,0.25); max-width: 420px; width: 90vw; margin: auto; padding: 0;">
+    <div style="padding: 36px 32px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="assets/mbc_logo.png" alt="MBC Logo" style="width: 36px; height: 36px; object-fit: contain; border-radius: 50%;">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 800; color: #111111;">MBC 成员登录</h3>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--brand-blue);">Member Portal</span>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">社员编号 (Member ID)</label>
+          <input type="text" placeholder="如：mbc_2026_01" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #444;">密码 (Password)</label>
+          <input type="password" placeholder="••••••••" required style="width: 100%; padding: 10px; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 13px;">
+        </div>
+        <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 12px; margin-top: 6px;">登 录 工 作 台 ➔</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 微信公众号关注弹窗 -->
+  <dialog id="wechat-modal" style="border: none; border-radius: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.25); max-width: 380px; width: 90vw; margin: auto; padding: 0;">
+    <div style="padding: 32px 28px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="closeWechatModal()" style="background: none; border: none; font-size: 20px; color: #999; cursor: pointer; line-height: 1;">✕</button>
+      </div>
+      <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--brand-blue-light); color: var(--brand-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; margin: 0 auto 14px auto;">
+        M
+      </div>
+      <h3 style="font-size: 18px; font-weight: 800; color: #111111; margin-bottom: 8px;">MBC 官方微信公众号</h3>
+      <p style="font-size: 13.5px; color: #555555; line-height: 1.6; margin-bottom: 22px;">
+        打开微信搜索关注公众号：<br><strong style="font-size: 16px; color: var(--brand-blue); font-weight: 800;">经纬商社</strong><br>同步接收 What's New 动态特写与商业案例复盘。
+      </p>
+      <button onclick="closeWechatModal()" class="btn-pill-dark" style="width: 100%; padding: 10px;">知 道 了</button>
+    </div>
+  </dialog>
+
+  <script>
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        const now = new Date();
+        clockEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const loginModal = document.getElementById('login-modal');
+    function openLoginModal() { if (loginModal) loginModal.showModal(); }
+    function closeLoginModal() { if (loginModal) loginModal.close(); }
+    function handleLoginSubmit(e) { e.preventDefault(); alert('社员工作台已连接！正式账号系统将与内网沙盘同步上线。'); closeLoginModal(); }
+
+    if (loginModal) {
+      loginModal.addEventListener('click', (e) => {
+        const r = loginModal.getBoundingClientRect();
+        if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) loginModal.close();
+      });
+    }
+
+    const wechatModal = document.getElementById('wechat-modal');
+    function openWechatModal() { if (wechatModal) wechatModal.showModal(); }
+    function closeWechatModal() { if (wechatModal) wechatModal.close(); }
+    if (wechatModal) {
+      wechatModal.addEventListener('click', (e) => {
+        const r = wechatModal.getBoundingClientRect();
+        if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) wechatModal.close();
+      });
+    }
+
+    // ==========================================================
+    // Dynamic Island Nav Scroll Interaction & Manual Toggle
+    // ==========================================================
+    let isManualCollapsed = false;
+
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        } else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false;
+        } else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      function onNavScroll() {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onNavScroll, { passive: true });
+    }
+
+    // 移动端折叠菜单交互
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+    document.addEventListener('click', (e) => {
+      if (mobileDropdownMenu && mobileDropdownMenu.classList.contains('active')) {
+        if (!mobileDropdownMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenuBtn.classList.remove('open');
+          mobileDropdownMenu.classList.remove('active');
+        }
+      }
+    });
+
+    window.addEventListener('load', () => {
+      initDynamicIslandScroll();
+    });
+  </script>
+
+</body>
+</html>

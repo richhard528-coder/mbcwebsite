@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>社团宪章 (Charter) | Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;600;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EFF6FF;
+      --accent-coral: #D75E15;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.6; min-height: 100vh; }
+
+    .site-container { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .font-serif-accent { font-family: var(--font-serif); font-weight: 400; }
+
+    /* Button Styles */
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 26px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 8px 20px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island.about-island {
+      pointer-events: auto;
+      max-width: 1040px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 26px;
+      padding: 8px 18px 10px 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+      transform: translateZ(0);
+      will-change: max-width, border-radius, padding;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-island-row-main {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+    }
+
+    .nav-island-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+
+    .nav-island-links a:hover { color: var(--brand-blue); }
+    .nav-island-links a.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      border-bottom: 2px solid var(--brand-blue);
+    }
+
+    /* 第二行子导航：社团简介 / 理事会档案 / 社团宪章 */
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-height: 40px;
+      opacity: 1;
+      margin-top: 6px;
+      padding-top: 8px;
+      padding-left: 36px;
+      padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666666;
+      text-decoration: none;
+      padding: 4px 12px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+
+    .sub-item-link:hover { color: #111111; background: rgba(0, 0, 0, 0.04); }
+    .sub-item-link.active {
+      color: var(--brand-blue);
+      font-weight: 700;
+      background: var(--brand-blue-light);
+    }
+
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888888;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0;
+    }
+    .sub-row-collapse-btn:hover { background: rgba(0, 0, 0, 0.05); color: #111111; }
+
+    /* 收起状态 */
+    .nav-island.about-island.collapsed {
+      max-width: 960px;
+      border-radius: 30px;
+      padding: 8px 16px 8px 24px;
+    }
+    .nav-island.about-island.collapsed .nav-island-sub-row {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      padding-top: 0;
+      border-top-color: transparent;
+      pointer-events: none;
+    }
+
+    /* 移动端汉堡菜单 */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 18px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed;
+      top: 76px;
+      left: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 12px;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      z-index: 99;
+    }
+    .mobile-dropdown-menu.show { display: flex; }
+    .mobile-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #111;
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+    .mobile-dropdown-menu a:hover { background: #F1F5F9; color: var(--brand-blue); }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.about-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    .nav-island-spacer {
+      height: 110px;
+    }
+    @media (max-width: 860px) {
+      .nav-island-spacer {
+        height: 118px;
+      }
+    }
+
+    /* ==========================================================
+       Charter Hero Section
+       ========================================================== */
+    .charter-hero {
+      padding-top: clamp(36px, 5vh, 56px);
+      padding-bottom: clamp(32px, 4.5vh, 48px);
+      border-bottom: 1px solid var(--border-color);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+    }
+
+    .charter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: var(--brand-blue-light);
+      color: var(--brand-blue);
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .charter-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .charter-subtitle {
+      font-size: clamp(15px, 1.6vw, 17.5px);
+      color: #4B5563;
+      max-width: 780px;
+      line-height: 1.75;
+      margin-bottom: 0;
+    }
+
+    .charter-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .charter-info-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6B7280;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+
+    /* ==========================================================
+       Charter Layout: Sticky Sidebar + Main Content
+       ========================================================== */
+    .charter-layout-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: start;
+      padding-top: 50px;
+      padding-bottom: 100px;
+    }
+
+    /* Sticky Sidebar */
+    .charter-sidebar {
+      position: sticky;
+      top: 110px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    }
+
+    .charter-search-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .charter-search-input {
+      width: 100%;
+      padding: 10px 14px 10px 36px;
+      border: 1px solid #D1D5DB;
+      border-radius: 10px;
+      font-size: 13.5px;
+      outline: none;
+      background: #FAFAFA;
+      transition: all 0.2s ease;
+    }
+    .charter-search-input:focus {
+      background: #FFFFFF;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(2, 80, 142, 0.12);
+    }
+
+    .charter-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9CA3AF;
+      pointer-events: none;
+    }
+
+    .charter-nav-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #9CA3AF;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding-left: 6px;
+    }
+
+    .charter-chapter-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .charter-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #4B5563;
+      text-decoration: none;
+      transition: all 0.18s ease;
+      cursor: pointer;
+      border: none;
+      background: none;
+      text-align: left;
+      width: 100%;
+    }
+    .charter-nav-item:hover {
+      background: var(--bg-subtle);
+      color: #111111;
+      transform: translateX(2px);
+    }
+    .charter-nav-item.active {
+      background: var(--brand-blue-light);
+      color: var(--brand-blue);
+      font-weight: 700;
+    }
+
+    .charter-nav-item-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9CA3AF;
+      font-family: monospace;
+    }
+
+    .charter-pdf-actions {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #F3F4F6;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .charter-pdf-btn-primary {
+      width: 100%;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--brand-blue);
+    }
+
+    .charter-pdf-btn-secondary {
+      width: 100%;
+      font-size: 12px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* Content Stream */
+    .charter-content-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .charter-chapter-section {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px 36px 32px 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      scroll-margin-top: 130px;
+    }
+
+    .charter-chapter-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1.5px solid #F3F4F6;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .charter-chapter-title {
+      font-size: clamp(20px, 2.2vw, 24px);
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.02em;
+    }
+
+    .charter-chapter-en {
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .charter-article-card {
+      margin-bottom: 24px;
+    }
+    .charter-article-card:last-child { margin-bottom: 0; }
+
+    .charter-article-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .charter-article-num {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--brand-blue);
+      background: var(--brand-blue-light);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .charter-article-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    .charter-article-body {
+      font-size: 14.5px;
+      color: #374151;
+      line-height: 1.85;
+      padding-left: 2px;
+    }
+
+    .charter-article-list {
+      margin-top: 8px;
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      line-height: 1.8;
+      color: #374151;
+    }
+
+    /* Authority Verification Block */
+    .charter-authority-block {
+      background: #FAFAFA;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .charter-authority-text h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111111;
+      margin-bottom: 4px;
+    }
+    .charter-authority-text p {
+      font-size: 13px;
+      color: #6B7280;
+      line-height: 1.6;
+    }
+
+    .charter-authority-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* ==========================================================
+       Responsive Breakpoints: Tablet & Mobile Portrait
+       ========================================================== */
+    @media (max-width: 960px) {
+      .site-container {
+        padding-left: 18px;
+        padding-right: 18px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      .charter-hero {
+        padding-top: 32px;
+        padding-bottom: 24px;
+      }
+      .charter-title {
+        font-size: clamp(24px, 5.5vw, 32px);
+        margin-bottom: 10px;
+        line-height: 1.25;
+        word-break: break-word;
+      }
+      .charter-subtitle {
+        font-size: 14px;
+        line-height: 1.65;
+      }
+      .charter-layout-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 20px;
+        padding-bottom: 60px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+      .charter-sidebar {
+        position: static;
+        top: auto;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding: 16px 16px 14px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .charter-search-box {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+      }
+      .charter-search-input {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 9px 12px 9px 34px;
+        font-size: 13px;
+      }
+      .charter-chapter-nav {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding: 2px 2px 8px 2px;
+        scrollbar-width: none;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+      .charter-chapter-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .charter-nav-item {
+        flex-shrink: 0;
+        width: auto;
+        padding: 7px 12px;
+        border-radius: 9999px;
+        background: var(--bg-canvas);
+        border: 1px solid var(--border-color);
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        gap: 6px;
+        box-sizing: border-box;
+      }
+      .charter-nav-item:hover {
+        transform: none;
+      }
+      .charter-nav-item.active {
+        background: var(--brand-blue);
+        color: #FFFFFF;
+        border-color: var(--brand-blue);
+      }
+      .charter-nav-item.active .charter-nav-item-num {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .charter-pdf-actions {
+        margin-top: 12px;
+        padding-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+      .charter-pdf-btn-primary,
+      .charter-pdf-btn-secondary {
+        width: 100%;
+        padding: 9px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+      .charter-content-stream {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        gap: 20px;
+        box-sizing: border-box;
+      }
+      .charter-chapter-section {
+        scroll-margin-top: 125px;
+        padding: 22px 18px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .charter-chapter-header {
+        padding-bottom: 12px;
+        margin-bottom: 18px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .charter-chapter-title {
+        font-size: 20px;
+      }
+      .charter-article-card {
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .charter-article-name {
+        font-size: 15.5px;
+        word-break: break-word;
+      }
+      .charter-article-body {
+        font-size: 14px;
+        line-height: 1.75;
+        word-break: break-word;
+      }
+      .charter-authority-block {
+        padding: 22px 18px;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 16px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .charter-authority-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+      }
+      .charter-authority-actions a,
+      .charter-authority-actions button {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+    }
+
+    @media (min-width: 601px) and (max-width: 960px) {
+      .charter-pdf-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .site-container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .charter-chapter-section {
+        padding: 20px 14px;
+      }
+      .charter-article-list {
+        margin-left: 14px;
+      }
+      .charter-title {
+        font-size: 24px;
+      }
+    }
+
+
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      background-color: var(--bg-white);
+      border-top: 1px solid var(--border-color);
+      padding: 80px 0 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6rem, 19vw, 14rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #000000;
+      opacity: 0.022;
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+      line-height: 0.8;
+      z-index: 0;
+    }
+    .footer-inner-wrap { position: relative; z-index: 1; }
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 56px;
+    }
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .footer-brand-logo { width: 34px; height: 34px; border-radius: 50%; }
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+    .footer-link:hover { color: #000000; transform: translateX(3px); }
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .footer-social-row { display: flex; align-items: center; gap: 12px; }
+    .footer-social-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #F3F4F6; border: 1px solid #E5E7EB;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #111111; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer; padding: 0;
+    }
+    .footer-social-btn:hover { background: #111111; color: #FFFFFF; border-color: #111111; transform: translateY(-2px); }
+    .footer-back-to-top {
+      background: none; border: none; font-family: var(--font-sans);
+      font-size: 12px; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #666666; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 0;
+    }
+    .footer-back-to-top:hover { color: #000000; transform: translateY(-2px); }
+    .footer-legal-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 14px; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.07em; color: #777777;
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* Apple-Style Dialog & PDF Preview Modal Styles */
+    .apple-detail-dialog {
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+      padding: 0;
+      opacity: 0;
+      transform: scale(0.96) translateY(12px);
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  display 0.32s allow-discrete,
+                  overlay 0.32s allow-discrete;
+    }
+    .apple-detail-dialog[open] {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    @starting-style {
+      .apple-detail-dialog[open] {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+      }
+    }
+    .apple-detail-dialog::backdrop {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(22px) saturate(190%);
+      -webkit-backdrop-filter: blur(22px) saturate(190%);
+      opacity: 0;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  backdrop-filter 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  display 0.32s allow-discrete,
+                  overlay 0.32s allow-discrete;
+    }
+    .apple-detail-dialog[open]::backdrop {
+      opacity: 1;
+    }
+    @starting-style {
+      .apple-detail-dialog[open]::backdrop {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       1. 浮动胶囊导航条 (About Active, Charter Sub-Item Active)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island about-island" id="mainNavIsland">
+      
+      <!-- 第一行：全站主导航 -->
+      <div class="nav-island-row-main">
+        <!-- Left: Logo -->
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <!-- Center: Five Distinct Pages (About Active) -->
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html" class="active">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <!-- Right: Live Clock + 招新 Button + Mobile Toggle -->
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+          <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+            <span>LOCAL /</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+          </div>
+          <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+          <!-- Mobile/Tablet Hamburger Button -->
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二行：About 专属子页面导航 (社团简介 / 理事会档案 / 社团宪章) -->
+      <nav class="nav-island-sub-row" id="navIslandSubRow">
+        <a href="about.html" class="sub-item-link">社团简介</a>
+        <a href="council.html" class="sub-item-link">理事会档案</a>
+        <a href="charter.html" class="sub-item-link active">社团宪章</a>
+
+        <!-- 右侧微型小箭头收起按钮 -->
+        <button class="sub-row-collapse-btn" onclick="collapseNavIsland(event)" aria-label="收起子导航" title="收起子导航">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+    </header>
+  </div>
+
+  <!-- Mobile/Tablet Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html" class="active"><span>About / 关于</span> <span>➔</span></a>
+    <div style="padding: 6px 14px; display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--brand-blue); margin-left: 14px;">
+      <a href="about.html" style="font-size: 13px; color: #555;">社团简介</a>
+      <a href="council.html" style="font-size: 13px; color: #555;">理事会档案</a>
+      <a href="charter.html" style="font-size: 13px; font-weight: 700; color: var(--brand-blue);">社团宪章</a>
+    </div>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts / 联络</span> <span>➔</span></a>
+  </div>
+
+  <div class="nav-island-spacer"></div>
+
+  <main>
+    <!-- ==========================================================
+         2. Hero Section
+         ========================================================== -->
+    <section class="charter-hero">
+      <div class="site-container">
+        <h1 class="charter-title">经纬商社组织宪章</h1>
+        <p class="charter-subtitle">
+          本宪章是经纬商社（MBC）治理、运行与代际传承的至高准绳。用刚性契约守护平等自由、维护成员心理安全、规范权责秩序与知识资产交接。
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         3. Two-Column Interactive Codex Layout
+         ========================================================== -->
+    <div class="site-container">
+      <div class="charter-layout-grid">
+        
+        <!-- Left: Sticky Navigation & Search -->
+        <aside class="charter-sidebar">
+          <div class="charter-search-box">
+            <svg class="charter-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="charterSearchInput" oninput="filterCharterArticles(this.value)" placeholder="检索宪章关键词..." class="charter-search-input">
+          </div>
+
+          <div class="charter-chapter-nav">
+            <button type="button" class="charter-nav-item active" onclick="scrollToChapter('charter-ch1')">
+              <span>第一章 总则</span>
+              <span class="charter-nav-item-num">01-03</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch2')">
+              <span>第二章 成员管理</span>
+              <span class="charter-nav-item-num">04-07</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch3')">
+              <span>第三章 组织机构与职能</span>
+              <span class="charter-nav-item-num">08-10</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch4')">
+              <span>第四章 运行与活动规范</span>
+              <span class="charter-nav-item-num">11-12</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch5')">
+              <span>第五章 财务与资产管理</span>
+              <span class="charter-nav-item-num">13-14</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch6')">
+              <span>第六章 换届选举与传承</span>
+              <span class="charter-nav-item-num">15-17</span>
+            </button>
+            <button type="button" class="charter-nav-item" onclick="scrollToChapter('charter-ch7')">
+              <span>第七章 附则</span>
+              <span class="charter-nav-item-num">18-20</span>
+            </button>
+          </div>
+
+          <div class="charter-pdf-actions">
+            <button type="button" onclick="openPdfModal()" class="btn-pill-blue charter-pdf-btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              在线查阅官方 PDF
+            </button>
+            <a href="assets/MBC经纬商社社团章程.pdf" target="_blank" download="MBC经纬商社社团章程.pdf" onclick="downloadCharterPdf(event)" class="btn-pill-outline charter-pdf-btn-secondary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              直接下载 PDF 原件
+            </a>
+          </div>
+        </aside>
+
+        <!-- Right: Complete Articles -->
+        <div class="charter-content-stream" id="charterContentStream">
+
+          <!-- 第一章 总则 -->
+          <section id="charter-ch1" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第一章 总则</h2>
+              <span class="charter-chapter-en">CHAPTER 01 / GENERAL PROVISIONS</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 01 条</span>
+                <h3 class="charter-article-name">社团名称</h3>
+              </div>
+              <p class="charter-article-body">
+                本社团中文全称“经纬商社”，英文全称“Meridian Business Collective”，简称“MBC”。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 02 条</span>
+                <h3 class="charter-article-name">社团性质</h3>
+              </div>
+              <p class="charter-article-body">
+                本社团是由泉州五中海丝校区学生自发创立的学术实践与商业创新类先锋社团，接受本校团委及社团联合会的监督与领导。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 03 条</span>
+                <h3 class="charter-article-name">创社宗旨</h3>
+              </div>
+              <p class="charter-article-body">
+                打破死记硬背与象牙塔壁垒，为学生搭建商业探索与产品创新的实践平台；通过案例拆解、商业模式推演与国际商赛，将书本知识转化为解决真实问题的核心能力，培养创造力和创新意识。
+              </p>
+            </div>
+          </section>
+
+          <!-- 第二章 成员管理 -->
+          <section id="charter-ch2" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第二章 成员管理</h2>
+              <span class="charter-chapter-en">CHAPTER 02 / MEMBERSHIP</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 04 条</span>
+                <h3 class="charter-article-name">入社条件</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li>具有泉州五中海丝校区在读学籍，遵守校规校纪及中学生日常行为规范。</li>
+                  <li>认同本社创设宗旨，自愿遵守本宪章及各项规章制度。</li>
+                  <li>对商业、金融、科技或相关实践具有真实兴趣与自驱力。</li>
+                  <li>认真参与社团纳新评估，通过社团面试与考核选拔。</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 05 条</span>
+                <h3 class="charter-article-name">成员权利</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li><strong>活动参与权</strong>：社团成员平等享有参与社团月度例会、商业案例研学、自有商战系统模拟及各项实践活动的权利。</li>
+                  <li><strong>资源使用权</strong>：享有查阅与使用社团内部资源档案库、商业模板、学习工具、人脉网络的权利。</li>
+                  <li><strong>民主治理权</strong>：享有对社团发展规划的建议权、监督权以及换届选举中的选举权与被选举权。</li>
+                  <li><strong>竞聘晋升权</strong>：日常表现优异、交付能力可靠的学生，享有加入专门团队、代表社团与学校参与商赛竞争的权利。</li>
+                  <li><strong>退社自由权</strong>：成员因个人规划或学业调整，有权利按照本宪章规定程序自由退出。</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 06 条</span>
+                <h3 class="charter-article-name">成员义务</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li><strong>严守校纪公德</strong>：自觉维护社团和学校的声誉和形象，严禁任何违背校规校纪的行为。</li>
+                  <li><strong>遵守考勤纪律</strong>：按时出席社团月度例会及日常活动，严禁无故缺席、无故早退或旷会。因故无法参加者需要提前联系并请假。</li>
+                  <li><strong>坚守交付信约</strong>：保质保量、按时完成所认领的社团任务与项目分工。如遇突发学业确实无法按期交付，必须提前主动在组内报备并配合交接。</li>
+                  <li><strong>团队协作义务</strong>：尊重同伴的专业与劳动成果，坚持建设性沟通，杜绝任何贬低与非建设性批评。</li>
+                  <li><strong>成果保密义务</strong>：妥善保管社团内部商业计划书、自研商战系统源代码、未公开调研数据等核心资料，严禁私自外泄或作商业牟利。</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 07 条</span>
+                <h3 class="charter-article-name">退社、除名与大考缓冲机制</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li>成员因故申请退社，需要及时向理事会发送申请与简要说明，并配合工作交接。</li>
+                  <li>一学年内无故缺勤累积达 3 次者，或在项目协作中多次恶意违约、拒不交付且严重破坏团队纪律者，经理事会核实讨论后予以除名。</li>
+                  <li>凡遇期中、期末大考备考阶段，或成员个人学业面临阶段性困难时，可向理事会申请 2 至 4 周的“选择性出席缓冲期”。社团充分保障成员自主调整学业的权利，不强制停摆，亦不剥夺其后续回归团队、参与核心项目的资格。</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+          <!-- 第三章 组织机构与职能 -->
+          <section id="charter-ch3" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第三章 组织机构与职能</h2>
+              <span class="charter-chapter-en">CHAPTER 03 / GOVERNANCE & ROLES</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 08 条</span>
+                <h3 class="charter-article-name">最高决策机构</h3>
+              </div>
+              <p class="charter-article-body">
+                本社团日常最高决策与常务治理机构为“MBC理事会”，实行民主集中制。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 09 条</span>
+                <h3 class="charter-article-name">核心岗位职责分工</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li><strong>社长（President）1名</strong>：全面统筹社团总体战略定位、中长期发展规划与学期工作大纲制定，主持社团重大会议，对社团所有重大决议及对外事务享有最终审核权。作为社团法定代表人，全面负责对接校团委、社团联合会及指导老师，统筹外部及跨校学术资源合作。统领社团财务预算与核心资产调配，行使常务理事会干部的最终任免与调整权，并对各级竞赛方案享有终审拍板权。</li>
+                  <li><strong>副社长（Vice President）1名</strong>：作为社长第一协同副手，协助社长主持日常行政运转，在社长缺席或受托期间依规全面代行社长职权。与社长共同商定学期核心规划，负责月度商业研讨课题设计；牵头主持社内小组课题的立项答辩与中期评审，把关最终交付质量；主导成员学期履职考核，享有评优表彰与下一届核心干部的换届提名建议权。</li>
+                  <li><strong>运营总监（Chief Operating Officer）1名</strong>：统筹社团月度例会、学术研讨与专项活动排期规划，负责活动场地的报批申请及现场会务统筹。严格执行考勤纪律，负责落实例会请假报备、非必要缺勤核定与考勤台账管理，维护社团严肃规范的纪律秩序。负责社团日常经费流水登记，及时向全体成员公示收支账目，并统管社团文印物料、宣发物资采购调配及各类宪章档案的整理归档。</li>
+                  <li><strong>技术总监（Chief Technology Officer）1名</strong>：主管数字系统与技术开发，对社团所有技术类项目具有技术可行性终审权。负责全社自有“虚拟商战模拟系统”的算法编写、底层架构与代码迭代；掌管社团代码仓库、在线知识库与数字系统的最高管理权限；负责对社内小组的技术方案与软硬件原型进行合规审计与真实性评审，防范技术造假与合规风险。</li>
+                  <li><strong>项目主管（Project Lead）若干名</strong>：由理事会根据阶段性商业竞赛或研讨课题需要临时指定，不属于理事会成员，不享有社团宏观行政决策权。项目主管专职负责所辖小组的日常任务拆解、成员分工协调与交付进度追踪，定期向理事会提报交付成果。</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 10 条</span>
+                <h3 class="charter-article-name">指导老师职责</h3>
+              </div>
+              <p class="charter-article-body">
+                负责对社团所有对外公开发表的内容、国际赛事申报材料进行前置审核；指导社团规范开展学术活动，协助向学校申请正规资源。
+              </p>
+            </div>
+          </section>
+
+          <!-- 第四章 日常运行与活动规范 -->
+          <section id="charter-ch4" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第四章 日常运行与活动规范</h2>
+              <span class="charter-chapter-en">CHAPTER 04 / OPERATIONS & CONDUCT</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 11 条</span>
+                <h3 class="charter-article-name">日常活动安排</h3>
+              </div>
+              <p class="charter-article-body">
+                本社团构建“案例研学、沙盘实战、实地走访与赛事攻坚”四位一体的多元活动生态。社团日常依托三大主线开展专业研学：一是商业案例深度逆向推演，聚焦企业成败训练批判性归因与商业逻辑；二是自有虚拟商战沙盘实操，依托自研系统模拟市场供需与现金流博弈；三是高水平创新赛事攻坚，打磨具备真实市场价值的商业计划书与软硬件原型。在此基础上，社团常态化拓展多元活动形态，包括不定期组织泉州本土标杆企业参访与海丝商业微调研，并定期举办社内“闪电路演（Pitch Day）”与产品原型工作坊，全面激发成员的跨学科实战创造力。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 12 条</span>
+                <h3 class="charter-article-name">社团纪律与反资历打压制度</h3>
+              </div>
+              <div class="charter-article-body">
+                <p style="margin-bottom: 8px;">全体社员须自觉维护社团声誉与纯正风气，严格遵守以下纪律规范与行为底线：</p>
+                <ol class="charter-article-list">
+                  <li>严格执行常规例会与集体活动考勤。社员因重大校内考试、特长训练或客观不可抗力事由缺席，须提前向运营总监办理请假报备；一学年内无故旷会累计达三次者，视为自愿放弃社员资格并作退社处理。</li>
+                  <li>社内一律倡导学术平等与包容协作，坚决杜绝任何形式的资历打压、职场化PUA或言语贬低；日常研讨坚决贯彻“对事不对人、尊重多元思考”的学术思辨底线，严禁老成员施压或孤立新人，切实维护每位社员的心理安全感与表达自由。</li>
+                  <li>严守学术道德底线与科研合规红线。社内所有参赛方案、商业策划书、学术研讨课题与数据算法模型必须坚持原创与真实，坚决杜绝抄袭剽窃、数据虚构或雇佣外部机构代写；一经查实，立即撤销其参赛资格与社内荣誉。</li>
+                  <li>凡严重违反校规校纪、学术严重不端或恶意破坏团队声誉者，由常务理事会发起独立调查并评议核实，依情节轻重给予警告或除名，并正式报请校团委及指导老师备案。</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+          <!-- 第五章 财务与资产管理 -->
+          <section id="charter-ch5" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第五章 财务与资产管理</h2>
+              <span class="charter-chapter-en">CHAPTER 05 / FINANCIAL INTEGRITY</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 13 条</span>
+                <h3 class="charter-article-name">非营利与零摊派原则</h3>
+              </div>
+              <p class="charter-article-body">
+                本社团为纯公益、非营利性青年商业学术实践组织。社团严禁以任何名义向普通社员收取会员费、强行分摊日常开销或进行任何形式的违规商业集资，坚决杜绝一切商业化摊派行为。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 14 条</span>
+                <h3 class="charter-article-name">经费来源与透明公示</h3>
+              </div>
+              <p class="charter-article-body">
+                社团日常基础运转（如打印文印、日常零星物料）由学校下拨的常规学期经费支持，或由管理团队自愿承担；凡涉及重大赛事立项、软硬件研发等较大开支，严格依规向学校团委申报专项社团扶持基金，绝不违规自立收费名目。社团所有财务明细由运营总监和副社长登记核实，每学期末在社内全员公开透明公示，接受全体成员与指导老师的监督审计。
+              </p>
+            </div>
+          </section>
+
+          <!-- 第六章 换届选举与资产传承 -->
+          <section id="charter-ch6" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第六章 换届选举与资产传承</h2>
+              <span class="charter-chapter-en">CHAPTER 06 / SUCCESSION & ELECTIONS</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 15 条</span>
+                <h3 class="charter-article-name">任期与换届时间</h3>
+              </div>
+              <p class="charter-article-body">
+                社团理事会成员每届任期为一学年。换届大会于每年春季学期期中前启动。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 16 条</span>
+                <h3 class="charter-article-name">竞选资格与程序</h3>
+              </div>
+              <div class="charter-article-body">
+                <ol class="charter-article-list">
+                  <li>凡正式社员均享有平等的竞选权利，包括选举权与被选举权。参选社长职位的成员，需至少在上一任期中担任任意理事会或项目主管职位。</li>
+                  <li><strong>期中选举</strong>：每学年春季学期期中，由现任常务理事会主持启动换届选举，具备优秀履职记录的社员均可报名参选并作竞选陈述，经民主评议与现任理事会审议后产生“拟任干部候选名单”。</li>
+                  <li><strong>半学期试岗考察</strong>：自期中初选结束后至学期末，拟任干部进入为期约半学期的“理事会试岗期”。候选人需在现任干部的督导下协同负责日常例会组织、场地申报、活动统筹或项目跟进，真实检验其组织协调与抗压能力。</li>
+                  <li><strong>期末最终确认与交接</strong>：春季学期期末，现任常务理事会联合指导老师，综合候选人在试岗期间的实操交付表现进行最终审定；正式任命的新一届理事会报校团委备案，并在暑假前完成数字系统权限、财务账目及历史档案等的全面移交。</li>
+                  <li><strong>动态任免机制</strong>：每年秋季学期的第 12 周前后进行任免大会。干部因个人学业或客观事由无法继续投入时，可主动申请卸任并保留社员身份；若某位干部因专横独断、资历打压、怠政失职等导致不信任票超过实到人数的三分之二，无条件免去其职务；日常运行中，若干部严重滥用职权或霸凌成员，经三分之一以上社员联名亦可随时发起不信任弹劾表决。</li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 17 条</span>
+                <h3 class="charter-article-name">无形资产与数字化传承</h3>
+              </div>
+              <p class="charter-article-body">
+                换届时，所有案例分析库文件、商业路演模板、自研商战系统源代码、社团公用邮箱与对外官方账号，必须完整、无条件进行交接归档，确保 MBC 的精神与资产薪火相传。
+              </p>
+            </div>
+          </section>
+
+          <!-- 第七章 附则 -->
+          <section id="charter-ch7" class="charter-chapter-section">
+            <div class="charter-chapter-header">
+              <h2 class="charter-chapter-title">第七章 附则</h2>
+              <span class="charter-chapter-en">CHAPTER 07 / SUPPLEMENTARY PROVISIONS</span>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 18 条</span>
+                <h3 class="charter-article-name">宪章修改</h3>
+              </div>
+              <p class="charter-article-body">
+                本宪章的修改需由社长、副社长或五分之一以上社团成员联名提议，经全社一半以上成员表决同意，并报校团委备案批准后生效。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 19 条</span>
+                <h3 class="charter-article-name">解释权</h3>
+              </div>
+              <p class="charter-article-body">
+                本宪章最终解释权归泉州五中经纬商社理事会所有。
+              </p>
+            </div>
+
+            <div class="charter-article-card">
+              <div class="charter-article-header">
+                <span class="charter-article-num">第 20 条</span>
+                <h3 class="charter-article-name">生效施行</h3>
+              </div>
+              <p class="charter-article-body">
+                本宪章自校团委正式批复、MBC 成立大会表决通过之日起施行。
+              </p>
+            </div>
+
+            <div class="charter-authority-block">
+              <div class="charter-authority-text">
+                <h4>泉州五中经纬商社常务理事会 宣</h4>
+                <p>Quanzhou No. 5 High School Meridian Business Collective</p>
+                <p style="margin-top: 4px; font-size: 12px; color: #9CA3AF;">备案号：MBC-2026-CHARTER-V1 ｜ 全体成员共同遵守</p>
+              </div>
+              <div class="charter-authority-actions">
+                <button type="button" onclick="openPdfModal()" class="btn-pill-blue" style="font-size: 13px; cursor: pointer; border: 1px solid var(--brand-blue);">
+                  在线查阅官方 PDF ➔
+                </button>
+                <a href="assets/MBC经纬商社社团章程.pdf" target="_blank" download="MBC经纬商社社团章程.pdf" onclick="downloadCharterPdf(event)" class="btn-pill-outline" style="text-decoration: none; font-size: 13px;">
+                  下载官方 PDF 副本 ⬇
+                </a>
+                <a href="about.html" class="btn-pill-dark" style="text-decoration: none; font-size: 13px;">
+                  返回社团简介 ➔
+                </a>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       4. 官方 PDF 在线预览弹窗 (Apple-Style Modal with Dedicated Exit)
+       ========================================================== -->
+  <dialog id="pdfPreviewModal" class="apple-detail-dialog" style="max-width: 1040px; width: 94vw; max-height: 92vh; border-radius: 20px; padding: 0; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255,255,255,0.8); overflow: hidden;">
+    <div style="position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 20; border-bottom: 1px solid #E5E7EB; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 15px; font-weight: 700; color: #111111;">经纬商社组织宪章 (官方原版 PDF)</span>
+        <span style="font-size: 11px; font-weight: 700; color: #02508E; background: #EFF6FF; padding: 3px 8px; border-radius: 9999px;">OFFICIAL</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="assets/MBC经纬商社社团章程.pdf" target="_blank" rel="noopener noreferrer" class="btn-pill-outline" style="font-size: 12px; padding: 6px 14px; text-decoration: none;" title="在新浏览器标签页中全屏查阅">
+          ↗ 新标签页打开
+        </a>
+        <a href="assets/MBC经纬商社社团章程.pdf" target="_blank" download="MBC经纬商社社团章程.pdf" onclick="downloadCharterPdf(event)" class="btn-pill-blue" style="font-size: 12px; padding: 6px 16px; text-decoration: none;">
+          ⬇ 下载原件
+        </a>
+        <button type="button" onclick="closePdfModal()" aria-label="关闭预览并返回网页" title="关闭预览 (ESC)" style="background: #F3F4F6; border: none; color: #111111; font-size: 16px; font-weight: 700; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#E5E7EB'; this.style.transform='scale(1.06)';" onmouseout="this.style.background='#F3F4F6'; this.style.transform='none';">
+          ✕
+        </button>
+      </div>
+    </div>
+    <div style="height: calc(92vh - 66px); background: #525659; display: flex; flex-direction: column;">
+      <iframe id="pdfPreviewFrame" src="about:blank" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">Blog (动态专栏)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-grid">
+        <div class="footer-social-row">
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+        </div>
+
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN CHARTER / CONSTITUTIONAL CODEX</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Live clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) clockEl.textContent = `${h}:${m}:${s}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ==========================================================
+    // Dynamic Island Nav Scroll Interaction & Manual Toggle
+    // ==========================================================
+    let isManualCollapsed = false;
+
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        // 向下滚动（页面往上划动）：坚决保持或触发收起
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        }
+        // 向上滚动（页面往下划动，回看内容或想要导航）：平滑展开
+        else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false;
+        }
+        // 到达页面最顶部（<= 10px）且未手动点击收起时，保持展开
+        else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      function onNavScroll() {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onNavScroll, { passive: true });
+    }
+
+    initDynamicIslandScroll();
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileDropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      if (mobileDropdownMenu && mobileDropdownMenu.classList.contains('show')) {
+        if (!mobileDropdownMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileDropdownMenu.classList.remove('show');
+        }
+      }
+    });
+
+    // Smooth scroll to chapter
+    function scrollToChapter(chapterId) {
+      const el = document.getElementById(chapterId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.charter-nav-item').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = Array.from(document.querySelectorAll('.charter-nav-item')).find(b => b.getAttribute('onclick')?.includes(chapterId));
+        if (activeBtn) {
+          activeBtn.classList.add('active');
+          const nav = document.querySelector('.charter-chapter-nav');
+          if (nav && window.innerWidth <= 960) {
+            const scrollOffset = activeBtn.offsetLeft - (nav.clientWidth / 2) + (activeBtn.clientWidth / 2);
+            nav.scrollTo({ left: scrollOffset, behavior: 'smooth' });
+          }
+        }
+      }
+    }
+
+    // Filter charter articles
+    function filterCharterArticles(val) {
+      const q = (val || '').trim().toLowerCase();
+      const chapters = document.querySelectorAll('.charter-chapter-section');
+      if (!q) {
+        document.querySelectorAll('.charter-article-card').forEach(a => a.style.display = '');
+        chapters.forEach(c => c.style.display = '');
+        return;
+      }
+      chapters.forEach(ch => {
+        let hasMatch = false;
+        const arts = ch.querySelectorAll('.charter-article-card');
+        arts.forEach(art => {
+          const match = art.textContent.toLowerCase().includes(q);
+          art.style.display = match ? '' : 'none';
+          if (match) hasMatch = true;
+        });
+        ch.style.display = hasMatch ? '' : 'none';
+      });
+    }
+
+    // Intersection observer to highlight sidebar chapter on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          document.querySelectorAll('.charter-nav-item').forEach(btn => {
+            if (btn.getAttribute('onclick')?.includes(id)) {
+              btn.classList.add('active');
+              const nav = document.querySelector('.charter-chapter-nav');
+              if (nav && window.innerWidth <= 960) {
+                const scrollOffset = btn.offsetLeft - (nav.clientWidth / 2) + (btn.clientWidth / 2);
+                nav.scrollTo({ left: scrollOffset, behavior: 'smooth' });
+              }
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-120px 0px -60% 0px' });
+
+    document.querySelectorAll('.charter-chapter-section').forEach(sec => observer.observe(sec));
+
+    // ==========================================================
+    // PDF Modal Controls & Background Download Handling
+    // ==========================================================
+    function openPdfModal() {
+      const modal = document.getElementById('pdfPreviewModal');
+      const frame = document.getElementById('pdfPreviewFrame');
+      if (modal) {
+        if (frame && (!frame.src || frame.src === 'about:blank' || frame.src.endsWith('about:blank'))) {
+          frame.src = 'assets/MBC经纬商社社团章程.pdf';
+        }
+        modal.showModal();
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closePdfModal() {
+      const modal = document.getElementById('pdfPreviewModal');
+      if (modal) {
+        modal.close();
+        document.body.style.overflow = '';
+      }
+    }
+
+    const pdfModalEl = document.getElementById('pdfPreviewModal');
+    if (pdfModalEl) {
+      pdfModalEl.addEventListener('click', (e) => {
+        const rect = pdfModalEl.getBoundingClientRect();
+        const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height
+          && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+        if (!isInDialog) {
+          closePdfModal();
+        }
+      });
+      pdfModalEl.addEventListener('cancel', () => {
+        document.body.style.overflow = '';
+      });
+    }
+
+    // Direct PDF downloader (never replaces current page)
+    function downloadCharterPdf(e) {
+      if (e) e.preventDefault();
+      const url = 'assets/MBC经纬商社社团章程.pdf';
+      const filename = 'MBC经纬商社社团章程.pdf';
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error('Network error');
+          return response.blob();
+        })
+        .then(blob => {
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.style.display = 'none';
+          link.href = blobUrl;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
+          }, 400);
+        })
+        .catch(() => {
+          // Safe fallback: open in new tab so current page is preserved
+          window.open(url, '_blank');
+        });
+    }
+  </script>
+
+</body>
+</html>

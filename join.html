@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>招新计划 ｜ MBC 经纬商社 (Meridian Business Collective)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013863;
+      --brand-blue-light: #EFF6FF;
+      --text-main: #111111;
+      --text-muted: #4B5563;
+      --text-subtle: #64748B;
+      --bg-white: #FFFFFF;
+      --bg-subtle: #F8FAFC;
+      --border-color: #E2E8F0;
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body {
+      background-color: var(--bg-white);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .site-container {
+      max-width: 1240px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    @media (min-width: 768px) {
+      .site-container { padding-left: 48px; padding-right: 48px; }
+    }
+
+    /* Floating Island Navbar */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island {
+      pointer-events: auto;
+      max-width: 1040px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s var(--ease-framer);
+    }
+
+    .nav-island-links {
+      display: none;
+      align-items: center;
+      gap: 28px;
+    }
+    @media (min-width: 820px) {
+      .nav-island-links { display: flex; }
+    }
+
+    .nav-island-links a {
+      color: #374151;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    .nav-island-links a:hover { color: var(--brand-blue); }
+
+    .btn-pill-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 22px;
+      border-radius: 9999px;
+      background-color: var(--text-main);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: all 0.25s var(--ease-framer);
+      border: 1px solid var(--text-main);
+      cursor: pointer;
+    }
+    .btn-pill-dark:hover {
+      background-color: #262626;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-pill-blue {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      background-color: var(--brand-blue);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.25s var(--ease-framer);
+      border: 1px solid var(--brand-blue);
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(2, 80, 142, 0.22);
+    }
+    .btn-pill-blue:hover {
+      background-color: var(--brand-blue-hover);
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 20px rgba(2, 80, 142, 0.32);
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--text-main);
+      border-radius: 2px;
+    }
+    @media (max-width: 819px) {
+      .mobile-menu-btn { display: flex; }
+    }
+
+    /* Mobile Dropdown */
+    .mobile-dropdown-menu {
+      display: none;
+      position: fixed;
+      top: 76px;
+      left: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+      padding: 16px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-dropdown-menu.show { display: flex; }
+    .mobile-dropdown-menu a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #111;
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+    .mobile-dropdown-menu a:hover { background: #F1F5F9; color: var(--brand-blue); }
+
+    /* ==========================================================
+       Hero Section: Split-Screen Cinematic Recruitment
+       ========================================================== */
+    .join-hero-section {
+      padding-top: 105px;
+      padding-bottom: 70px;
+      position: relative;
+    }
+
+    .join-hero-container {
+      max-width: 1360px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    @media (min-width: 768px) {
+      .join-hero-container { padding-left: 40px; padding-right: 40px; }
+    }
+
+    .join-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(520px, 1.35fr) minmax(380px, 1fr);
+      gap: clamp(36px, 4.5vw, 64px);
+      align-items: center;
+    }
+
+    /* Left: Carousel Showcase (Larger & Cleaner) */
+    .join-carousel-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      background: #0B111E;
+      aspect-ratio: 16 / 10.4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .join-carousel-track {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .join-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .join-slide.active {
+      opacity: 1;
+      transform: scale(1.0);
+      pointer-events: auto;
+    }
+
+    .join-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .join-carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.25) 100%);
+      pointer-events: none;
+    }
+
+    /* Controls: Indicator Pills & Chevrons */
+    .join-carousel-controls {
+      position: absolute;
+      bottom: 18px;
+      left: 20px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .join-dots-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 6px 12px;
+    }
+
+    .join-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .join-dot.active {
+      width: 18px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+    }
+
+    .join-counter {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.08em;
+      margin-left: 4px;
+    }
+
+    .join-nav-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .join-nav-arrow:hover {
+      background: var(--brand-blue);
+      transform: scale(1.08);
+    }
+
+    /* Right: The Manifesto */
+    .join-manifesto-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .join-manifesto-title {
+      font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: #111111;
+      margin-bottom: 14px;
+    }
+
+    .join-manifesto-lead {
+      font-size: clamp(16px, 1.4vw, 18.5px);
+      font-weight: 700;
+      color: #111111;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .join-manifesto-body {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.82;
+      margin-bottom: 12px;
+    }
+
+    .join-manifesto-closing {
+      margin-top: 14px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #111111;
+    }
+
+    .join-manifesto-closing strong {
+      font-size: 17px;
+      font-weight: 800;
+      display: block;
+      color: #111111;
+      margin-bottom: 2px;
+    }
+
+    .join-manifesto-closing span {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-subtle);
+    }
+
+    .join-action-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .join-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .join-hero-section {
+        padding-top: 96px;
+        padding-bottom: 50px;
+      }
+      .join-carousel-wrapper {
+        aspect-ratio: 16 / 10.5;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       1. 悬浮胶囊导航 (Join Active)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island" id="mainNavIsland">
+      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        
+        <!-- Left: Logo -->
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <!-- Center Links -->
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <!-- Right: 招新 Button (Active) -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="join.html" class="btn-pill-dark" style="background: var(--brand-blue); border-color: var(--brand-blue);">招 新 ✦</a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html"><span>About / 关于</span> <span>➔</span></a>
+    <a href="council.html"><span>Council / 理事会</span> <span>➔</span></a>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts / 联络</span> <span>➔</span></a>
+    <a href="join.html" style="color: var(--brand-blue); font-weight: 700;"><span>Join / 招新计划</span> <span>➔</span></a>
+  </div>
+
+  <!-- ==========================================================
+       2. 核心首屏：双栏电影感画廊轮播 + 创始人宣言
+       ========================================================== -->
+  <main>
+    <section class="join-hero-container join-hero-section">
+      <div class="join-hero-grid">
+
+        <!-- 左侧：多图平滑轮播展台 (aaa / nnn / ddd.jpg) -->
+        <div class="join-carousel-wrapper" id="joinCarousel" onmouseenter="pauseAutoPlay()" onmouseleave="startAutoPlay()">
+          <div class="join-carousel-track">
+            <!-- Slide 1: aaa.jpg -->
+            <div class="join-slide active" data-slide="0">
+              <img src="assets/join_1_web.jpg" alt="Meridian Collaborative Studio 1" loading="eager" fetchpriority="high">
+            </div>
+            <!-- Slide 2: nnn.jpg -->
+            <div class="join-slide" data-slide="1">
+              <img src="assets/join_2_web.jpg" alt="Meridian Collaborative Studio 2" loading="lazy">
+            </div>
+            <!-- Slide 3: ddd.jpg -->
+            <div class="join-slide" data-slide="2">
+              <img src="assets/join_3_web.jpg" alt="Meridian Collaborative Studio 3" loading="lazy">
+            </div>
+          </div>
+
+          <div class="join-carousel-overlay"></div>
+
+          <!-- 底部控制条：点状指示器 + 计数器 + 切换箭头 -->
+          <div class="join-carousel-controls">
+            <div class="join-dots-wrap">
+              <span class="join-dot active" onclick="goToSlide(0)"></span>
+              <span class="join-dot" onclick="goToSlide(1)"></span>
+              <span class="join-dot" onclick="goToSlide(2)"></span>
+              <span class="join-counter" id="joinCounter">01 / 03</span>
+            </div>
+            <button class="join-nav-arrow" onclick="prevSlide()" aria-label="Previous Slide">‹</button>
+            <button class="join-nav-arrow" onclick="nextSlide()" aria-label="Next Slide">›</button>
+          </div>
+        </div>
+
+        <!-- 右侧：创始人招新宣言 (Founder's Manifesto) -->
+        <div class="join-manifesto-content">
+          <h1 class="join-manifesto-title">Hello, Dreamer.</h1>
+
+          <p class="join-manifesto-lead">
+            你也曾满怀野心，却不知该从何处起步吗？
+          </p>
+
+          <p class="join-manifesto-body">
+            坦白讲，作为学生商社的创始人，那种迷茫与停滞也曾困扰过我。但我拒绝向平庸妥协——我想做真正有分量的事，创造真正能落地的成果。
+          </p>
+
+          <p class="join-manifesto-body">
+            所以我不再等待，创办了经纬商社 (Meridian Business Collective)。在高中，太多传统商科社团陷在二手的课本理论与自我重复的幻灯片汇报里。但真实领导力、原始创造力与决断执行力从来不是被教会的，它们只在真实的实战摩擦中被锻造。
+          </p>
+
+          <p class="join-manifesto-body">
+            这就是经纬商社存在的意义：不为纸上谈兵，只为真刀真枪的商业路演、实证检验与产品原型。无论你想成为打造产品的创业者，还是评估项目的投资人，这里都有属于你的战场。
+          </p>
+
+          <p class="join-manifesto-closing">
+            <strong>Make it remarkable, or don't make it at all.</strong>
+            <span>坐标已定，欢迎来到经纬。The coordinates are set. Welcome to Meridian.</span>
+          </p>
+
+          <div class="join-action-row">
+            <a href="javascript:void(0)" onclick="alert('首次实战破冰沙龙预约通道即将开启！可提前联系微信沟通。')" class="btn-pill-blue">
+              预约首次实战沙龙 ➔
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================
+       JavaScript: 轮播图平滑切换与移动菜单
+       ========================================================== -->
+  <script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileDropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    // Carousel Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.join-slide');
+    const dots = document.querySelectorAll('.join-dot');
+    const counterEl = document.getElementById('joinCounter');
+    const totalSlides = slides.length;
+    let autoPlayTimer = null;
+
+    function showSlide(index) {
+      if (index >= totalSlides) currentSlide = 0;
+      else if (index < 0) currentSlide = totalSlides - 1;
+      else currentSlide = index;
+
+      slides.forEach((s, idx) => {
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      dots.forEach((d, idx) => {
+        if (idx === currentSlide) {
+          d.classList.add('active');
+        } else {
+          d.classList.remove('active');
+        }
+      });
+
+      if (counterEl) {
+        counterEl.textContent = `0${currentSlide + 1} / 0${totalSlides}`;
+      }
+    }
+
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentSlide - 1);
+    }
+
+    function goToSlide(idx) {
+      showSlide(idx);
+    }
+
+    function startAutoPlay() {
+      if (!autoPlayTimer) {
+        autoPlayTimer = setInterval(nextSlide, 4200);
+      }
+    }
+
+    function pauseAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    startAutoPlay();
+
+    // Touch Swipe support for Mobile
+    const carouselEl = document.getElementById('joinCarousel');
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (carouselEl) {
+      carouselEl.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        pauseAutoPlay();
+      }, { passive: true });
+
+      carouselEl.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 45) {
+          nextSlide();
+        } else if (touchEndX - touchStartX > 45) {
+          prevSlide();
+        }
+        startAutoPlay();
+      }, { passive: true });
+    }
+  </script>
+
+</body>
+</html>

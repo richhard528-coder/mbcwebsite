@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>路演档案 - Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-canvas: #FAFAFA;
+      --bg-subtle: #F3F4F6;
+      --text-main: #111111;
+      --text-muted: #555555;
+      --border-color: #E5E7EB;
+      
+      --brand-blue: #02508E;
+      --brand-blue-hover: #013C6B;
+      --brand-blue-light: #EBF4FC;
+      --accent-coral: #D75E15;
+      --accent-green: #059669;
+      --accent-amber: #B45309;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--bg-white); color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .site-container { max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; width: 100%; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 26px; border-radius: 9999px; background-color: var(--brand-blue);
+      color: #FFFFFF; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--brand-blue); cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: var(--brand-blue-hover); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(2, 80, 142, 0.22); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 24px; border-radius: 9999px; background-color: var(--text-main);
+      color: #FFFFFF; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid var(--text-main); cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #262626; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 26px; border-radius: 9999px; background-color: transparent;
+      color: var(--text-main); font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: var(--bg-subtle); border-color: var(--text-main); transform: translateY(-1px); }
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed; top: 18px; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: center; padding: 0 16px; pointer-events: none;
+    }
+
+    .nav-island.projects-island {
+      pointer-events: auto; max-width: 1140px; width: 100%;
+      background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 26px;
+      padding: 8px 18px 10px 24px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+      display: flex; flex-direction: column;
+      transform: translateZ(0);
+      will-change: max-width, border-radius, padding;
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-island-row-main {
+      width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+    }
+
+    .nav-island-links {
+      display: flex; align-items: center; justify-content: center; gap: 32px;
+      font-size: 13px; font-weight: 600; color: #333333;
+    }
+    .nav-island-links a { color: inherit; text-decoration: none; padding: 4px 0; transition: color 0.2s; }
+    .nav-island-links a:hover { color: var(--brand-blue); }
+    .nav-island-links a.active { color: var(--brand-blue); font-weight: 700; border-bottom: 2px solid var(--brand-blue); }
+
+    .nav-island-sub-row {
+      position: relative;
+      width: 100%; overflow: hidden; max-height: 40px; opacity: 1;
+      margin-top: 6px; padding-top: 8px;
+      padding-left: 36px; padding-right: 36px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex; align-items: center; justify-content: center; gap: 32px;
+      transform: translateZ(0);
+      will-change: max-height, opacity, padding, margin;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.22s ease,
+                  margin-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  padding-top 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.2s ease;
+    }
+
+    .sub-item-link {
+      font-size: 13px; font-weight: 600; color: #666666; text-decoration: none;
+      padding: 4px 10px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap;
+    }
+    .sub-item-link:hover { color: #111111; background: rgba(0, 0, 0, 0.04); }
+    .sub-item-link.active { color: var(--brand-blue); font-weight: 700; background: var(--brand-blue-light); }
+
+    .nav-island.projects-island.collapsed {
+      max-width: 1040px; border-radius: 30px; padding: 8px 16px 8px 24px;
+    }
+    .nav-island.projects-island.collapsed .nav-island-sub-row {
+      max-height: 0; opacity: 0; margin-top: 0; padding-top: 0; border-top-color: transparent; pointer-events: none;
+    }
+
+    /* 第二行右侧微型收起小箭头按钮 (匹配用户示意位置) */
+    .sub-row-collapse-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      color: #666666;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+      outline: none;
+    }
+
+    .sub-row-collapse-btn:hover {
+      background: var(--brand-blue-light);
+      border-color: rgba(2, 80, 142, 0.35);
+      color: var(--brand-blue);
+      transform: translateY(-50%) scale(1.10);
+    }
+
+    .mobile-menu-btn {
+      display: none; background: none; border: none; cursor: pointer; padding: 6px;
+      flex-direction: column; justify-content: center; gap: 5px; width: 34px; height: 34px; border-radius: 8px;
+    }
+    .mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--text-main); border-radius: 2px; }
+
+    .mobile-dropdown-menu {
+      position: fixed; top: 86px; left: 16px; right: 16px; max-width: 480px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px); border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 24px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12); padding: 20px; z-index: 99;
+      opacity: 0; transform: translateY(-12px); pointer-events: none; transition: all 0.28s var(--ease-framer);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mobile-dropdown-menu.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-dropdown-menu a { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+
+    @media (max-width: 860px) {
+      .nav-island-links { display: none !important; }
+      .mobile-menu-btn { display: flex !important; }
+      .nav-island.projects-island { border-radius: 20px; padding: 8px 16px 8px 18px; }
+      .nav-island-sub-row { gap: 12px; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+      .nav-island-sub-row::-webkit-scrollbar { display: none; }
+      .sub-item-link { font-size: 12px; padding: 3px 6px; }
+    }
+
+    .clean-box {
+      background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 12px;
+      padding: 32px; transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+    .clean-box:hover {
+      border-color: #B0B5C0; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+    }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #FFFFFF;
+      color: #111111;
+      border-top: 1px solid #E5E7EB;
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #111111;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #666666;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #888888;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555555;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #000000;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #111111;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #111111;
+      color: #FFFFFF;
+      border-color: #111111;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 1. Floating Dynamic Island Navbar -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island projects-island" id="mainNavIsland">
+      
+      <!-- 第一行：全站主导航 -->
+      <div class="nav-island-row-main">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <nav class="nav-island-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="projects.html" class="active">Projects</a>
+          <a href="whats-new.html">Blog</a>
+          <a href="contacts.html">Contacts</a>
+        </nav>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+          <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+            <span>LOCAL /</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+          </div>
+          <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+          <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二行：用户指定 Projects 子页面导航 -->
+      <nav class="nav-island-sub-row" id="navIslandSubRow">
+        <a href="projects.html" class="sub-item-link">总览概况</a>
+        <a href="matrix.html" class="sub-item-link">Matrix商战系统</a>
+        <a href="competitions.html" class="sub-item-link">商赛项目</a>
+        <a href="pitch-archives.html" class="sub-item-link active">路演档案</a>
+        <a href="fellows.html" class="sub-item-link">MBC Fellows</a>
+
+        <!-- 右侧微型小箭头收起按钮 (匹配用户示意位置) -->
+        <button class="sub-row-collapse-btn" onclick="collapseNavIsland(event)" aria-label="收起子导航" title="收起子导航">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </button>
+      </nav>
+
+    </header>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home 首页</span> <span>➔</span></a>
+    <a href="about.html"><span>About / 关于</span> <span>➔</span></a>
+    <a href="projects.html" class="active"><span>Projects / 项目</span> <span>➔</span></a>
+    <div style="padding: 6px 14px; display: flex; flex-direction: column; gap: 6px; border-left: 2px solid var(--brand-blue); margin-left: 14px;">
+      <a href="projects.html" style="font-size: 13px; color: #555;">总览概况</a>
+      <a href="matrix.html" style="font-size: 13px; color: #555;">Matrix商战系统</a>
+      <a href="competitions.html" style="font-size: 13px; color: #555;">商赛项目</a>
+      <a href="pitch-archives.html" style="font-size: 13px; font-weight: 700; color: var(--brand-blue);">路演档案</a>
+      <a href="fellows.html" style="font-size: 13px; color: #555;">MBC Fellows</a>
+    </div>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html"><span>Contacts 联络</span> <span>➔</span></a>
+  </div>
+
+  <main style="flex: 1; padding-top: 140px;">
+    
+    <!-- Hero Section -->
+    <section class="site-container" style="padding-top: 40px; padding-bottom: 70px; border-bottom: 1px solid var(--border-color);">
+      <div style="max-width: 900px;">
+        
+        <!-- 大字 Coming Soon... 静候佳音 (删除所有彩色状态tag) -->
+        <div style="margin-bottom: 24px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;">
+          <span style="font-family: var(--font-serif); font-size: clamp(2.4rem, 5.2vw, 3.8rem); font-style: italic; color: var(--brand-blue); line-height: 1; letter-spacing: -0.02em;">
+            Coming Soon...
+          </span>
+          <span style="font-size: clamp(16px, 2vw, 22px); font-weight: 800; letter-spacing: 0.12em; color: #555555;">
+            静候佳音
+          </span>
+        </div>
+
+        <h1 style="font-size: clamp(2.8rem, 6vw, 4.4rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 20px; color: #111;">
+          路演档案与高压答辩.
+        </h1>
+        <p style="font-size: clamp(16px, 1.8vw, 20px); color: var(--text-muted); line-height: 1.6; margin-bottom: 28px;">
+          直面真实商业质询，拒绝空中楼阁。MBC 路演日是每一个商业方案、商战复盘与孵化项目的终极试炼场。3–5 分钟高密度战略陈述，接受评委组对于单位经济学、真实履约可行性与蓝海价值曲线的严格答辩考问。
+        </p>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="contacts.html" class="btn-pill-blue">预约下期路演观摩席位 ➔</a>
+          <a href="projects.html" class="btn-pill-outline">返回业务总览 ➔</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: 标准路演结构与答辩考核体系 -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      <div style="max-width: 760px; margin-bottom: 48px;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brand-blue); display: block; margin-bottom: 8px;">
+          PITCH FRAMEWORK & CRITERIA
+        </span>
+        <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px;">
+          MBC 四维标准路演框架
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted); line-height: 1.6;">
+          每一位站上 MBC 讲台的主讲人，都必须用最克制的数据与严谨的逻辑回答商业世界最尖锐的四个本质命题。
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px;">
+        
+        <div class="clean-box">
+          <div style="font-family: var(--font-serif); font-size: 32px; font-style: italic; color: var(--brand-blue); margin-bottom: 12px;">01</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #111;">Problem & Hook</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            痛点是否足够痛？谁是真正的“非顾客”？必须提供第一手定性访谈或定量问卷证据，严禁虚构伪需求。
+          </p>
+          <div style="font-size: 12px; font-weight: 700; color: #444; border-top: 1px solid #EFEFEF; padding-top: 10px;">
+            ✦ 答辩要点：真实购买阻力与买方效用
+          </div>
+        </div>
+
+        <div class="clean-box">
+          <div style="font-family: var(--font-serif); font-size: 32px; font-style: italic; color: var(--brand-blue); margin-bottom: 12px;">02</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #111;">Solution & MVP</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            最小可行交付物是什么？在不编写庞大代码的前提下，如何以纸质表单、人工流程跑通首笔交付与验证？
+          </p>
+          <div style="font-size: 12px; font-weight: 700; color: #444; border-top: 1px solid #EFEFEF; padding-top: 10px;">
+            ✦ 答辩要点：现场原型展示与实测反馈
+          </div>
+        </div>
+
+        <div class="clean-box">
+          <div style="font-family: var(--font-serif); font-size: 32px; font-style: italic; color: var(--brand-blue); margin-bottom: 12px;">03</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #111;">Unit Economics</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            单位经济学测算：CAC（获客成本）与 LTV（生命周期价值）比值是否健康？单次履约毛利率能否覆盖固定折旧？
+          </p>
+          <div style="font-size: 12px; font-weight: 700; color: #444; border-top: 1px solid #EFEFEF; padding-top: 10px;">
+            ✦ 答辩要点：盈亏平衡点与财务模型透明度
+          </div>
+        </div>
+
+        <div class="clean-box">
+          <div style="font-family: var(--font-serif); font-size: 32px; font-style: italic; color: var(--brand-blue); margin-bottom: 12px;">04</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: #111;">ERRC & Moat</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            剔除、减少、提升、创造。基于蓝海战略绘制的战略画布是否与行业红海拉开代际差距？先发优势能否构筑壁垒？
+          </p>
+          <div style="font-size: 12px; font-weight: 700; color: #444; border-top: 1px solid #EFEFEF; padding-top: 10px;">
+            ✦ 答辩要点：价值创新分歧度与不可替代性
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 2: 往期与筹备中路演档案 -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border-color);">
+      <div style="max-width: 760px; margin-bottom: 48px;">
+        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: var(--brand-blue); display: block; margin-bottom: 8px;">
+          HISTORICAL & UPCOMING ARCHIVES
+        </span>
+        <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px;">
+          历届路演档案与实录
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted); line-height: 1.6;">
+          真实记录每一次思想交锋与战略演进，沉淀为经纬商社跨越届别的知识资产。
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        
+        <!-- Archive 1: Founding Pitch -->
+        <div class="clean-box" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #777; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+                SEASON 2026.09 - 历史档案 - 顺利通关立社
+              </div>
+              <h3 style="font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px;">
+                MBC 创社答辩路演 (Founding Pitch Day)
+              </h3>
+              <p style="font-size: 13px; color: #777; font-weight: 600;">
+                主讲人：刘宇轩 Ricardo (社长) 及创社核心团队 - 泉州五中海丝校区
+              </p>
+            </div>
+            <a href="Founding_Pitch_Presentation.html" target="_blank" class="btn-pill-outline" style="font-size: 12px; padding: 8px 18px;">
+              查看 16:9 全屏路演演示 ➔
+            </a>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+            商社创始人向校方指导团队、年段师长进行的全流程创社路演。明确提出“摆脱纸上谈兵与走马观花、打造泉州本土首个中学生自研商战沙盘体系”之立社宗旨，完整论述了商社的治理架构、知识库储备与全学年赛事推进节奏。
+          </p>
+          <div style="background: var(--bg-canvas); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: #444; border: 1px solid #ECEFF1;">
+            <strong>评审结论：</strong> 准予立社，纳入学社正式活动名册；肯定 Matrix 商战系统与商赛实证双引擎思路。
+          </div>
+        </div>
+
+        <!-- Archive 2: JOYland Air -->
+        <div class="clean-box" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #777; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+                INTERNAL SIMULATION 2026 - 归档实录 - 利润测算闭环
+              </div>
+              <h3 style="font-size: 22px; font-weight: 900; color: #111; margin-bottom: 6px;">
+                JOYland Air 航线运力调度与财务决策路演
+              </h3>
+              <p style="font-size: 13px; color: #777; font-weight: 600;">
+                参赛组：运力战略先锋组 - 核心工具：JOYland Air 决策与利润自动计算表
+              </p>
+            </div>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6;">
+            基于真实支线航空燃油单耗、空客/波音不同座位布局周转率进行的模拟决策。参赛团队在讲台上现场跑通自动化财务测算表，向评审组清晰拆解了不同淡旺季打折策略与货运配载的保本平衡线。
+          </p>
+        </div>
+
+        <!-- Archive 3: 2027 Blue Ocean Candidate Screening -->
+        <div class="clean-box" style="border-left: 4px solid var(--brand-blue);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: #777; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">
+                PIPELINE 2027 - 筹备攻坚中 - 静候佳音
+              </div>
+              <h3 style="font-size: 22px; font-weight: 900; color: #111;">
+                2027 蓝海战略候选项目初筛路演 (Idea Scorecard Screening)
+              </h3>
+            </div>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            针对 MarginMirror (餐饮保本决策卡)、FirstShift (技能购买前工作样本测试) 等入围项目的现场打分。评审组将严格按照 5 项官方标准与 3 项内部硬门槛（证据可得性、单人执行力、合规边界）进行残酷的一票否决与止损筛选。
+          </p>
+          <div style="font-size: 13px; color: #666; font-style: italic;">
+            ✦ 阶段状态：正在执行线下商户访谈与剪辑测试样本招募，路演正式场次时间待发布，静候佳音。
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 3: Coming Soon 预约通道 -->
+    <section class="site-container" style="padding-top: 80px; padding-bottom: 90px;">
+      <div class="clean-box" style="background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%); border-color: #D1D5DB; text-align: center; padding: 56px 24px;">
+        <div style="font-family: var(--font-serif); font-size: 26px; font-style: italic; color: var(--brand-blue); margin-bottom: 12px;">Coming Soon... 静候佳音</div>
+        <h2 style="font-size: clamp(26px, 3.5vw, 36px); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 14px; color: #111;">
+          下一场路演日席位与提案征集中.
+        </h2>
+        <p style="max-width: 680px; margin: 0 auto 32px auto; font-size: 16px; color: var(--text-muted); line-height: 1.6;">
+          无论是希望携项目登台接受严苛检验的商赛团队，还是希望以观察员/客座评审身份列席的校友与指导老师，我们都热忱欢迎你的加入。
+        </p>
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+          <a href="contacts.html" class="btn-pill-blue">提交商业计划书 / 申请观摩 ➔</a>
+          <a href="competitions.html" class="btn-pill-outline">了解孵化门槛 ➔</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Clean Minimalist Footer -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+  <!-- 微信公众号扫码弹窗 -->
+  <dialog id="wechat-modal" style="border: none; border-radius: 20px; padding: 0; background: #FFF; color: #111; box-shadow: 0 30px 80px rgba(0,0,0,0.22); max-width: 340px; width: 90%;">
+    <div style="padding: 30px 24px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #999; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+      <h3 style="font-size: 19px; font-weight: 800; color: #111; margin-bottom: 6px;">微信公众号</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
+      <div style="background: #F9FAFB; border: 1px solid #E5E7EB; padding: 16px; border-radius: 14px; display: inline-block;">
+        <img src="assets/mbc_logo.png" alt="WeChat QR" style="width: 140px; height: 140px; object-fit: contain; display: block;">
+      </div>
+      <p style="font-size: 11px; color: #888; margin-top: 18px; letter-spacing: 0.05em;">ESTABLISHED 2026 / QUANZHOU NO. 5 HIGH SCHOOL</p>
+    </div>
+  </dialog>
+
+
+  <script>
+    function updateLiveClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (!clockEl) return;
+      const now = new Date();
+      clockEl.textContent = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+
+    let isManualCollapsed = false;
+
+    // 手动点击第二行右侧微型小箭头收起子导航
+    function collapseNavIsland(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      island.classList.add('collapsed');
+      isManualCollapsed = true;
+    }
+
+    // Dynamic Island Nav Scroll Interaction
+    (function initDynamicIslandScroll() {
+      const island = document.getElementById('mainNavIsland');
+      if (!island) return;
+      let lastScrollY = window.pageYOffset;
+      let navTicking = false;
+
+      function updateNavState() {
+        const currentScrollY = window.pageYOffset;
+        const scrollDelta = currentScrollY - lastScrollY;
+
+        // 向下滚动（页面往上划动）：坚决保持或触发收起，绝不打开！
+        if (scrollDelta > 4 && currentScrollY > 20) {
+          island.classList.add('collapsed');
+        }
+        // 向上滚动（页面往下划动，回看内容或想要导航）：平滑展开
+        else if (scrollDelta < -8) {
+          island.classList.remove('collapsed');
+          isManualCollapsed = false; // 用户主动向上划动，解除手动折叠锁定
+        }
+        // 到达页面最顶部（<= 10px）且未手动点击收起时，保持展开
+        else if (currentScrollY <= 10 && !isManualCollapsed) {
+          island.classList.remove('collapsed');
+        }
+
+        lastScrollY = currentScrollY;
+        navTicking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!navTicking) {
+          window.requestAnimationFrame(updateNavState);
+          navTicking = true;
+        }
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>

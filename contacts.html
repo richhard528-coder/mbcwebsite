@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts | Meridian (MBC 经纬商社)</title>
+  <link rel="icon" type="image/png" href="assets/mbc_logo.png">
+
+  <!-- Google Fonts: Instrument Serif + Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-white: #000000;
+      --bg-canvas: #080808;
+      --bg-subtle: #121212;
+      --text-main: #FFFFFF;
+      --text-muted: #888888;
+      --border-color: rgba(255, 255, 255, 0.12);
+      
+      --brand-blue: #FFFFFF;
+      --brand-blue-hover: #E5E5E5;
+      --brand-blue-light: rgba(255, 255, 255, 0.08);
+      --accent-coral: #D75E15;
+      --accent-green: #10B981;
+      
+      --font-sans: "Montserrat", "Gill Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
+      --font-serif: "Instrument Serif", "Songti SC", "Noto Serif SC", Georgia, serif;
+      --ease-framer: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    body { background-color: #000000; color: var(--text-main); font-family: var(--font-sans); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .site-container { max-width: 1320px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; width: 100%; }
+    @media (min-width: 768px) { .site-container { padding-left: 48px; padding-right: 48px; } }
+
+    .font-serif-accent { font-family: var(--font-serif); font-weight: 400; }
+
+    @keyframes koraFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .anim-1 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.05s; opacity: 0; }
+    .anim-2 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.18s; opacity: 0; }
+    .anim-3 { animation: koraFadeUp 0.85s var(--ease-framer) forwards; animation-delay: 0.3s; opacity: 0; }
+
+    .kora-card {
+      transition: transform 0.35s var(--ease-framer), box-shadow 0.35s var(--ease-framer), border-color 0.35s var(--ease-framer);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #0E0E0E;
+      color: #FFFFFF;
+    }
+    .kora-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8);
+    }
+
+    .btn-pill-blue {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 13px 28px; border-radius: 9999px; background-color: #FFFFFF;
+      color: #000000; font-size: 13px; font-weight: 800; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid #FFFFFF; cursor: pointer;
+    }
+    .btn-pill-blue:hover { background-color: #E5E5E5; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2); }
+
+    .btn-pill-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 26px; border-radius: 9999px; background-color: #FFFFFF;
+      color: #000000; font-size: 14px; font-weight: 700; letter-spacing: 0.08em;
+      text-decoration: none; transition: all 0.25s var(--ease-framer); border: 1px solid #FFFFFF; cursor: pointer;
+    }
+    .btn-pill-dark:hover { background-color: #E5E5E5; transform: translateY(-1px); }
+
+    .btn-pill-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 26px; border-radius: 9999px; background-color: transparent;
+      color: #FFFFFF; font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: all 0.25s var(--ease-framer); border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer;
+    }
+    .btn-pill-outline:hover { background-color: rgba(255, 255, 255, 0.08); border-color: #FFFFFF; transform: translateY(-1px); }
+
+    .input-field {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #FFFFFF;
+      background: #121212;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+    }
+
+    .faq-item {
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: #0E0E0E;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s var(--ease-framer), box-shadow 0.3s var(--ease-framer), transform 0.3s var(--ease-framer), background-color 0.3s var(--ease-framer);
+    }
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+    .faq-item[open] {
+      border-color: rgba(255, 255, 255, 0.45);
+      background: #141414;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+      transform: translateY(-1px);
+    }
+    .faq-summary {
+      padding: 22px 26px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      list-style: none;
+      transition: background-color 0.2s;
+    }
+    .faq-summary::-webkit-details-marker { display: none; }
+    .faq-summary-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-index {
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .faq-question {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.45;
+      transition: color 0.25s var(--ease-framer);
+    }
+    .faq-summary:hover .faq-question {
+      color: #C0C0C0;
+    }
+    .faq-icon-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888888;
+      flex-shrink: 0;
+      transition: all 0.35s var(--ease-framer);
+    }
+    .faq-icon {
+      transition: transform 0.35s var(--ease-framer);
+    }
+    .faq-item:hover .faq-icon-badge {
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+    }
+    .faq-item[open] .faq-icon-badge {
+      background: #FFFFFF;
+      color: #000000;
+    }
+    .faq-item[open] .faq-icon {
+      transform: rotate(45deg);
+    }
+    .faq-body-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item[open] .faq-body-wrap {
+      grid-template-rows: 1fr;
+    }
+    .faq-content {
+      overflow: hidden;
+      padding: 0 26px 24px 64px;
+      font-size: 14.5px;
+      color: #A3A3A3;
+      line-height: 1.8;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: -4px;
+      padding-top: 16px;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.3s ease 0.08s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+    }
+    .faq-content strong {
+      color: #FFFFFF;
+    }
+    .faq-item[open] .faq-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .faq-bullets {
+      margin-top: 10px;
+      margin-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    @media (max-width: 640px) {
+      .faq-summary {
+        padding: 18px 20px;
+      }
+      .faq-content {
+        padding: 0 20px 20px 20px;
+      }
+      .faq-question {
+        font-size: 15px;
+      }
+    }
+
+    /* Floating Island Pill Navbar */
+    .nav-island-wrapper {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .nav-island {
+      pointer-events: auto;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(24px) saturate(190%);
+      -webkit-backdrop-filter: blur(24px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9999px;
+      padding: 8px 16px 8px 24px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      transition: all 0.3s var(--ease-framer);
+    }
+
+    .nav-island-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #999999;
+    }
+
+    .nav-island-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+
+    .nav-island-links a:hover {
+      color: #FFFFFF;
+    }
+
+    .nav-island-links a.active {
+      color: #FFFFFF;
+      font-weight: 700;
+      border-bottom: 2px solid #FFFFFF;
+    }
+
+    /* 移动端与平板折叠汉堡菜单按钮 */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--text-main);
+      border-radius: 2px;
+      transition: transform 0.28s var(--ease-framer), opacity 0.28s var(--ease-framer);
+    }
+
+    .mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* 移动端悬浮胶囊下拉面板 */
+    .mobile-dropdown-menu {
+      position: fixed;
+      top: 86px;
+      left: 16px;
+      right: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      z-index: 99;
+      opacity: 0;
+      transform: translateY(-12px) scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.28s var(--ease-framer), transform 0.28s var(--ease-framer);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mobile-dropdown-menu.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .mobile-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .mobile-dropdown-menu a:hover,
+    .mobile-dropdown-menu a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    @media (max-width: 860px) {
+      .nav-island-links {
+        display: none !important;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .nav-island {
+        grid-template-columns: auto 1fr;
+        padding: 6px 14px 6px 18px;
+      }
+      .nav-island img {
+        height: 36px !important;
+      }
+    }
+
+    dialog {
+      border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; background: #121212; color: var(--text-main);
+      max-width: 440px; width: 90vw; margin: auto; padding: 0;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8); outline: none;
+    }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); }
+  
+    /* ==========================================================
+       纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== */
+    .mbc-brutalist-footer {
+      position: relative;
+      background: #000000;
+      color: #FFFFFF;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+      padding: 96px 0 40px;
+    }
+
+    .footer-bg-watermark {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(6.5rem, 18.5vw, 18rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: rgba(255, 255, 255, 0.035);
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.8;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .footer-inner-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand-logo {
+      height: 34px;
+      width: 34px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .footer-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+    }
+
+    .footer-brand-desc {
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #888888;
+      margin-bottom: 24px;
+      max-width: 420px;
+    }
+
+    .footer-section-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #777777;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #888888;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .footer-link:hover {
+      color: #FFFFFF;
+      transform: translateX(3px);
+    }
+
+    .footer-bottom-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .footer-social-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #141414;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .footer-social-btn:hover {
+      background: #FFFFFF;
+      color: #000000;
+      border-color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    .footer-back-to-top {
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 0;
+    }
+
+    .footer-back-to-top:hover {
+      color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    .footer-legal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: #777777;
+    }
+
+    #wechat-modal::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    @media (max-width: 860px) {
+      .footer-top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+      .footer-bg-watermark {
+        font-size: clamp(4.5rem, 16vw, 9rem);
+        bottom: -5px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mbc-brutalist-footer {
+        padding: 64px 0 32px;
+      }
+      .footer-links-grid {
+        gap: 20px;
+      }
+      .footer-link {
+        font-size: 13.5px;
+      }
+      .footer-bottom-grid {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .footer-legal-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    /* ==========================================================
+       Contacts Hero: 全屏沉浸式极简野兽派排版 (严格对齐参考设计)
+       ========================================================== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .contact-hero-cinematic {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      background-color: #000000;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* 铺满全屏背景图：适当裁剪填满整个屏幕，绝无渐变 */
+    .contact-hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 全屏纯色平铺微调透明度，无渐变色块 */
+    .contact-hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.46);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .contact-hero-content-wrap {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    /* 左侧建筑感十字符号 + */
+    .contact-hero-plus {
+      position: absolute;
+      left: clamp(32px, 5vw, 72px);
+      top: 52%;
+      transform: translateY(-50%);
+      font-family: var(--font-sans);
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      user-select: none;
+      line-height: 1;
+    }
+
+    /* 中间正文段落 */
+    .contact-hero-statement {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(540px, 86vw);
+      z-index: 4;
+    }
+
+    .contact-hero-lead {
+      font-family: var(--font-sans), "PingFang SC", "Noto Sans SC", sans-serif;
+      font-size: clamp(15px, 1.25vw, 17px);
+      line-height: 1.75;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+    }
+
+    /* 底部超大 Contact. 标题 */
+    .contact-hero-giant-title {
+      position: absolute;
+      bottom: clamp(28px, 5vh, 60px);
+      left: clamp(32px, 5vw, 72px);
+      font-family: var(--font-sans);
+      font-size: clamp(5.2rem, 14vw, 13.5rem);
+      font-weight: 800;
+      line-height: 0.86;
+      letter-spacing: -0.04em;
+      color: #FFFFFF;
+      margin: 0;
+      user-select: none;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ----------------------------------------------------
+       竖屏排版 (严格对齐 media_1792248237596.png)
+       ---------------------------------------------------- */
+    @media (max-width: 860px) {
+      .contact-hero-cinematic {
+        height: 100vh;
+        min-height: 560px;
+      }
+
+      /* 竖屏参考图中：十字位于正文偏左上方 */
+      .contact-hero-plus {
+        left: 20px;
+        top: 33%;
+        transform: none;
+        font-size: 26px;
+      }
+
+      /* 竖屏参考图中：正文居中偏右下排布在 Contact 之上 */
+      .contact-hero-statement {
+        position: absolute;
+        top: 43%;
+        left: 56%;
+        transform: translate(-50%, -50%);
+        width: 76%;
+        max-width: 320px;
+      }
+
+      .contact-hero-lead {
+        font-size: clamp(13.5px, 3.8vw, 15px);
+        line-height: 1.65;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      /* 竖屏参考图中：Contact 位于正文下方，紧贴左边 */
+      .contact-hero-giant-title {
+        bottom: 20%;
+        left: 18px;
+        font-size: clamp(4.5rem, 20vw, 7.5rem);
+        line-height: 0.9;
+      }
+    }
+
+    /* ==========================================================
+       Haisi Hub Section (Stockholm Editorial Layout)
+       ========================================================== */
+    .haisi-hub-section {
+      position: relative;
+      background: #000000;
+      color: #FFFFFF;
+      padding: clamp(80px, 12vh, 140px) 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .haisi-hub-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      position: relative;
+      gap: clamp(24px, 3.5vw, 54px);
+    }
+
+    /* Left Info */
+    .haisi-hub-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .haisi-info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .haisi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .haisi-value {
+      font-size: clamp(17px, 1.6vw, 24px);
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1.45;
+      text-decoration: none;
+      word-break: keep-all;
+      white-space: nowrap;
+      text-shadow: none;
+      transition: color 0.2s;
+    }
+
+    a.haisi-value:hover {
+      color: #C0C0C0;
+    }
+
+    /* Center Visual: 100% Uncropped Complete Square Frame with Smooth Parallax */
+    .haisi-hub-visual {
+      position: relative;
+      width: clamp(340px, 36vw, 520px);
+      aspect-ratio: 1 / 1;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+      z-index: 1;
+      flex-shrink: 0;
+      will-change: transform;
+    }
+
+    .haisi-hub-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      border-radius: 3px;
+    }
+
+    /* Right Column: Stacked Hai / si (Bold, No Shadow) */
+    .haisi-hub-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: clamp(340px, 36vw, 520px);
+      padding: 6px 0;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2;
+    }
+
+    .haisi-city-stack {
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-sans);
+      font-size: clamp(5.5rem, 11vw, 11.5rem);
+      font-weight: 800;
+      line-height: 0.84;
+      letter-spacing: -0.04em;
+      color: #FFFFFF;
+      user-select: none;
+      text-shadow: none;
+    }
+
+    .haisi-city-stack span {
+      display: block;
+    }
+
+    .haisi-map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-bottom: 2px solid #FFFFFF;
+      padding-bottom: 5px;
+      width: fit-content;
+      transition: opacity 0.25s, transform 0.25s;
+      margin-top: auto;
+    }
+
+    .haisi-map-link:hover {
+      opacity: 0.7;
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 992px) {
+      .haisi-hub-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        align-items: flex-start;
+      }
+      .haisi-hub-visual {
+        margin: 0;
+        width: 100%;
+        max-width: 480px;
+        aspect-ratio: 1 / 1;
+      }
+      .haisi-hub-right {
+        min-height: auto;
+        padding: 0;
+        gap: 28px;
+        order: -1;
+      }
+      .haisi-city-stack {
+        font-size: clamp(4.5rem, 18vw, 7.5rem);
+      }
+      .haisi-value {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       1. 浮动胶囊导航条 (Navbar - Contacts 激活)
+       ========================================================== -->
+  <div class="nav-island-wrapper">
+    <header class="nav-island">
+      
+      <!-- Left: Logo -->
+      <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="assets/mbc_logo_horizontal.png" alt="MBC Logo" style="height: 42px; width: auto; object-fit: contain;">
+      </a>
+
+      <!-- Center: 5 Distinct Pages -->
+      <nav class="nav-island-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html">Projects</a>
+        <a href="whats-new.html">Blog</a>
+        <a href="contacts.html" class="active">Contacts</a>
+      </nav>
+
+      <!-- Right: Live Clock + 招新 Button + Mobile Toggle -->
+      <div style="display: flex; align-items: center; justify-content: flex-end; gap: 14px;">
+        <div style="display: none; lg:flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #777777;">
+          <span>LOCAL /</span>
+          <span id="live-clock" style="font-family: monospace; font-size: 12px; color: var(--text-main);">00:00:00</span>
+        </div>
+        <a href="join.html" class="btn-pill-dark" style="text-decoration: none;">招 新</a>
+        <!-- Mobile/Tablet Hamburger Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </header>
+  </div>
+
+  <!-- Mobile/Tablet Dropdown Menu -->
+  <div class="mobile-dropdown-menu" id="mobileDropdownMenu">
+    <a href="index.html"><span>Home / 首页</span> <span>➔</span></a>
+    <a href="about.html"><span>About / 关于</span> <span>➔</span></a>
+    <a href="projects.html"><span>Projects / 项目</span> <span>➔</span></a>
+    <a href="whats-new.html"><span>Blog / 博客</span> <span>➔</span></a>
+    <a href="contacts.html" class="active"><span>Contacts / 联络</span> <span>➔</span></a>
+  </div>
+
+  <!-- ==========================================================
+       2. Contacts Hero: 电影感野兽派沉浸式大屏
+       ========================================================== -->
+  <main style="flex: 1; width: 100%; overflow-x: hidden;">
+    <section class="contact-hero-cinematic">
+      <!-- 铺满全屏背景图 (无渐变、满屏裁剪) -->
+      <img src="assets/contact_hero_opt.jpg" alt="MBC Team Collaboration" class="contact-hero-bg">
+      <div class="contact-hero-overlay"></div>
+
+      <!-- 纯净排版内容容器 -->
+      <div class="contact-hero-content-wrap">
+        
+        <!-- 左侧建筑十字符号 + -->
+        <span class="contact-hero-plus" aria-hidden="true">+</span>
+
+        <!-- 中间纯净陈述文案 (无多余标签、无方块、无冗余标题) -->
+        <div class="contact-hero-statement anim-1">
+          <p class="contact-hero-lead">
+            Let's Collaborate. Whether you have a project in mind or want to learn more about our work, we’re here to talk. 无论是脑子里的小想法，亦或是想了解更多，经纬都在此欢迎你的到来。
+          </p>
+        </div>
+
+        <!-- 底部野兽派巨幕标题 -->
+        <h1 class="contact-hero-giant-title anim-2">Contact.</h1>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         2. Haisi Hub Section: 斯德哥尔摩建筑杂志风格排版
+         ========================================================== -->
+    <section id="haisi-hub" class="haisi-hub-section">
+      <div class="site-container">
+        <div class="haisi-hub-grid">
+          
+          <!-- 左侧：极简直接联络座标 -->
+          <div class="haisi-hub-info">
+            <div class="haisi-info-group">
+              <span class="haisi-label">EMAIL / 机构邮箱</span>
+              <a href="mailto:contact@mbcsociety.org" class="haisi-value">contact@mbcsociety.org</a>
+            </div>
+
+            <div class="haisi-info-group">
+              <span class="haisi-label">CHANNEL / 联络席位</span>
+              <span class="haisi-value">MBC 经纬商社 / 常务理事会席位</span>
+            </div>
+
+            <div class="haisi-info-group">
+              <span class="haisi-label">ADDRESS / 实体工坊</span>
+              <span class="haisi-value">泉州第五中学（海丝校区）</span>
+            </div>
+
+            <div class="haisi-info-group">
+              <span class="haisi-label">COORDINATES / 地理坐标</span>
+              <span class="haisi-value" style="font-family: monospace; letter-spacing: 0.05em;">24°53' N, 118°35' E</span>
+            </div>
+          </div>
+
+          <!-- 中间：高阶建筑画幅 (未裁剪保留完整自然画幅，带平滑滚动视差) -->
+          <div class="haisi-hub-visual" id="haisiVisualWrap">
+            <img src="assets/haisi_hub.jpg" alt="MBC Haisi Campus Hub" id="haisiParallaxImg" class="haisi-hub-img">
+          </div>
+
+          <!-- 右侧：超大排版叠字 Hai si 与导航入口 -->
+          <div class="haisi-hub-right">
+            <div class="haisi-city-stack" aria-label="Hai si">
+              <span>Hai</span>
+              <span>si</span>
+            </div>
+
+            <a href="https://uri.amap.com/search?keyword=泉州第五中学(海丝校区)" target="_blank" rel="noopener noreferrer" class="haisi-map-link">
+              <span>Amap Navigation / 高德地图</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="2" y1="12" x2="12" y2="2"></line>
+                <polyline points="4 2 12 2 12 10"></polyline>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         3. 常见问题解答 (FAQ Accordion)
+         ========================================================== -->
+    <section id="faq-section" style="background: var(--bg-canvas); border-bottom: 1px solid var(--border-color); padding: 90px 0 85px;">
+      <div class="site-container">
+        
+        <div style="max-width: 720px; margin-bottom: 40px;">
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #888888; display: block; margin-bottom: 6px;">
+            Frequently Asked Questions
+          </span>
+          <h2 style="font-size: 30px; font-weight: 900; letter-spacing: -0.02em; color: #FFFFFF;">
+            社员与合作伙伴常见疑问
+          </h2>
+        </div>
+
+        <div style="max-width: 900px;">
+          
+          <!-- Item 01 -->
+          <details class="faq-item" name="faq-group" open>
+            <summary class="faq-summary">
+              <div class="faq-summary-left">
+                <span class="faq-index">01</span>
+                <span class="faq-question">零商业基础、不会写商业计划书可以申请加入 MBC 吗？</span>
+              </div>
+              <div class="faq-icon-badge">
+                <svg class="faq-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="7" y1="1" x2="7" y2="13"></line>
+                  <line x1="1" y1="7" x2="13" y2="7"></line>
+                </svg>
+              </div>
+            </summary>
+            <div class="faq-body-wrap">
+              <div class="faq-content">
+                <strong>完全欢迎，没有任何门槛！</strong> MBC 设有专门针对新成员的 Atelier 基础轨，从最核心的商业常识、单店盈亏平衡点、简易财务模型到真实商业案例复盘手把手推演。我们最看重的是你对商业世界的好奇心、求真求实的态度，而不是浮于表面的大词套话。
+              </div>
+            </div>
+          </details>
+
+          <!-- Item 02 -->
+          <details class="faq-item" name="faq-group">
+            <summary class="faq-summary">
+              <div class="faq-summary-left">
+                <span class="faq-index">02</span>
+                <span class="faq-question">加入社团每周需要投入多少时间？会影响高中课业吗？</span>
+              </div>
+              <div class="faq-icon-badge">
+                <svg class="faq-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="7" y1="1" x2="7" y2="13"></line>
+                  <line x1="1" y1="7" x2="13" y2="7"></line>
+                </svg>
+              </div>
+            </summary>
+            <div class="faq-body-wrap">
+              <div class="faq-content">
+                <strong>我们始终坚持高中生以学业为第一优先。</strong> 基础轨（Atelier）采用轻量研学模式，仅在双周社团活动课时间进行（每次 45–60 分钟），课余无繁重作业；备赛轨（Audace）在冲刺期会拆解为微型可交付指标，每周任务量控制在 1–2 小时以内，严禁过度堆砌精力。
+              </div>
+            </div>
+          </details>
+
+          <!-- Item 03 -->
+          <details class="faq-item" name="faq-group">
+            <summary class="faq-summary">
+              <div class="faq-summary-left">
+                <span class="faq-index">03</span>
+                <span class="faq-question">Atelier 创意工坊与 Audace 先锋战队有什么不同？如何流转？</span>
+              </div>
+              <div class="faq-icon-badge">
+                <svg class="faq-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="7" y1="1" x2="7" y2="13"></line>
+                  <line x1="1" y1="7" x2="13" y2="7"></line>
+                </svg>
+              </div>
+            </summary>
+            <div class="faq-body-wrap">
+              <div class="faq-content">
+                Atelier 侧重商业通识、沙盘模拟测试、组织运营与案例拆解；Audace 则聚焦于国际高规格中学生创业赛（如 2027 Blue Ocean、Diamond Challenge）与真实项目的落地孵化。两轨完全开放流通，社员可根据学期阶段与精力分配自由选择。
+              </div>
+            </div>
+          </details>
+
+          <!-- Item 04 (新增加：跨校同类社团合作) -->
+          <details class="faq-item" name="faq-group">
+            <summary class="faq-summary">
+              <div class="faq-summary-left">
+                <span class="faq-index">04</span>
+                <span class="faq-question">MBC 是否欢迎其他学校的同类社团？我们可以开展哪些合作？</span>
+              </div>
+              <div class="faq-icon-badge">
+                <svg class="faq-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="7" y1="1" x2="7" y2="13"></line>
+                  <line x1="1" y1="7" x2="13" y2="7"></line>
+                </svg>
+              </div>
+            </summary>
+            <div class="faq-body-wrap">
+              <div class="faq-content">
+                <strong>MBC 始终秉持全然开放的共创心态，真诚欢迎来自泉州、全省乃至全国与全球的同类型青年商业社团！</strong> 我们可常态化开展以下维度的深度联动：
+                <div class="faq-bullets">
+                  <div>— <strong>线上商业研讨与议题共创：</strong> 聚焦真实商业案例复盘、商业画布推演与宏观行业动态拆解；</div>
+                  <div>— <strong>联合模拟商赛与沙盘切磋：</strong> 接入 MBC 自研商业沙盘系统，跨校组队对决与推演评测；</div>
+                  <div>— <strong>课题联合调研与成果互通：</strong> 共享青年调研问卷、小微商户走访样本与课题分析数据；</div>
+                  <div>— <strong>学生资源与案例库共享：</strong> 互相开放优秀青年创作者交流通道、备赛经验库与导师资源。</div>
+                </div>
+                <div style="margin-top: 12px;">无论各位社团目前处于初创筹备阶段还是成熟战队，MBC 均乐意开放内网沙盘工具与沉淀资料，欢迎随时在下方表单留言或发起对谈！</div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Item 05 -->
+          <details class="faq-item" name="faq-group">
+            <summary class="faq-summary">
+              <div class="faq-summary-left">
+                <span class="faq-index">05</span>
+                <span class="faq-question">校外兄弟高中商社如何与 MBC 联合开展商业沙盘推演联谊？</span>
+              </div>
+              <div class="faq-icon-badge">
+                <svg class="faq-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="7" y1="1" x2="7" y2="13"></line>
+                  <line x1="1" y1="7" x2="13" y2="7"></line>
+                </svg>
+              </div>
+            </summary>
+            <div class="faq-body-wrap">
+              <div class="faq-content">
+                MBC 拥有自主搭建的沙盘模型测试体系。欢迎泉州乃至全省、全国兄弟高中商社联谊。请在下方表单中选择“跨校商社联谊”，留下社团名称与负责人微信号，常务理事会外联组将在 48 小时内与你接洽推演方案与排期。
+              </div>
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         4. 表单与直接联络卡片 (双栏布局)
+         ========================================================== -->
+    <section id="direct-transmission" class="site-container" style="padding-top: 80px; padding-bottom: 90px; scroll-margin-top: 80px;">
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 48px; align-items: flex-start;">
+        
+        <!-- Left Column: 意向登记与招新表单 -->
+        <div class="anim-2" style="background: #0E0E0E; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 40px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);">
+          
+          <div style="margin-bottom: 28px;">
+            <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #888888; display: block; margin-bottom: 6px;">
+              Direct Transmission Form
+            </span>
+            <h2 style="font-size: 24px; font-weight: 800; color: #FFFFFF;">
+              意向登记与咨询通道
+            </h2>
+            <p style="font-size: 13px; color: #888888; margin-top: 6px;">
+              提交后，常务理事会内阁成员将在 48 小时内完成审核并主动联络。
+            </p>
+          </div>
+
+          <form id="contact-form" onsubmit="handleContactSubmit(event)" style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Type Selector -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                联络性质 / Category *
+              </label>
+              <select id="form-category" required class="input-field">
+                <option value="recruitment">🎓 校内招新申请 (加入 Atelier 创意工坊 / Audace 先锋队)</option>
+                <option value="collaboration">🤝 跨校商社联谊 / 沙盘模拟对接 (Cross-school Collaboration)</option>
+                <option value="research">🍽️ 小微商户调研参与 / 数据验证合作 (Merchant Research)</option>
+                <option value="mentorship">💡 商业项目提案 / 导师指导建议 (Mentorship & Proposal)</option>
+                <option value="general">✉️ 其他一般性事务咨询 (General Inquiries)</option>
+              </select>
+            </div>
+
+            <!-- Name & Grade -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                  姓名 / Name *
+                </label>
+                <input type="text" id="form-name" required placeholder="如：林同学" class="input-field">
+              </div>
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                  学校与年级 / Grade *
+                </label>
+                <input type="text" id="form-grade" required placeholder="如：高一(3)班" class="input-field">
+              </div>
+            </div>
+
+            <!-- Contact detail (WeChat / Phone / Email) -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                联络方式 (微信号 / 手机号 / 邮箱) *
+              </label>
+              <input type="text" id="form-contact" required placeholder="请留下有效微信号或手机号码" class="input-field">
+            </div>
+
+            <!-- Preferred Track -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                意向发展方向 / Preferred Track
+              </label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
+                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; cursor: pointer; background: #141414; color: #FFFFFF;">
+                  <input type="radio" name="track" value="atelier" checked style="accent-color: #FFFFFF;">
+                  <span><strong style="color: #FFFFFF;">Atelier</strong> 创意工坊轨</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; cursor: pointer; background: #141414; color: #FFFFFF;">
+                  <input type="radio" name="track" value="audace" style="accent-color: #FFFFFF;">
+                  <span><strong style="color: #FFFFFF;">Audace</strong> 先锋战队轨</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Message / Experience -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: #CCCCCC;">
+                陈述你的兴趣与优势 / Statement *
+              </label>
+              <textarea id="form-message" required rows="4" placeholder="简述你的特长（如数据敏感、组织协调、媒体制作、代码能力）或你希望在 MBC 实现的目标..." class="input-field" style="resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 14px; font-size: 14px;">
+              提 交 意 向 登 记 ➔
+            </button>
+
+            <p style="font-size: 11px; color: #777777; text-align: center; margin: 0;">
+              数据将严格加密存储于 MBC 内部离线工单，不向任何第三方公开。
+            </p>
+
+          </form>
+
+        </div>
+
+        <!-- Right Column: 官方联络渠道 & 社团常务理事会 -->
+        <div class="anim-3" style="display: flex; flex-direction: column; gap: 28px;">
+          
+          <!-- Office Card -->
+          <div class="kora-card" style="padding: 32px; border-radius: 8px;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #888888; margin-bottom: 12px;">
+              Physical Hub
+            </div>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #FFFFFF;">校内常设联络站</h3>
+            <p style="font-size: 13px; color: #AAAAAA; line-height: 1.6; margin-bottom: 16px;">
+              福建省泉州第五中学（海丝校区）/ 学生社团活动大厅
+            </p>
+            <div style="font-size: 12px; color: #999999; background: #141414; padding: 12px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.08);">
+              <strong style="color: #FFFFFF;">开放研学时间：</strong> 每双周周三社团活动课时间及沙盘特训日（具体以教务处与理事会排期为准）。
+            </div>
+          </div>
+
+          <!-- Cabinet Direct Channels -->
+          <div class="kora-card" style="padding: 32px; border-radius: 8px;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #888888; margin-bottom: 12px;">
+              Executive Cabinet
+            </div>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px; color: #FFFFFF;">常务理事会直接对接席位</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px;">
+                <div>
+                  <strong style="color: #FFFFFF;">刘宇轩 (Ricardo)</strong>
+                  <span style="color: #888888; font-size: 11px; margin-left: 6px;">社长 / 创始人</span>
+                </div>
+                <span style="font-family: monospace; color: #CCCCCC; font-weight: 600;">总务决策 & 外部联谊</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px;">
+                <div>
+                  <strong style="color: #FFFFFF;">蔡诗漫</strong>
+                  <span style="color: #888888; font-size: 11px; margin-left: 6px;">副社长兼运营长 (COO)</span>
+                </div>
+                <span style="font-family: monospace; color: #CCCCCC; font-weight: 600;">招新审核 & 社务排期</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px;">
+                <div>
+                  <strong style="color: #FFFFFF;">苏宗浩</strong>
+                  <span style="color: #888888; font-size: 11px; margin-left: 6px;">副社长兼技术长 (CTO)</span>
+                </div>
+                <span style="font-family: monospace; color: #CCCCCC; font-weight: 600;">沙盘系统 & 数字资产</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 4px;">
+                <div>
+                  <strong style="color: #FFFFFF;">先锋战队项目官</strong>
+                  <span style="color: #888888; font-size: 11px; margin-left: 6px;">Project Leads</span>
+                </div>
+                <span style="font-family: monospace; color: #CCCCCC; font-weight: 600;">Blue Ocean 专项攻坚</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recruitment Roadmap Card -->
+          <div style="background: #121212; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 28px;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #888888; margin-bottom: 8px;">
+              Admission Workflow
+            </div>
+            <h4 style="font-size: 16px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px;">入社四步流程</h4>
+            <ol style="margin-left: 18px; font-size: 12px; color: #AAAAAA; line-height: 1.8;">
+              <li><strong style="color: #FFFFFF;">意向登记：</strong> 在本页面填写基本信息与发展偏好。</li>
+              <li><strong style="color: #FFFFFF;">对谈交流：</strong> 20 分钟轻量沟通，确认时间规划与期望。</li>
+              <li><strong style="color: #FFFFFF;">微型试跑：</strong> 完成一次为期 7 天的微型商业验证小任务。</li>
+              <li><strong style="color: #FFFFFF;">正式授牌：</strong> 授予社员身份编号，并开放内网沙盘工具权限。</li>
+            </ol>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==========================================================
+       5. 页脚 (Footer)
+       ========================================================== -->
+    <!-- ==========================================================
+       全新纯白极简野兽派页脚 (White Minimalist Sitemap Footer)
+       ========================================================== -->
+  <footer class="mbc-brutalist-footer">
+    <!-- 底部超大暗纹水印 (MERIDIAN 水印) -->
+    <div class="footer-bg-watermark" aria-hidden="true">MERIDIAN</div>
+
+    <div class="site-container footer-inner-wrap">
+      <!-- 上半部分：品牌标识与双列 Sitemap 导航 -->
+      <div class="footer-top-grid">
+        <!-- 左侧：品牌 Logo 与经纬定位 -->
+        <div class="footer-brand-col">
+          <div class="footer-brand-header">
+            <img src="assets/mbc_logo.png" alt="MBC Logo" class="footer-brand-logo">
+            <span class="footer-brand-name">MBC / MERIDIAN</span>
+          </div>
+          <p class="footer-brand-desc">
+            Meridian Business Collective<br>
+            经纬商社 / 探索商业实践与极客孵化的青年共同体
+          </p>
+        </div>
+
+        <!-- 右侧：/ SITEMAP 双列导览 -->
+        <div class="footer-nav-col">
+          <div class="footer-section-label">/ SITEMAP</div>
+          <div class="footer-links-grid">
+            <!-- 导航第 1 列 -->
+            <div class="footer-links-group">
+              <a href="index.html" class="footer-link">Home Page</a>
+              <a href="about.html" class="footer-link">About Organization</a>
+              <a href="charter.html" class="footer-link">Charter (社团宪章)</a>
+              <a href="projects.html" class="footer-link">Ventures & Projects</a>
+              <a href="matrix.html" class="footer-link">Meridian Matrix (沙盘)</a>
+            </div>
+            <!-- 导航第 2 列 -->
+            <div class="footer-links-group">
+              <a href="whats-new.html" class="footer-link">What's New (动态)</a>
+              <a href="council.html" class="footer-link">Council (理事会)</a>
+              <a href="contacts.html" class="footer-link">Contacts & Join</a>
+              <a href="javascript:void(0)" onclick="openLoginModal()" class="footer-link">Member Portal ↗</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下半部分：社交媒体矩阵、回顶按钮与版权 -->
+      <div class="footer-bottom-grid">
+        <!-- 左下：真实的社交媒体直连图标 -->
+        <div class="footer-social-row">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on X (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          
+          <!-- Instagram -->
+          <a href="https://instagram.com/mbcsociety_" target="_blank" rel="noopener noreferrer" class="footer-social-btn" title="Follow us on Instagram (@mbcsociety_)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          <!-- Email 官方机构邮箱 -->
+          <a href="mailto:contact@mbcsociety.org" class="footer-social-btn" title="Official Contact: contact@mbcsociety.org">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </a>
+
+          <!-- WeChat 微信公众号触发 -->
+          <button type="button" class="footer-social-btn" onclick="openWechatModal()" title="微信公众号: MBC 经纬商社">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.295.295a.3.3 0 0 0 .142-.036l1.96-1.118a.65.65 0 0 1 .475-.06c.96.257 1.98.397 3.042.397.35 0 .692-.016 1.03-.047-.282-.76-.437-1.58-.437-2.435 0-3.79 3.58-6.864 7.998-6.864.444 0 .878.032 1.302.093-.728-3.153-4.52-5.48-9.891-5.48zm-2.463 4.14a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm4.908 0a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1zm6.34 3.978c-3.662 0-6.63 2.502-6.63 5.588 0 1.688.894 3.208 2.292 4.237a.45.45 0 0 1 .162.507l-.298 1.13c-.014.053-.036.107-.036.162 0 .125.1.226.226.226a.23.23 0 0 0 .108-.028l1.496-.853a.5.5 0 0 1 .363-.046c.733.196 1.512.303 2.322.303 3.662 0 6.63-2.502 6.63-5.588 0-3.086-2.968-5.588-6.63-5.588zm-1.879 3.162a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604zm3.748 0a.802.802 0 1 1 0 1.604.802.802 0 0 1 0-1.604z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 右下：平滑回顶 -->
+        <button type="button" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          ↑ BACK TO TOP
+        </button>
+      </div>
+
+      <!-- 最底端版权与归属署名 -->
+      <div class="footer-legal-bar">
+        <span>© 2026 MERIDIAN BUSINESS COLLECTIVE. ALL RIGHTS RESERVED.</span>
+        <span>MERIDIAN MATRIX / HIGH SCHOOL VENTURE INCUBATOR</span>
+      </div>
+    </div>
+  </footer>
+  <!-- 微信公众号扫码弹窗 -->
+  <dialog id="wechat-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 340px; width: 90%;">
+    <div style="padding: 30px 24px; text-align: center;">
+      <div style="display: flex; justify-content: flex-end;">
+        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #888; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+      <h3 style="font-size: 19px; font-weight: 800; color: #FFF; margin-bottom: 6px;">微信公众号</h3>
+      <p style="font-size: 13px; color: #AAA; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
+      <div style="background: #FFFFFF; padding: 16px; border-radius: 14px; display: inline-block;">
+        <img src="assets/mbc_logo.png" alt="WeChat QR" style="width: 140px; height: 140px; object-fit: contain; display: block;">
+      </div>
+      <p style="font-size: 11px; color: #777; margin-top: 18px; letter-spacing: 0.05em;">ESTABLISHED 2026 / QUANZHOU NO. 5 HIGH SCHOOL</p>
+    </div>
+  </dialog>
+
+
+  <!-- 提交成功反馈弹窗 -->
+  <dialog id="success-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
+    <div style="padding: 36px 32px; text-align: center;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 18px auto; border: 1px solid rgba(255, 255, 255, 0.2);">
+        ✓
+      </div>
+      <h3 style="font-size: 22px; font-weight: 800; color: #FFF; margin-bottom: 8px;">意向登记已成功送达！</h3>
+      <p style="font-size: 13px; color: #AAA; line-height: 1.6; margin-bottom: 24px;">
+        感谢关注 MBC 经纬商社！常务理事会副社长（COO）与专项项目组已记录你的联络信息，将在 48 小时内与你联络并安排后续交流。
+      </p>
+      <button onclick="closeSuccessModal()" class="btn-pill-blue" style="width: 100%;">
+        完 成 并 返 回
+      </button>
+    </div>
+  </dialog>
+
+  <!-- 登录弹窗 (成员) -->
+  <dialog id="login-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
+    <div style="padding: 36px 32px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="assets/mbc_logo.png" alt="MBC Logo" style="width: 36px; height: 36px; object-fit: contain; border-radius: 50%;">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 800; color: #FFFFFF;">MBC 成员登录</h3>
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888888; letter-spacing: 0.1em;">Member Portal</span>
+          </div>
+        </div>
+        <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #CCCCCC;">社员编号 (Member ID)</label>
+          <input type="text" placeholder="如：mbc_2026_01" required class="input-field">
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #CCCCCC;">密码 (Password)</label>
+          <input type="password" placeholder="••••••••" required class="input-field">
+        </div>
+        <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 12px; margin-top: 6px;">登 录 工 作 台 ➔</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        const now = new Date();
+        clockEl.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      }
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    const loginModal = document.getElementById('login-modal');
+    function openLoginModal() { if (loginModal) loginModal.showModal(); }
+    function closeLoginModal() { if (loginModal) loginModal.close(); }
+    function handleLoginSubmit(e) { e.preventDefault(); alert('社员工作台已连接！正式账号系统将与内网沙盘同步上线。'); closeLoginModal(); }
+    if (loginModal) {
+      loginModal.addEventListener('click', (e) => {
+        const r = loginModal.getBoundingClientRect();
+        if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) loginModal.close();
+      });
+    }
+
+    const successModal = document.getElementById('success-modal');
+    function openSuccessModal() { if (successModal) successModal.showModal(); }
+    function closeSuccessModal() { if (successModal) successModal.close(); }
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('contact-form');
+      openSuccessModal();
+      form.reset();
+    }
+    if (successModal) {
+      successModal.addEventListener('click', (e) => {
+        const r = successModal.getBoundingClientRect();
+        if (r.top > e.clientY || e.clientY > r.top + r.height || r.left > e.clientX || e.clientX > r.left + r.width) successModal.close();
+      });
+    }
+
+    // 移动端折叠菜单交互
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDropdownMenu = document.getElementById('mobileDropdownMenu');
+    function toggleMobileMenu() {
+      if (mobileMenuBtn && mobileDropdownMenu) {
+        const isOpen = mobileMenuBtn.classList.toggle('open');
+        mobileDropdownMenu.classList.toggle('active', isOpen);
+      }
+    }
+    document.addEventListener('click', (e) => {
+      if (mobileDropdownMenu && mobileDropdownMenu.classList.contains('active')) {
+        if (!mobileDropdownMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenuBtn.classList.remove('open');
+          mobileDropdownMenu.classList.remove('active');
+        }
+      }
+    });
+
+    // FAQ 手风琴互斥展开交互（一次仅开启一项，切换时自动折叠其他卡片）
+    const faqDetails = document.querySelectorAll('.faq-item');
+    faqDetails.forEach((detail) => {
+      detail.addEventListener('click', (e) => {
+        if (e.target.closest('.faq-summary')) {
+          if (!detail.open) {
+            faqDetails.forEach((other) => {
+              if (other !== detail && other.open) {
+                other.removeAttribute('open');
+              }
+            });
+          }
+        }
+      });
+    });
+
+    // ==========================================================
+    // Haisi Hub 视差动效 (随页面滚动照片整体平滑向下微移，保证画面100%完整不裁剪)
+    // ==========================================================
+    function initHaisiHubParallax() {
+      const section = document.getElementById('haisi-hub');
+      const visualWrap = document.getElementById('haisiVisualWrap');
+      if (!section || !visualWrap) return;
+
+      let parallaxTicking = false;
+
+      function updateHaisiParallax() {
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        if (rect.bottom > -150 && rect.top < windowHeight + 150) {
+          const centerY = rect.top + rect.height / 2;
+          const delta = centerY - windowHeight / 2;
+          // 随着页面向下滑动，section 相对视口上移 (delta 减小)，照片整体平滑向下微移 (正 Y 轴位移增加)
+          const parallaxOffset = -delta * 0.08;
+          visualWrap.style.transform = `translate3d(0, ${parallaxOffset.toFixed(2)}px, 0)`;
+        }
+        parallaxTicking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!parallaxTicking) {
+          window.requestAnimationFrame(updateHaisiParallax);
+          parallaxTicking = true;
+        }
+      }, { passive: true });
+
+      updateHaisiParallax();
+      window.addEventListener('resize', updateHaisiParallax, { passive: true });
+    }
+
+    initHaisiHubParallax();
+  </script>
+
+</body>
+</html>
