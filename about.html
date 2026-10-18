@@ -12,10 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
 
   <!-- Preload Critical Narrative Images (避免黑屏与加载卡顿) -->
-  <link rel="preload" as="image" href="assets/com_web.jpg">
+  <link rel="preload" as="image" href="assets/com_web.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/reel_1_web.jpg">
-  <link rel="preload" as="image" href="assets/reel_2_web.jpg">
-  <link rel="preload" as="image" href="assets/reel_3_focus.jpg?v=20261006_pro">
 
   <style>
     :root {
@@ -1488,7 +1486,7 @@
         
         <!-- Slide 1: 破晓与起步 -->
         <div class="cinema-slide slide-init-visible" id="cinemaSlide1">
-          <img src="assets/reel_1_web.jpg" class="cinema-slide-bg" style="object-position: center 18%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <img src="assets/reel_1_web.jpg" class="cinema-slide-bg" style="object-position: center 18%;" fetchpriority="high" decoding="async" alt="" aria-hidden="true">
           <div class="cinema-slide-scrim" aria-hidden="true"></div>
           <div class="cinema-slide-text">
             <h2 class="cinema-slide-quote">“在没有真金白银的年纪，<br>我们在代码与草稿纸前掀起风暴。”</h2>
@@ -1497,7 +1495,7 @@
 
         <!-- Slide 2: 团队与造物 -->
         <div class="cinema-slide" id="cinemaSlide2">
-          <img src="assets/reel_2_web.jpg" class="cinema-slide-bg" style="object-position: center 48%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <img src="assets/reel_2_web.jpg" class="cinema-slide-bg" style="object-position: center 48%;" loading="lazy" decoding="async" alt="" aria-hidden="true">
           <div class="cinema-slide-scrim" aria-hidden="true"></div>
           <div class="cinema-slide-text">
             <h2 class="cinema-slide-quote">“拒绝平庸的高中社团。<br>把商业当作拆解真实世界的解剖刀。”</h2>
@@ -1506,7 +1504,7 @@
 
         <!-- Slide 3: 蓝海信条与追求卓越 -->
         <div class="cinema-slide" id="cinemaSlide3">
-          <img src="assets/reel_3_focus.jpg?v=20261006_pro" class="cinema-slide-bg" style="object-position: center 40%;" fetchpriority="high" decoding="sync" alt="" aria-hidden="true">
+          <img src="assets/reel_3_focus.jpg?v=20261006_pro" class="cinema-slide-bg" style="object-position: center 40%;" loading="lazy" decoding="async" alt="" aria-hidden="true">
           <div class="cinema-slide-scrim" aria-hidden="true"></div>
           <div class="cinema-slide-layout-split">
             <!-- 左侧：蓝海信条与中文注解 -->

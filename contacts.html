@@ -6,6 +6,9 @@
   <title>Contacts | Meridian (MBC 经纬商社)</title>
   <link rel="icon" type="image/png" href="assets/mbc_logo.png">
 
+  <!-- Preload Critical Hero Image -->
+  <link rel="preload" as="image" href="assets/contact_hero_opt.jpg" fetchpriority="high">
+
   <!-- Google Fonts: Instrument Serif + Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -980,7 +983,7 @@
   <main style="flex: 1; width: 100%; overflow-x: hidden;">
     <section class="contact-hero-cinematic">
       <!-- 铺满全屏背景图 (无渐变、满屏裁剪) -->
-      <img src="assets/contact_hero_opt.jpg" alt="MBC Team Collaboration" class="contact-hero-bg">
+      <img src="assets/contact_hero_opt.jpg" alt="MBC Team Collaboration" class="contact-hero-bg" fetchpriority="high" decoding="async">
       <div class="contact-hero-overlay"></div>
 
       <!-- 纯净排版内容容器 -->
@@ -1034,7 +1037,7 @@
 
           <!-- 中间：高阶建筑画幅 (未裁剪保留完整自然画幅，带平滑滚动视差) -->
           <div class="haisi-hub-visual" id="haisiVisualWrap">
-            <img src="assets/haisi_hub.jpg" alt="MBC Haisi Campus Hub" id="haisiParallaxImg" class="haisi-hub-img">
+            <img src="assets/haisi_hub.jpg" alt="MBC Haisi Campus Hub" id="haisiParallaxImg" class="haisi-hub-img" loading="lazy" decoding="async">
           </div>
 
           <!-- 右侧：超大排版叠字 Hai si 与导航入口 -->
