@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contacts | Meridian (MBC 经纬商社)</title>
+  <meta name="description" content="联络 MBC 经纬商社常务理事会与项目组。实体工坊坐落于福建省泉州第五中学（海丝校区）。无论是商业合作、顾问指导还是加入意向，经纬都在此欢迎你的到来。">
+  <link rel="canonical" href="https://www.mbcsociety.org/contacts.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.mbcsociety.org/contacts.html">
+  <meta property="og:site_name" content="Meridian (MBC 经纬商社)">
+  <meta property="og:title" content="Contacts | Meridian (MBC 经纬商社)">
+  <meta property="og:description" content="联络 MBC 经纬商社常务理事会与专项项目组。实体工坊坐落于泉州第五中学（海丝校区）。">
+  <meta property="og:image" content="https://www.mbcsociety.org/assets/mbc_logo.png">
+
   <link rel="icon" type="image/png" href="assets/mbc_logo.png">
 
   <!-- Preload Critical Hero Image -->
@@ -1470,10 +1481,10 @@
     </div>
   </footer>
   <!-- 微信公众号扫码弹窗 -->
-  <dialog id="wechat-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 340px; width: 90%;">
+  <dialog id="wechat-modal" aria-label="微信公众号二维码弹窗" aria-modal="true" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 340px; width: 90%;">
     <div style="padding: 30px 24px; text-align: center;">
       <div style="display: flex; justify-content: flex-end;">
-        <button onclick="document.getElementById('wechat-modal').close()" style="background: none; border: none; color: #888; font-size: 20px; cursor: pointer;">✕</button>
+        <button type="button" onclick="document.getElementById('wechat-modal').close()" aria-label="关闭微信公众号二维码弹窗" style="background: none; border: none; color: #888; font-size: 20px; cursor: pointer;">✕</button>
       </div>
       <h3 style="font-size: 19px; font-weight: 800; color: #FFF; margin-bottom: 6px;">微信公众号</h3>
       <p style="font-size: 13px; color: #AAA; margin-bottom: 20px;">搜索「MBC 经纬商社」或扫码关注</p>
@@ -1484,9 +1495,8 @@
     </div>
   </dialog>
 
-
   <!-- 提交成功反馈弹窗 -->
-  <dialog id="success-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
+  <dialog id="success-modal" aria-label="提交成功反馈" aria-modal="true" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
     <div style="padding: 36px 32px; text-align: center;">
       <div style="width: 52px; height: 52px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 18px auto; border: 1px solid rgba(255, 255, 255, 0.2);">
         ✓
@@ -1495,14 +1505,14 @@
       <p style="font-size: 13px; color: #AAA; line-height: 1.6; margin-bottom: 24px;">
         感谢关注 MBC 经纬商社！常务理事会副社长（COO）与专项项目组已记录你的联络信息，将在 48 小时内与你联络并安排后续交流。
       </p>
-      <button onclick="closeSuccessModal()" class="btn-pill-blue" style="width: 100%;">
+      <button type="button" onclick="closeSuccessModal()" class="btn-pill-blue" style="width: 100%;">
         完 成 并 返 回
       </button>
     </div>
   </dialog>
 
   <!-- 登录弹窗 (成员) -->
-  <dialog id="login-modal" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
+  <dialog id="login-modal" aria-label="MBC 成员登录工作台" aria-modal="true" style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 0; background: #121212; color: #FFF; box-shadow: 0 30px 80px rgba(0,0,0,0.8); max-width: 440px; width: 90%;">
     <div style="padding: 36px 32px;">
       <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px;">
         <div style="display: flex; align-items: center; gap: 12px;">
@@ -1512,7 +1522,7 @@
             <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888888; letter-spacing: 0.1em;">Member Portal</span>
           </div>
         </div>
-        <button onclick="closeLoginModal()" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
+        <button type="button" onclick="closeLoginModal()" aria-label="关闭成员登录弹窗" style="background: none; border: none; font-size: 24px; color: #888; cursor: pointer;">✕</button>
       </div>
       <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
         <div>
@@ -1524,6 +1534,9 @@
           <input type="password" placeholder="••••••••" required class="input-field">
         </div>
         <button type="submit" class="btn-pill-blue" style="width: 100%; padding: 12px; margin-top: 6px;">登 录 工 作 台 ➔</button>
+        <div style="font-size: 11px; color: #888; line-height: 1.5; background: rgba(255, 255, 255, 0.04); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); margin-top: 4px;">
+          🔒 成员系统采用端对端鉴权，账号与校内沙盘系统安全协议同步对接。
+        </div>
       </form>
     </div>
   </dialog>
